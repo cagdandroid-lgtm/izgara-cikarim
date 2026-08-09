@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>🧩 Izgara Çıkarım · UYCEP Logic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<!-- ---------- giriş ---------- -->
+<main id="giris" class="ekran kart giris-kart">
+  <h1>🧩 Izgara Çıkarım</h1>
+  <p class="alt">İpuçlarını oku, tabloyu işaretle, gizemi çöz!</p>
+  <form id="girisForm">
+    <label for="ad">Adın</label>
+    <input id="ad" name="ad" type="text" maxlength="24" autocomplete="off" required placeholder="Örn. Elif">
+    <button type="submit" class="btn btn-ana">Oyuna Katıl 🚀</button>
+  </form>
+  <p id="girisHata" class="uyari" role="alert" hidden></p>
+</main>
+
+<!-- ---------- bekleme / duraklama / sonuç ---------- -->
+<div id="ortu" class="ortu" hidden>
+  <div class="ortu-ic kart">
+    <div id="ortuIkon" class="ortu-ikon">⏳</div>
+    <h2 id="ortuBaslik">Hazırlanıyor…</h2>
+    <p id="ortuMetin"></p>
+    <ol id="ortuPodyum" class="podyum" hidden></ol>
+    <div id="beklemeAlani" class="bekleme-alani" hidden>
+      <button id="beklemeAcBtn" class="btn btn-ikincil" type="button" aria-expanded="false">🎮 Beklerken oyna</button>
+      <div id="beklemeOyun" class="bekleme-oyun" hidden></div>
+    </div>
+  </div>
+</div>
+
+<!-- ---------- oyun ---------- -->
+<div id="oyun" class="ekran" hidden>
+  <header class="ust">
+    <div class="ust-sol">
+      <span id="bulmacaBaslik" class="baslik">—</span>
+      <span id="seviyeRozet" class="rozet">—</span>
+      <span id="modRozet" class="rozet">—</span>
+    </div>
+    <div class="ust-sag">
+      <span id="sayac" class="sayac" hidden>⏱ <b>–</b></span>
+      <span id="benimPuan" class="puan">⭐ 0</span>
+      <button id="sesDugme" class="btn btn-mini" title="Sesi aç/kapat" aria-pressed="true">🔊</button>
+    </div>
+  </header>
+
+  <div class="duzen">
+    <section class="tablolar" aria-label="Çıkarım tabloları">
+      <div id="esBilgi" class="es-bilgi" role="status" aria-live="polite" hidden></div>
+      <div id="izgaralar"></div>
+      <div class="arac-cubugu">
+        <button id="kontrolBtn" class="btn btn-ana">✅ Kontrol Et</button>
+        <button id="temizleBtn" class="btn btn-ikincil">🧽 Tabloyu Temizle</button>
+      </div>
+      <p id="geriBildirim" class="geri-bildirim" role="status" aria-live="polite"></p>
+    </section>
+
+    <aside class="yan">
+      <details id="ipucuKutu" class="kutu" open>
+        <summary><span>🔍 İpuçları</span></summary>
+        <ol id="ipuclari" class="ipuclari"></ol>
+      </details>
+      <details class="kutu" open>
+        <summary><span>🏆 Skor Tablosu</span></summary>
+        <ol id="skorlar" class="skorlar"></ol>
+      </details>
+      <details class="kutu">
+        <summary><span>❓ Nasıl oynanır?</span></summary>
+        <ul class="yardim">
+          <li>Bir hücreye dokun: <b>✔ evet</b> → <b>✖ hayır</b> → boş.</li>
+          <li>Her satırda ve her sütunda yalnız <b>bir ✔</b> olabilir.</li>
+          <li>Emin olduğun eşleşmeyi ✔, olmayanı ✖ yap; kalanları elemeyle bul.</li>
+          <li>“Kontrol Et” dediğinde tamamen doğru satırlar <span class="ornek-kesin">yeşil</span> olur.</li>
+        </ul>
+      </details>
+    </aside>
+  </div>
+</div>
+
+<div id="konfeti" class="konfeti" aria-hidden="true"></div>
+<div id="duyuru" class="duyuru" role="status" aria-live="polite" hidden></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/izgara.js"></script>
+<script src="/bekleme.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

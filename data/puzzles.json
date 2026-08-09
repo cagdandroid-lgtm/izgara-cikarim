@@ -1,0 +1,3002 @@
+[
+  {
+    "id": "i-1-01",
+    "grup": "i",
+    "seviye": "i-1",
+    "tema": "sihirbazlar",
+    "baslik": "🧙 Sihir Okulu",
+    "kategoriler": [
+      {
+        "ad": "Sihirbaz",
+        "ogeler": [
+          "Deniz",
+          "Gökçe",
+          "Efe"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Asa",
+        "ogeler": [
+          "gümüş",
+          "altın",
+          "ahşap"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Ahşap asayı taşıyan sihirbaz Efe değildir.",
+      "Gökçe altın asayı taşımaz.",
+      "Altın asayı taşıyan sihirbaz Efe değildir.",
+      "Altın asayı taşıyan sihirbaz Deniz'dir."
+    ],
+    "cozum": [
+      {
+        "Sihirbaz": "Deniz",
+        "Asa": "altın"
+      },
+      {
+        "Sihirbaz": "Gökçe",
+        "Asa": "ahşap"
+      },
+      {
+        "Sihirbaz": "Efe",
+        "Asa": "gümüş"
+      }
+    ]
+  },
+  {
+    "id": "i-1-02",
+    "grup": "i",
+    "seviye": "i-1",
+    "tema": "gezegenler",
+    "baslik": "🪐 Gezegen Kâşifleri",
+    "kategoriler": [
+      {
+        "ad": "Kâşif",
+        "ogeler": [
+          "Dilara",
+          "Ege",
+          "Cansu"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Uydu",
+        "ogeler": [
+          "Damla",
+          "Kaya",
+          "Ay"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Damla adlı uyduyu seven kâşif Ege değildir.",
+      "Kaya adlı uyduyu seven kâşif Dilara değildir.",
+      "Dilara Kaya adlı uyduyu sevmez.",
+      "Damla adlı uyduyu seven kâşif Cansu'dur."
+    ],
+    "cozum": [
+      {
+        "Kâşif": "Dilara",
+        "Uydu": "Ay"
+      },
+      {
+        "Kâşif": "Ege",
+        "Uydu": "Kaya"
+      },
+      {
+        "Kâşif": "Cansu",
+        "Uydu": "Damla"
+      }
+    ]
+  },
+  {
+    "id": "i-1-03",
+    "grup": "i",
+    "seviye": "i-1",
+    "tema": "tatlılar",
+    "baslik": "🍰 Tatlı Şöleni",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Mert",
+          "Nil",
+          "Kaan"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "İçecek",
+        "ogeler": [
+          "ıhlamur",
+          "portakal suyu",
+          "süt"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Portakal suyu içen çocuk Nil değildir.",
+      "Nil ıhlamur içmez.",
+      "Kaan portakal suyu içer.",
+      "Süt içen çocuk Mert değildir."
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Mert",
+        "İçecek": "ıhlamur"
+      },
+      {
+        "Çocuk": "Nil",
+        "İçecek": "süt"
+      },
+      {
+        "Çocuk": "Kaan",
+        "İçecek": "portakal suyu"
+      }
+    ]
+  },
+  {
+    "id": "i-1-04",
+    "grup": "i",
+    "seviye": "i-1",
+    "tema": "barinak",
+    "baslik": "🐾 Hayvan Barınağı",
+    "kategoriler": [
+      {
+        "ad": "Bakıcı",
+        "ogeler": [
+          "Duru",
+          "Cem",
+          "Eren"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Hayvan",
+        "ogeler": [
+          "papağan",
+          "kaplumbağa",
+          "hamster"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Papağan besleyen bakıcı Duru değildir.",
+      "Duru papağan beslemez.",
+      "Cem hamster beslemez.",
+      "Kaplumbağa besleyen bakıcı Cem'dir."
+    ],
+    "cozum": [
+      {
+        "Bakıcı": "Duru",
+        "Hayvan": "hamster"
+      },
+      {
+        "Bakıcı": "Cem",
+        "Hayvan": "kaplumbağa"
+      },
+      {
+        "Bakıcı": "Eren",
+        "Hayvan": "papağan"
+      }
+    ]
+  },
+  {
+    "id": "i-1-05",
+    "grup": "i",
+    "seviye": "i-1",
+    "tema": "muzik",
+    "baslik": "🎵 Müzik Atölyesi",
+    "kategoriler": [
+      {
+        "ad": "Öğrenci",
+        "ogeler": [
+          "Doruk",
+          "Beste",
+          "Alp"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Şarkı",
+        "ogeler": [
+          "Kar",
+          "Deniz",
+          "Güneş"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Deniz şarkısını seven öğrenci Alp değildir.",
+      "Alp Güneş şarkısını sevmez.",
+      "Güneş şarkısını seven öğrenci Doruk değildir.",
+      "Deniz şarkısını seven öğrenci Doruk'tur."
+    ],
+    "cozum": [
+      {
+        "Öğrenci": "Doruk",
+        "Şarkı": "Deniz"
+      },
+      {
+        "Öğrenci": "Beste",
+        "Şarkı": "Güneş"
+      },
+      {
+        "Öğrenci": "Alp",
+        "Şarkı": "Kar"
+      }
+    ]
+  },
+  {
+    "id": "i-1-06",
+    "grup": "i",
+    "seviye": "i-1",
+    "tema": "bahce",
+    "baslik": "🌷 Okul Bahçesi",
+    "kategoriler": [
+      {
+        "ad": "Bahçıvan",
+        "ogeler": [
+          "Gizem",
+          "Emir",
+          "Defne"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kova",
+        "ogeler": [
+          "sarı",
+          "yeşil",
+          "mor"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Defne yeşil kovayı seçmez.",
+      "Sarı kovayı seçen bahçıvan Defne değildir.",
+      "Mor kovayı seçen bahçıvan Defne'dir.",
+      "Sarı kovayı seçen bahçıvan Gizem değildir."
+    ],
+    "cozum": [
+      {
+        "Bahçıvan": "Gizem",
+        "Kova": "yeşil"
+      },
+      {
+        "Bahçıvan": "Emir",
+        "Kova": "sarı"
+      },
+      {
+        "Bahçıvan": "Defne",
+        "Kova": "mor"
+      }
+    ]
+  },
+  {
+    "id": "i-1-07",
+    "grup": "i",
+    "seviye": "i-1",
+    "tema": "kitap",
+    "baslik": "📚 Kitap Kulübü",
+    "kategoriler": [
+      {
+        "ad": "Okur",
+        "ogeler": [
+          "Ceylan",
+          "Derin",
+          "Aylin"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Ayraç",
+        "ogeler": [
+          "yıldız",
+          "kelebek",
+          "balık"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Balık ayracı seven okur Ceylan değildir.",
+      "Kelebek ayracı seven okur Derin değildir.",
+      "Aylin yıldız ayracı sever.",
+      "Derin yıldız ayracı sevmez."
+    ],
+    "cozum": [
+      {
+        "Okur": "Ceylan",
+        "Ayraç": "kelebek"
+      },
+      {
+        "Okur": "Derin",
+        "Ayraç": "balık"
+      },
+      {
+        "Okur": "Aylin",
+        "Ayraç": "yıldız"
+      }
+    ]
+  },
+  {
+    "id": "i-1-08",
+    "grup": "i",
+    "seviye": "i-1",
+    "tema": "spor",
+    "baslik": "⚽ Spor Günü",
+    "kategoriler": [
+      {
+        "ad": "Sporcu",
+        "ogeler": [
+          "Ahmet",
+          "Can",
+          "Bade"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kulüp",
+        "ogeler": [
+          "Umut",
+          "Yıldız",
+          "Zirve"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Ahmet Zirve kulübünü seçer.",
+      "Umut kulübünü seçen sporcu Can değildir.",
+      "Bade Zirve kulübünü seçmez.",
+      "Bade Yıldız kulübünü seçmez."
+    ],
+    "cozum": [
+      {
+        "Sporcu": "Ahmet",
+        "Kulüp": "Zirve"
+      },
+      {
+        "Sporcu": "Can",
+        "Kulüp": "Yıldız"
+      },
+      {
+        "Sporcu": "Bade",
+        "Kulüp": "Umut"
+      }
+    ]
+  },
+  {
+    "id": "i-2-01",
+    "grup": "i",
+    "seviye": "i-2",
+    "tema": "sihirbazlar",
+    "baslik": "🧙 Sihir Okulu",
+    "kategoriler": [
+      {
+        "ad": "Sihirbaz",
+        "ogeler": [
+          "Bora",
+          "Gökçe",
+          "Efe"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Pelerin",
+        "ogeler": [
+          "yeşil",
+          "mavi",
+          "kırmızı"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Asa",
+        "ogeler": [
+          "bakır",
+          "gümüş",
+          "ahşap"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Gökçe bakır asayı taşımaz.",
+      "Yeşil pelerini giyen sihirbaz Gökçe değildir.",
+      "Yeşil pelerini giyen sihirbaz Bora'dır.",
+      "Gümüş asayı taşıyan sihirbaz yeşil pelerini giyer.",
+      "Ahşap asayı taşıyan sihirbaz kırmızı pelerini giymez."
+    ],
+    "cozum": [
+      {
+        "Sihirbaz": "Bora",
+        "Pelerin": "yeşil",
+        "Asa": "gümüş"
+      },
+      {
+        "Sihirbaz": "Gökçe",
+        "Pelerin": "mavi",
+        "Asa": "ahşap"
+      },
+      {
+        "Sihirbaz": "Efe",
+        "Pelerin": "kırmızı",
+        "Asa": "bakır"
+      }
+    ]
+  },
+  {
+    "id": "i-2-02",
+    "grup": "i",
+    "seviye": "i-2",
+    "tema": "gezegenler",
+    "baslik": "🪐 Gezegen Kâşifleri",
+    "kategoriler": [
+      {
+        "ad": "Kâşif",
+        "ogeler": [
+          "Feride",
+          "Cansu",
+          "Berk"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Roket",
+        "ogeler": [
+          "turuncu",
+          "beyaz",
+          "yeşil"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Gezegen",
+        "ogeler": [
+          "Halkalı",
+          "Toz",
+          "Gölge"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Turuncu roketi seçen kâşif Gölge gezegenini incelemez.",
+      "Berk Gölge gezegenini incelemez.",
+      "Feride turuncu roketi seçmez.",
+      "Toz gezegenini inceleyen kâşif Cansu'dur.",
+      "Yeşil roketi seçen kâşif Berk'tir."
+    ],
+    "cozum": [
+      {
+        "Kâşif": "Feride",
+        "Roket": "beyaz",
+        "Gezegen": "Gölge"
+      },
+      {
+        "Kâşif": "Cansu",
+        "Roket": "turuncu",
+        "Gezegen": "Toz"
+      },
+      {
+        "Kâşif": "Berk",
+        "Roket": "yeşil",
+        "Gezegen": "Halkalı"
+      }
+    ]
+  },
+  {
+    "id": "i-2-03",
+    "grup": "i",
+    "seviye": "i-2",
+    "tema": "tatlılar",
+    "baslik": "🍰 Tatlı Şöleni",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Lena",
+          "Onur",
+          "Mert"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Tabak",
+        "ogeler": [
+          "beyaz",
+          "yeşil",
+          "pembe"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Tatlı",
+        "ogeler": [
+          "lokma",
+          "kek",
+          "dondurma"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Onur kek yer.",
+      "Yeşil tabağı seçen çocuk dondurma yer.",
+      "Pembe tabağı seçen çocuk Mert'tir.",
+      "Lokma yiyen çocuk Lena değildir.",
+      "Kek yiyen çocuk pembe tabağı seçmez."
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Lena",
+        "Tabak": "yeşil",
+        "Tatlı": "dondurma"
+      },
+      {
+        "Çocuk": "Onur",
+        "Tabak": "beyaz",
+        "Tatlı": "kek"
+      },
+      {
+        "Çocuk": "Mert",
+        "Tabak": "pembe",
+        "Tatlı": "lokma"
+      }
+    ]
+  },
+  {
+    "id": "i-2-04",
+    "grup": "i",
+    "seviye": "i-2",
+    "tema": "barinak",
+    "baslik": "🐾 Hayvan Barınağı",
+    "kategoriler": [
+      {
+        "ad": "Bakıcı",
+        "ogeler": [
+          "Burak",
+          "Cem",
+          "Duru"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Hayvan",
+        "ogeler": [
+          "tavşan",
+          "kaplumbağa",
+          "köpek"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Tasma",
+        "ogeler": [
+          "yeşil",
+          "sarı",
+          "kırmızı"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Duru yeşil tasmayı seçmez.",
+      "Cem yeşil tasmayı seçer.",
+      "Kaplumbağa besleyen bakıcı Burak'tır.",
+      "Tavşan besleyen bakıcı kırmızı tasmayı seçmez.",
+      "Sarı tasmayı seçen bakıcı köpek besler."
+    ],
+    "cozum": [
+      {
+        "Bakıcı": "Burak",
+        "Hayvan": "kaplumbağa",
+        "Tasma": "kırmızı"
+      },
+      {
+        "Bakıcı": "Cem",
+        "Hayvan": "tavşan",
+        "Tasma": "yeşil"
+      },
+      {
+        "Bakıcı": "Duru",
+        "Hayvan": "köpek",
+        "Tasma": "sarı"
+      }
+    ]
+  },
+  {
+    "id": "i-2-05",
+    "grup": "i",
+    "seviye": "i-2",
+    "tema": "muzik",
+    "baslik": "🎵 Müzik Atölyesi",
+    "kategoriler": [
+      {
+        "ad": "Öğrenci",
+        "ogeler": [
+          "Ezgi",
+          "Ferhat",
+          "Alp"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Şarkı",
+        "ogeler": [
+          "Bahar",
+          "Rüzgâr",
+          "Kar"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Çanta",
+        "ogeler": [
+          "yeşil",
+          "kırmızı",
+          "sarı"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Ferhat Rüzgâr şarkısını sevmez.",
+      "Sarı çantayı taşıyan öğrenci Ezgi'dir.",
+      "Kar şarkısını seven öğrenci Ferhat değildir.",
+      "Sarı çantayı taşıyan öğrenci Kar şarkısını sever.",
+      "Kırmızı çantayı taşıyan öğrenci Alp değildir."
+    ],
+    "cozum": [
+      {
+        "Öğrenci": "Ezgi",
+        "Şarkı": "Kar",
+        "Çanta": "sarı"
+      },
+      {
+        "Öğrenci": "Ferhat",
+        "Şarkı": "Bahar",
+        "Çanta": "kırmızı"
+      },
+      {
+        "Öğrenci": "Alp",
+        "Şarkı": "Rüzgâr",
+        "Çanta": "yeşil"
+      }
+    ]
+  },
+  {
+    "id": "i-2-06",
+    "grup": "i",
+    "seviye": "i-2",
+    "tema": "bahce",
+    "baslik": "🌷 Okul Bahçesi",
+    "kategoriler": [
+      {
+        "ad": "Bahçıvan",
+        "ogeler": [
+          "Ada",
+          "Çınar",
+          "Defne"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Gün",
+        "ogeler": [
+          "çarşamba",
+          "salı",
+          "pazartesi"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kova",
+        "ogeler": [
+          "mavi",
+          "beyaz",
+          "kırmızı"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Salı günü nöbet tutan bahçıvan Çınar'dır.",
+      "Beyaz kovayı seçen bahçıvan pazartesi günü nöbet tutmaz.",
+      "Mavi kovayı seçen bahçıvan Çınar değildir.",
+      "Pazartesi günü nöbet tutan bahçıvan mavi kovayı seçer.",
+      "Kırmızı kovayı seçen bahçıvan Ada'dır."
+    ],
+    "cozum": [
+      {
+        "Bahçıvan": "Ada",
+        "Gün": "çarşamba",
+        "Kova": "kırmızı"
+      },
+      {
+        "Bahçıvan": "Çınar",
+        "Gün": "salı",
+        "Kova": "beyaz"
+      },
+      {
+        "Bahçıvan": "Defne",
+        "Gün": "pazartesi",
+        "Kova": "mavi"
+      }
+    ]
+  },
+  {
+    "id": "i-2-07",
+    "grup": "i",
+    "seviye": "i-2",
+    "tema": "kitap",
+    "baslik": "📚 Kitap Kulübü",
+    "kategoriler": [
+      {
+        "ad": "Okur",
+        "ogeler": [
+          "Ceylan",
+          "Barış",
+          "Emre"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Ayraç",
+        "ogeler": [
+          "balık",
+          "kalp",
+          "bulut"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kitap",
+        "ogeler": [
+          "Momo",
+          "Robinson",
+          "Küçük Prens"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Bulut ayracı seven okur Momo kitabını okumaz.",
+      "Barış Momo kitabını okumaz.",
+      "Küçük Prens kitabını okuyan okur kalp ayracı sever.",
+      "Balık ayracı seven okur Robinson kitabını okumaz.",
+      "Emre kalp ayracı sever."
+    ],
+    "cozum": [
+      {
+        "Okur": "Ceylan",
+        "Ayraç": "balık",
+        "Kitap": "Momo"
+      },
+      {
+        "Okur": "Barış",
+        "Ayraç": "bulut",
+        "Kitap": "Robinson"
+      },
+      {
+        "Okur": "Emre",
+        "Ayraç": "kalp",
+        "Kitap": "Küçük Prens"
+      }
+    ]
+  },
+  {
+    "id": "i-2-08",
+    "grup": "i",
+    "seviye": "i-2",
+    "tema": "spor",
+    "baslik": "⚽ Spor Günü",
+    "kategoriler": [
+      {
+        "ad": "Sporcu",
+        "ogeler": [
+          "Can",
+          "Enes",
+          "Damla"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Forma",
+        "ogeler": [
+          "yeşil",
+          "mavi",
+          "siyah"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kulüp",
+        "ogeler": [
+          "Zirve",
+          "Fırtına",
+          "Kartal"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Mavi forma giyen sporcu Zirve kulübünü seçmez.",
+      "Fırtına kulübünü seçen sporcu mavi forma giyer.",
+      "Zirve kulübünü seçen sporcu Can'dır.",
+      "Damla siyah forma giyer.",
+      "Damla Zirve kulübünü seçmez."
+    ],
+    "cozum": [
+      {
+        "Sporcu": "Can",
+        "Forma": "yeşil",
+        "Kulüp": "Zirve"
+      },
+      {
+        "Sporcu": "Enes",
+        "Forma": "mavi",
+        "Kulüp": "Fırtına"
+      },
+      {
+        "Sporcu": "Damla",
+        "Forma": "siyah",
+        "Kulüp": "Kartal"
+      }
+    ]
+  },
+  {
+    "id": "c-1-01",
+    "grup": "c",
+    "seviye": "c-1",
+    "tema": "sihirbazlar",
+    "baslik": "🧙 Sihir Okulu",
+    "kategoriler": [
+      {
+        "ad": "Sihirbaz",
+        "ogeler": [
+          "Efe",
+          "Bora",
+          "Gökçe",
+          "Deniz"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Asa",
+        "ogeler": [
+          "ahşap",
+          "yıldızlı",
+          "gümüş",
+          "kristal"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Yaratık",
+        "ogeler": [
+          "kirpi",
+          "kurbağa",
+          "tilki",
+          "ejderha"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Deniz yıldızlı asayı taşımıyorsa ejderha besler.",
+      "Bora ahşap asayı taşımıyorsa ejderha besler.",
+      "Ejderha besleyen sihirbaz yıldızlı asayı taşımaz.",
+      "Deniz ahşap asayı taşımıyorsa kurbağa besler.",
+      "Gökçe ahşap asayı taşımıyorsa ejderha besler.",
+      "Yıldızlı asayı taşıyan sihirbaz kirpi beslemez.",
+      "Kirpi besleyen sihirbaz Gökçe'dir.",
+      "Efe kirpi beslemiyorsa gümüş asayı taşır."
+    ],
+    "cozum": [
+      {
+        "Sihirbaz": "Efe",
+        "Asa": "gümüş",
+        "Yaratık": "tilki"
+      },
+      {
+        "Sihirbaz": "Bora",
+        "Asa": "kristal",
+        "Yaratık": "ejderha"
+      },
+      {
+        "Sihirbaz": "Gökçe",
+        "Asa": "ahşap",
+        "Yaratık": "kirpi"
+      },
+      {
+        "Sihirbaz": "Deniz",
+        "Asa": "yıldızlı",
+        "Yaratık": "kurbağa"
+      }
+    ]
+  },
+  {
+    "id": "c-1-02",
+    "grup": "c",
+    "seviye": "c-1",
+    "tema": "gezegenler",
+    "baslik": "🪐 Gezegen Kâşifleri",
+    "kategoriler": [
+      {
+        "ad": "Kâşif",
+        "ogeler": [
+          "Berk",
+          "Dilara",
+          "Feride",
+          "Cansu"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Gezegen",
+        "ogeler": [
+          "Halkalı",
+          "Kızılca",
+          "Buzul",
+          "Gölge"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Uydu",
+        "ogeler": [
+          "Işık",
+          "Kaya",
+          "Bulut",
+          "Kum"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Berk Kaya adlı uyduyu sevmiyorsa Halkalı gezegenini inceler.",
+      "Gölge gezegenini inceleyen kâşif Işık adlı uyduyu sever.",
+      "Dilara Kum adlı uyduyu sevmez.",
+      "Cansu Kaya adlı uyduyu sever.",
+      "Halkalı gezegenini inceleyen kâşif Dilara değildir.",
+      "Feride Bulut adlı uyduyu sevmiyorsa Halkalı gezegenini inceler.",
+      "Feride Kızılca gezegenini incelemiyorsa Kaya adlı uyduyu sever."
+    ],
+    "cozum": [
+      {
+        "Kâşif": "Berk",
+        "Gezegen": "Halkalı",
+        "Uydu": "Kum"
+      },
+      {
+        "Kâşif": "Dilara",
+        "Gezegen": "Gölge",
+        "Uydu": "Işık"
+      },
+      {
+        "Kâşif": "Feride",
+        "Gezegen": "Kızılca",
+        "Uydu": "Bulut"
+      },
+      {
+        "Kâşif": "Cansu",
+        "Gezegen": "Buzul",
+        "Uydu": "Kaya"
+      }
+    ]
+  },
+  {
+    "id": "c-1-03",
+    "grup": "c",
+    "seviye": "c-1",
+    "tema": "tatlılar",
+    "baslik": "🍰 Tatlı Şöleni",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Ela",
+          "Kaan",
+          "Nil",
+          "Lena"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Tatlı",
+        "ogeler": [
+          "baklava",
+          "muhallebi",
+          "dondurma",
+          "kurabiye"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "İçecek",
+        "ogeler": [
+          "ıhlamur",
+          "portakal suyu",
+          "ayran",
+          "limonata"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Muhallebi yiyen çocuk ayran içmez.",
+      "Kaan kurabiye yemez.",
+      "Baklava yiyen çocuk Kaan'dır.",
+      "Nil baklava yemiyorsa ıhlamur içer.",
+      "Nil ayran içmiyorsa dondurma yer.",
+      "Ela ayran içmiyorsa baklava yer.",
+      "Portakal suyu içen çocuk muhallebi yer."
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Ela",
+        "Tatlı": "kurabiye",
+        "İçecek": "ayran"
+      },
+      {
+        "Çocuk": "Kaan",
+        "Tatlı": "baklava",
+        "İçecek": "limonata"
+      },
+      {
+        "Çocuk": "Nil",
+        "Tatlı": "dondurma",
+        "İçecek": "ıhlamur"
+      },
+      {
+        "Çocuk": "Lena",
+        "Tatlı": "muhallebi",
+        "İçecek": "portakal suyu"
+      }
+    ]
+  },
+  {
+    "id": "c-1-04",
+    "grup": "c",
+    "seviye": "c-1",
+    "tema": "barinak",
+    "baslik": "🐾 Hayvan Barınağı",
+    "kategoriler": [
+      {
+        "ad": "Bakıcı",
+        "ogeler": [
+          "Duru",
+          "Aslı",
+          "Funda",
+          "Cem"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Gün",
+        "ogeler": [
+          "cuma",
+          "pazartesi",
+          "salı",
+          "perşembe"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Tasma",
+        "ogeler": [
+          "turuncu",
+          "sarı",
+          "mavi",
+          "mor"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Duru pazartesi günü nöbet tutmuyorsa turuncu tasmayı seçer.",
+      "Aslı turuncu tasmayı seçmiyorsa perşembe günü nöbet tutar.",
+      "Turuncu tasmayı seçen bakıcı Aslı değildir.",
+      "Duru perşembe günü nöbet tutmuyorsa mavi tasmayı seçer.",
+      "Sarı tasmayı seçen bakıcı Aslı'dır.",
+      "Turuncu tasmayı seçen bakıcı perşembe günü nöbet tutmaz.",
+      "Cem cuma günü nöbet tutmuyorsa turuncu tasmayı seçer.",
+      "Cem salı günü nöbet tutmuyorsa mavi tasmayı seçer."
+    ],
+    "cozum": [
+      {
+        "Bakıcı": "Duru",
+        "Gün": "pazartesi",
+        "Tasma": "mavi"
+      },
+      {
+        "Bakıcı": "Aslı",
+        "Gün": "perşembe",
+        "Tasma": "sarı"
+      },
+      {
+        "Bakıcı": "Funda",
+        "Gün": "cuma",
+        "Tasma": "mor"
+      },
+      {
+        "Bakıcı": "Cem",
+        "Gün": "salı",
+        "Tasma": "turuncu"
+      }
+    ]
+  },
+  {
+    "id": "c-1-05",
+    "grup": "c",
+    "seviye": "c-1",
+    "tema": "muzik",
+    "baslik": "🎵 Müzik Atölyesi",
+    "kategoriler": [
+      {
+        "ad": "Öğrenci",
+        "ogeler": [
+          "Ceyda",
+          "Doruk",
+          "Ezgi",
+          "Beste"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Enstrüman",
+        "ogeler": [
+          "keman",
+          "bağlama",
+          "gitar",
+          "piyano"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Şarkı",
+        "ogeler": [
+          "Güneş",
+          "Deniz",
+          "Rüzgâr",
+          "Yıldız"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Güneş şarkısını seven öğrenci Doruk değildir.",
+      "Ceyda Rüzgâr şarkısını sevmiyorsa keman çalar.",
+      "Doruk Yıldız şarkısını sevmiyorsa gitar çalar.",
+      "Beste Deniz şarkısını sevmiyorsa keman çalar.",
+      "Yıldız şarkısını seven öğrenci piyano çalar.",
+      "Doruk Deniz şarkısını sever.",
+      "Deniz şarkısını seven öğrenci Ezgi değildir."
+    ],
+    "cozum": [
+      {
+        "Öğrenci": "Ceyda",
+        "Enstrüman": "bağlama",
+        "Şarkı": "Rüzgâr"
+      },
+      {
+        "Öğrenci": "Doruk",
+        "Enstrüman": "gitar",
+        "Şarkı": "Deniz"
+      },
+      {
+        "Öğrenci": "Ezgi",
+        "Enstrüman": "piyano",
+        "Şarkı": "Yıldız"
+      },
+      {
+        "Öğrenci": "Beste",
+        "Enstrüman": "keman",
+        "Şarkı": "Güneş"
+      }
+    ]
+  },
+  {
+    "id": "c-1-06",
+    "grup": "c",
+    "seviye": "c-1",
+    "tema": "bahce",
+    "baslik": "🌷 Okul Bahçesi",
+    "kategoriler": [
+      {
+        "ad": "Bahçıvan",
+        "ogeler": [
+          "Bulut",
+          "Defne",
+          "Çınar",
+          "Gizem"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Gün",
+        "ogeler": [
+          "cuma",
+          "pazartesi",
+          "pazar",
+          "çarşamba"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kova",
+        "ogeler": [
+          "mor",
+          "kırmızı",
+          "mavi",
+          "yeşil"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Pazartesi günü nöbet tutan bahçıvan yeşil kovayı seçmez.",
+      "Gizem pazar günü nöbet tutmuyorsa mor kovayı seçer.",
+      "Gizem çarşamba günü nöbet tutmuyorsa mavi kovayı seçer.",
+      "Mavi kovayı seçen bahçıvan Çınar değildir.",
+      "Pazartesi günü nöbet tutan bahçıvan kırmızı kovayı seçer.",
+      "Mavi kovayı seçen bahçıvan Bulut'tur.",
+      "Defne pazar günü nöbet tutmuyorsa mavi kovayı seçer."
+    ],
+    "cozum": [
+      {
+        "Bahçıvan": "Bulut",
+        "Gün": "cuma",
+        "Kova": "mavi"
+      },
+      {
+        "Bahçıvan": "Defne",
+        "Gün": "pazar",
+        "Kova": "yeşil"
+      },
+      {
+        "Bahçıvan": "Çınar",
+        "Gün": "pazartesi",
+        "Kova": "kırmızı"
+      },
+      {
+        "Bahçıvan": "Gizem",
+        "Gün": "çarşamba",
+        "Kova": "mor"
+      }
+    ]
+  },
+  {
+    "id": "c-1-07",
+    "grup": "c",
+    "seviye": "c-1",
+    "tema": "kitap",
+    "baslik": "📚 Kitap Kulübü",
+    "kategoriler": [
+      {
+        "ad": "Okur",
+        "ogeler": [
+          "Fikret",
+          "Barış",
+          "Ceylan",
+          "Derin"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Koltuk",
+        "ogeler": [
+          "gri",
+          "yeşil",
+          "kahverengi",
+          "mavi"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Ayraç",
+        "ogeler": [
+          "yıldız",
+          "kalp",
+          "bulut",
+          "balık"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Fikret balık ayracı sevmiyorsa gri koltuğu seçer.",
+      "Fikret yeşil koltuğu seçmiyorsa yıldız ayracı sever.",
+      "Ceylan kahverengi koltuğu seçmiyorsa bulut ayracı sever.",
+      "Derin yeşil koltuğu seçmiyorsa yıldız ayracı sever.",
+      "Balık ayracı seven okur kahverengi koltuğu seçmez.",
+      "Fikret mavi koltuğu seçmez.",
+      "Barış kahverengi koltuğu seçmiyorsa balık ayracı sever.",
+      "Balık ayracı seven okur Derin'dir."
+    ],
+    "cozum": [
+      {
+        "Okur": "Fikret",
+        "Koltuk": "gri",
+        "Ayraç": "yıldız"
+      },
+      {
+        "Okur": "Barış",
+        "Koltuk": "kahverengi",
+        "Ayraç": "kalp"
+      },
+      {
+        "Okur": "Ceylan",
+        "Koltuk": "mavi",
+        "Ayraç": "bulut"
+      },
+      {
+        "Okur": "Derin",
+        "Koltuk": "yeşil",
+        "Ayraç": "balık"
+      }
+    ]
+  },
+  {
+    "id": "c-1-08",
+    "grup": "c",
+    "seviye": "c-1",
+    "tema": "spor",
+    "baslik": "⚽ Spor Günü",
+    "kategoriler": [
+      {
+        "ad": "Sporcu",
+        "ogeler": [
+          "Can",
+          "Bade",
+          "Enes",
+          "Ahmet"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Forma",
+        "ogeler": [
+          "kırmızı",
+          "beyaz",
+          "yeşil",
+          "siyah"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kulüp",
+        "ogeler": [
+          "Fırtına",
+          "Umut",
+          "Zirve",
+          "Şimşek"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Fırtına kulübünü seçen sporcu Enes'tir.",
+      "Bade siyah forma giymiyorsa Zirve kulübünü seçer.",
+      "Şimşek kulübünü seçen sporcu Enes değildir.",
+      "Beyaz forma giyen sporcu Can'dır.",
+      "Kırmızı forma giyen sporcu Şimşek kulübünü seçer.",
+      "Kırmızı forma giyen sporcu Bade değildir.",
+      "Enes siyah forma giymiyorsa Şimşek kulübünü seçer."
+    ],
+    "cozum": [
+      {
+        "Sporcu": "Can",
+        "Forma": "beyaz",
+        "Kulüp": "Umut"
+      },
+      {
+        "Sporcu": "Bade",
+        "Forma": "yeşil",
+        "Kulüp": "Zirve"
+      },
+      {
+        "Sporcu": "Enes",
+        "Forma": "siyah",
+        "Kulüp": "Fırtına"
+      },
+      {
+        "Sporcu": "Ahmet",
+        "Forma": "kırmızı",
+        "Kulüp": "Şimşek"
+      }
+    ]
+  },
+  {
+    "id": "c-2-01",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "sihirbazlar",
+    "baslik": "🧙 Sihir Okulu",
+    "kategoriler": [
+      {
+        "ad": "Sıra",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Sihirbaz",
+        "ogeler": [
+          "Gökçe",
+          "Bora",
+          "Ceren",
+          "Ayla",
+          "Efe"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Pelerin",
+        "ogeler": [
+          "mor",
+          "sarı",
+          "turuncu",
+          "kırmızı",
+          "mavi"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Asa",
+        "ogeler": [
+          "bakır",
+          "ahşap",
+          "altın",
+          "gümüş",
+          "kristal"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Soldan sağa doğru önce Efe, hemen ardından ahşap asayı taşıyan sihirbaz gelir.",
+      "Soldan sağa doğru önce bakır asayı taşıyan sihirbaz, hemen ardından Gökçe gelir.",
+      "Soldan sağa doğru önce Bora, hemen ardından kırmızı pelerini giyen sihirbaz gelir.",
+      "Ayla mavi pelerini giymez.",
+      "Turuncu pelerini giyen sihirbaz ile gümüş asayı taşıyan sihirbaz yan yanadır.",
+      "Soldan sağa doğru önce altın asayı taşıyan sihirbaz, hemen ardından turuncu pelerini giyen sihirbaz gelir.",
+      "5. sıradaki Gökçe değildir.",
+      "Ceren ile altın asayı taşıyan sihirbaz yan yanadır.",
+      "5. sıradaki mor pelerini giymiyorsa Efe'dir.",
+      "Soldan sağa doğru önce Gökçe, hemen ardından mavi pelerini giyen sihirbaz gelir."
+    ],
+    "cozum": [
+      {
+        "Sıra": "1.",
+        "Sihirbaz": "Bora",
+        "Pelerin": "sarı",
+        "Asa": "bakır"
+      },
+      {
+        "Sıra": "2.",
+        "Sihirbaz": "Gökçe",
+        "Pelerin": "kırmızı",
+        "Asa": "kristal"
+      },
+      {
+        "Sıra": "3.",
+        "Sihirbaz": "Efe",
+        "Pelerin": "mavi",
+        "Asa": "altın"
+      },
+      {
+        "Sıra": "4.",
+        "Sihirbaz": "Ceren",
+        "Pelerin": "turuncu",
+        "Asa": "ahşap"
+      },
+      {
+        "Sıra": "5.",
+        "Sihirbaz": "Ayla",
+        "Pelerin": "mor",
+        "Asa": "gümüş"
+      }
+    ]
+  },
+  {
+    "id": "c-2-02",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "gezegenler",
+    "baslik": "🪐 Gezegen Kâşifleri",
+    "kategoriler": [
+      {
+        "ad": "Sıra",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Kâşif",
+        "ogeler": [
+          "Ege",
+          "Dilara",
+          "Arda",
+          "Berk",
+          "Feride"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Roket",
+        "ogeler": [
+          "gümüş",
+          "beyaz",
+          "mavi",
+          "turuncu",
+          "mor"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Gezegen",
+        "ogeler": [
+          "Işıl",
+          "Toz",
+          "Buzul",
+          "Kızılca",
+          "Gölge"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "5. sıradaki gümüş roketi seçmiyorsa Işıl gezegenini inceler.",
+      "Soldan sağa doğru önce beyaz roketi seçen kâşif, hemen ardından Buzul gezegenini inceleyen kâşif gelir.",
+      "Mor roketi seçen kâşif ile Kızılca gezegenini inceleyen kâşif yan yanadır.",
+      "Soldan sağa doğru önce Arda, hemen ardından Kızılca gezegenini inceleyen kâşif gelir.",
+      "Soldan sağa doğru önce Dilara, hemen ardından mavi roketi seçen kâşif gelir.",
+      "Arda Buzul gezegenini incelemez.",
+      "Soldan sağa doğru önce Toz gezegenini inceleyen kâşif, hemen ardından Dilara gelir.",
+      "Soldan sağa doğru önce turuncu roketi seçen kâşif, hemen ardından Işıl gezegenini inceleyen kâşif gelir.",
+      "Turuncu roketi seçen kâşif Gölge gezegenini incelemez.",
+      "Soldan sağa doğru önce Ege, hemen ardından Berk gelir.",
+      "Berk ile Toz gezegenini inceleyen kâşif yan yanadır."
+    ],
+    "cozum": [
+      {
+        "Sıra": "1.",
+        "Kâşif": "Ege",
+        "Roket": "beyaz",
+        "Gezegen": "Gölge"
+      },
+      {
+        "Sıra": "2.",
+        "Kâşif": "Berk",
+        "Roket": "gümüş",
+        "Gezegen": "Buzul"
+      },
+      {
+        "Sıra": "3.",
+        "Kâşif": "Arda",
+        "Roket": "mor",
+        "Gezegen": "Toz"
+      },
+      {
+        "Sıra": "4.",
+        "Kâşif": "Dilara",
+        "Roket": "turuncu",
+        "Gezegen": "Kızılca"
+      },
+      {
+        "Sıra": "5.",
+        "Kâşif": "Feride",
+        "Roket": "mavi",
+        "Gezegen": "Işıl"
+      }
+    ]
+  },
+  {
+    "id": "c-2-03",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "tatlılar",
+    "baslik": "🍰 Tatlı Şöleni",
+    "kategoriler": [
+      {
+        "ad": "Sıra",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Kaan",
+          "Mert",
+          "Lena",
+          "Nil",
+          "Ela"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Tabak",
+        "ogeler": [
+          "beyaz",
+          "sarı",
+          "yeşil",
+          "pembe",
+          "mavi"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Tatlı",
+        "ogeler": [
+          "baklava",
+          "kurabiye",
+          "kek",
+          "muhallebi",
+          "dondurma"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Nil mavi tabağı seçmez.",
+      "2. sıradaki pembe tabağı seçmez.",
+      "Soldan sağa doğru önce kurabiye yiyen çocuk, hemen ardından Nil gelir.",
+      "5. sıradaki mavi tabağı seçmiyorsa kek yer.",
+      "Soldan sağa doğru önce Ela, hemen ardından Mert gelir.",
+      "Soldan sağa doğru önce muhallebi yiyen çocuk, hemen ardından Lena gelir.",
+      "Soldan sağa doğru önce pembe tabağı seçen çocuk, hemen ardından Ela gelir.",
+      "Soldan sağa doğru önce muhallebi yiyen çocuk, hemen ardından yeşil tabağı seçen çocuk gelir.",
+      "Soldan sağa doğru önce sarı tabağı seçen çocuk, hemen ardından dondurma yiyen çocuk gelir.",
+      "Baklava yiyen çocuk 4. sıradadır."
+    ],
+    "cozum": [
+      {
+        "Sıra": "1.",
+        "Çocuk": "Kaan",
+        "Tabak": "beyaz",
+        "Tatlı": "muhallebi"
+      },
+      {
+        "Sıra": "2.",
+        "Çocuk": "Lena",
+        "Tabak": "yeşil",
+        "Tatlı": "kurabiye"
+      },
+      {
+        "Sıra": "3.",
+        "Çocuk": "Nil",
+        "Tabak": "pembe",
+        "Tatlı": "kek"
+      },
+      {
+        "Sıra": "4.",
+        "Çocuk": "Ela",
+        "Tabak": "sarı",
+        "Tatlı": "baklava"
+      },
+      {
+        "Sıra": "5.",
+        "Çocuk": "Mert",
+        "Tabak": "mavi",
+        "Tatlı": "dondurma"
+      }
+    ]
+  },
+  {
+    "id": "c-2-04",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "barinak",
+    "baslik": "🐾 Hayvan Barınağı",
+    "kategoriler": [
+      {
+        "ad": "Sıra",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Bakıcı",
+        "ogeler": [
+          "Burak",
+          "Aslı",
+          "Duru",
+          "Cem",
+          "Funda"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Hayvan",
+        "ogeler": [
+          "kedi",
+          "kaplumbağa",
+          "papağan",
+          "köpek",
+          "hamster"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Tasma",
+        "ogeler": [
+          "mor",
+          "yeşil",
+          "turuncu",
+          "sarı",
+          "mavi"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "5. sıradaki mor tasmayı seçer.",
+      "Soldan sağa doğru önce sarı tasmayı seçen bakıcı, hemen ardından kedi besleyen bakıcı gelir.",
+      "5. sıradaki Burak değildir.",
+      "Soldan sağa doğru önce turuncu tasmayı seçen bakıcı, hemen ardından Duru gelir.",
+      "Soldan sağa doğru önce mavi tasmayı seçen bakıcı, hemen ardından Cem gelir.",
+      "Mavi tasmayı seçen bakıcı 5. sırada değildir.",
+      "Aslı ile papağan besleyen bakıcı yan yanadır.",
+      "Soldan sağa doğru önce papağan besleyen bakıcı, hemen ardından Funda gelir.",
+      "Soldan sağa doğru önce hamster besleyen bakıcı, hemen ardından mavi tasmayı seçen bakıcı gelir.",
+      "Soldan sağa doğru önce mavi tasmayı seçen bakıcı, hemen ardından kaplumbağa besleyen bakıcı gelir."
+    ],
+    "cozum": [
+      {
+        "Sıra": "1.",
+        "Bakıcı": "Aslı",
+        "Hayvan": "köpek",
+        "Tasma": "turuncu"
+      },
+      {
+        "Sıra": "2.",
+        "Bakıcı": "Duru",
+        "Hayvan": "papağan",
+        "Tasma": "yeşil"
+      },
+      {
+        "Sıra": "3.",
+        "Bakıcı": "Funda",
+        "Hayvan": "hamster",
+        "Tasma": "sarı"
+      },
+      {
+        "Sıra": "4.",
+        "Bakıcı": "Burak",
+        "Hayvan": "kedi",
+        "Tasma": "mavi"
+      },
+      {
+        "Sıra": "5.",
+        "Bakıcı": "Cem",
+        "Hayvan": "kaplumbağa",
+        "Tasma": "mor"
+      }
+    ]
+  },
+  {
+    "id": "c-2-05",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "muzik",
+    "baslik": "🎵 Müzik Atölyesi",
+    "kategoriler": [
+      {
+        "ad": "Sıra",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Öğrenci",
+        "ogeler": [
+          "Ezgi",
+          "Beste",
+          "Ferhat",
+          "Doruk",
+          "Alp"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Şarkı",
+        "ogeler": [
+          "Yıldız",
+          "Deniz",
+          "Kar",
+          "Güneş",
+          "Bahar"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Çanta",
+        "ogeler": [
+          "kırmızı",
+          "yeşil",
+          "gri",
+          "siyah",
+          "mavi"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Soldan sağa doğru önce Doruk, hemen ardından mavi çantayı taşıyan öğrenci gelir.",
+      "1. sıradaki mavi çantayı taşımıyorsa Doruk'tur.",
+      "Ezgi ile siyah çantayı taşıyan öğrenci yan yanadır.",
+      "Soldan sağa doğru önce kırmızı çantayı taşıyan öğrenci, hemen ardından Ezgi gelir.",
+      "Alp ile mavi çantayı taşıyan öğrenci yan yanadır.",
+      "Soldan sağa doğru önce yeşil çantayı taşıyan öğrenci, hemen ardından Bahar şarkısını seven öğrenci gelir.",
+      "Mavi çantayı taşıyan öğrenci 1. sırada değildir.",
+      "Soldan sağa doğru önce Doruk, hemen ardından Beste gelir.",
+      "Soldan sağa doğru önce Yıldız şarkısını seven öğrenci, hemen ardından Güneş şarkısını seven öğrenci gelir.",
+      "5. sıradaki Beste değildir.",
+      "5. sıradaki yeşil çantayı taşımıyorsa Kar şarkısını sever."
+    ],
+    "cozum": [
+      {
+        "Sıra": "1.",
+        "Öğrenci": "Doruk",
+        "Şarkı": "Deniz",
+        "Çanta": "yeşil"
+      },
+      {
+        "Sıra": "2.",
+        "Öğrenci": "Beste",
+        "Şarkı": "Bahar",
+        "Çanta": "mavi"
+      },
+      {
+        "Sıra": "3.",
+        "Öğrenci": "Alp",
+        "Şarkı": "Yıldız",
+        "Çanta": "kırmızı"
+      },
+      {
+        "Sıra": "4.",
+        "Öğrenci": "Ezgi",
+        "Şarkı": "Güneş",
+        "Çanta": "gri"
+      },
+      {
+        "Sıra": "5.",
+        "Öğrenci": "Ferhat",
+        "Şarkı": "Kar",
+        "Çanta": "siyah"
+      }
+    ]
+  },
+  {
+    "id": "c-2-06",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "bahce",
+    "baslik": "🌷 Okul Bahçesi",
+    "kategoriler": [
+      {
+        "ad": "Sıra",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Bahçıvan",
+        "ogeler": [
+          "Emir",
+          "Ada",
+          "Defne",
+          "Bulut",
+          "Gizem"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Gün",
+        "ogeler": [
+          "pazartesi",
+          "perşembe",
+          "çarşamba",
+          "pazar",
+          "cuma"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Çiçek",
+        "ogeler": [
+          "menekşe",
+          "zambak",
+          "karanfil",
+          "lale",
+          "papatya"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "1. sıradaki perşembe günü nöbet tutmuyorsa Gizem'dir.",
+      "Emir ile zambak sulayan bahçıvan yan yanadır.",
+      "Emir cuma günü nöbet tutar.",
+      "Karanfil sulayan bahçıvan çarşamba günü nöbet tutmaz.",
+      "Soldan sağa doğru önce lale sulayan bahçıvan, hemen ardından Emir gelir.",
+      "Soldan sağa doğru önce Bulut, hemen ardından perşembe günü nöbet tutan bahçıvan gelir.",
+      "Ada papatya sular.",
+      "Soldan sağa doğru önce çarşamba günü nöbet tutan bahçıvan, hemen ardından menekşe sulayan bahçıvan gelir.",
+      "Soldan sağa doğru önce pazar günü nöbet tutan bahçıvan, hemen ardından pazartesi günü nöbet tutan bahçıvan gelir.",
+      "1. sıradaki pazartesi günü nöbet tutmaz."
+    ],
+    "cozum": [
+      {
+        "Sıra": "1.",
+        "Bahçıvan": "Gizem",
+        "Gün": "çarşamba",
+        "Çiçek": "lale"
+      },
+      {
+        "Sıra": "2.",
+        "Bahçıvan": "Emir",
+        "Gün": "cuma",
+        "Çiçek": "menekşe"
+      },
+      {
+        "Sıra": "3.",
+        "Bahçıvan": "Defne",
+        "Gün": "pazar",
+        "Çiçek": "zambak"
+      },
+      {
+        "Sıra": "4.",
+        "Bahçıvan": "Bulut",
+        "Gün": "pazartesi",
+        "Çiçek": "karanfil"
+      },
+      {
+        "Sıra": "5.",
+        "Bahçıvan": "Ada",
+        "Gün": "perşembe",
+        "Çiçek": "papatya"
+      }
+    ]
+  },
+  {
+    "id": "c-2-07",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "kitap",
+    "baslik": "📚 Kitap Kulübü",
+    "kategoriler": [
+      {
+        "ad": "Sıra",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Okur",
+        "ogeler": [
+          "Derin",
+          "Fikret",
+          "Emre",
+          "Barış",
+          "Aylin"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Ayraç",
+        "ogeler": [
+          "yıldız",
+          "bulut",
+          "balık",
+          "kalp",
+          "kelebek"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Koltuk",
+        "ogeler": [
+          "bej",
+          "yeşil",
+          "kahverengi",
+          "gri",
+          "mavi"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Soldan sağa doğru önce gri koltuğu seçen okur, hemen ardından kelebek ayracı seven okur gelir.",
+      "Soldan sağa doğru önce kalp ayracı seven okur, hemen ardından mavi koltuğu seçen okur gelir.",
+      "Barış ile mavi koltuğu seçen okur yan yanadır.",
+      "Yeşil koltuğu seçen okur 3. sırada değildir.",
+      "Kelebek ayracı seven okur Derin değildir.",
+      "5. sıradaki yeşil koltuğu seçmiyorsa kalp ayracı sever.",
+      "Fikret ile kahverengi koltuğu seçen okur yan yanadır.",
+      "3. sıradaki Derin değilse kelebek ayracı sever.",
+      "4. sıradaki balık ayracı sever.",
+      "Soldan sağa doğru önce bulut ayracı seven okur, hemen ardından yıldız ayracı seven okur gelir.",
+      "Soldan sağa doğru önce Emre, hemen ardından yıldız ayracı seven okur gelir."
+    ],
+    "cozum": [
+      {
+        "Sıra": "1.",
+        "Okur": "Barış",
+        "Ayraç": "kalp",
+        "Koltuk": "bej"
+      },
+      {
+        "Sıra": "2.",
+        "Okur": "Emre",
+        "Ayraç": "bulut",
+        "Koltuk": "mavi"
+      },
+      {
+        "Sıra": "3.",
+        "Okur": "Derin",
+        "Ayraç": "yıldız",
+        "Koltuk": "kahverengi"
+      },
+      {
+        "Sıra": "4.",
+        "Okur": "Fikret",
+        "Ayraç": "balık",
+        "Koltuk": "gri"
+      },
+      {
+        "Sıra": "5.",
+        "Okur": "Aylin",
+        "Ayraç": "kelebek",
+        "Koltuk": "yeşil"
+      }
+    ]
+  },
+  {
+    "id": "c-2-08",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "spor",
+    "baslik": "⚽ Spor Günü",
+    "kategoriler": [
+      {
+        "ad": "Sıra",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Sporcu",
+        "ogeler": [
+          "Can",
+          "Damla",
+          "Bade",
+          "Feyza",
+          "Ahmet"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kulüp",
+        "ogeler": [
+          "Fırtına",
+          "Kartal",
+          "Yıldız",
+          "Zirve",
+          "Şimşek"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Forma",
+        "ogeler": [
+          "siyah",
+          "beyaz",
+          "yeşil",
+          "mavi",
+          "sarı"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Kartal kulübünü seçen sporcu 2. sırada değildir.",
+      "Soldan sağa doğru önce Feyza, hemen ardından Yıldız kulübünü seçen sporcu gelir.",
+      "Soldan sağa doğru önce mavi forma giyen sporcu, hemen ardından Kartal kulübünü seçen sporcu gelir.",
+      "Soldan sağa doğru önce Feyza, hemen ardından yeşil forma giyen sporcu gelir.",
+      "Soldan sağa doğru önce Zirve kulübünü seçen sporcu, hemen ardından yeşil forma giyen sporcu gelir.",
+      "Soldan sağa doğru önce Feyza, hemen ardından Ahmet gelir.",
+      "Soldan sağa doğru önce yeşil forma giyen sporcu, hemen ardından Can gelir.",
+      "4. sıradaki Feyza değilse Kartal kulübünü seçer.",
+      "Damla ile mavi forma giyen sporcu yan yanadır.",
+      "Kartal kulübünü seçen sporcu Feyza değildir.",
+      "Soldan sağa doğru önce Şimşek kulübünü seçen sporcu, hemen ardından siyah forma giyen sporcu gelir.",
+      "Yıldız kulübünü seçen sporcu ile beyaz forma giyen sporcu yan yanadır."
+    ],
+    "cozum": [
+      {
+        "Sıra": "1.",
+        "Sporcu": "Feyza",
+        "Kulüp": "Zirve",
+        "Forma": "beyaz"
+      },
+      {
+        "Sıra": "2.",
+        "Sporcu": "Ahmet",
+        "Kulüp": "Yıldız",
+        "Forma": "yeşil"
+      },
+      {
+        "Sıra": "3.",
+        "Sporcu": "Can",
+        "Kulüp": "Şimşek",
+        "Forma": "mavi"
+      },
+      {
+        "Sıra": "4.",
+        "Sporcu": "Damla",
+        "Kulüp": "Kartal",
+        "Forma": "siyah"
+      },
+      {
+        "Sıra": "5.",
+        "Sporcu": "Bade",
+        "Kulüp": "Fırtına",
+        "Forma": "sarı"
+      }
+    ]
+  },
+  {
+    "id": "e-1-01",
+    "grup": "e",
+    "seviye": "e-1",
+    "tema": "orman-sofrasi",
+    "baslik": "🐻 Orman Sofrası",
+    "kategoriler": [
+      {
+        "ad": "Hayvan",
+        "ogeler": [
+          "🐻 Ayı",
+          "🐶 Köpek",
+          "🐵 Maymun"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Yiyecek",
+        "ogeler": [
+          "🥕 havuç",
+          "🥛 süt",
+          "🍌 muz"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "🐶 Köpek 🥛 süt sever.",
+      "🐵 Maymun 🥕 havuç sever.",
+      "🐻 Ayı 🍌 muz sever."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "dogrudan",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Hayvan": "🐻 Ayı",
+        "Yiyecek": "🍌 muz"
+      },
+      {
+        "Hayvan": "🐶 Köpek",
+        "Yiyecek": "🥛 süt"
+      },
+      {
+        "Hayvan": "🐵 Maymun",
+        "Yiyecek": "🥕 havuç"
+      }
+    ]
+  },
+  {
+    "id": "e-1-02",
+    "grup": "e",
+    "seviye": "e-1",
+    "tema": "oyuncak-sepeti",
+    "baslik": "🧸 Oyuncak Sepeti",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Ali",
+          "Can",
+          "Mert"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Oyuncak",
+        "ogeler": [
+          "🎈 balon",
+          "🚗 araba",
+          "⚽ top"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Ali 🎈 balon sever.",
+      "Can 🚗 araba sever.",
+      "Mert ⚽ top sever."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "dogrudan",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Ali",
+        "Oyuncak": "🎈 balon"
+      },
+      {
+        "Çocuk": "Can",
+        "Oyuncak": "🚗 araba"
+      },
+      {
+        "Çocuk": "Mert",
+        "Oyuncak": "⚽ top"
+      }
+    ]
+  },
+  {
+    "id": "e-1-03",
+    "grup": "e",
+    "seviye": "e-1",
+    "tema": "renkli-kalemler",
+    "baslik": "🎨 Renkli Kalemler",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Efe",
+          "Duru",
+          "Kaan"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kalem",
+        "ogeler": [
+          "🟢 yeşil",
+          "🔴 kırmızı",
+          "🟣 mor"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Efe 🟢 yeşil kalemi seçer.",
+      "Kaan 🔴 kırmızı kalemi seçer.",
+      "Duru 🟣 mor kalemi seçer."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "dogrudan",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Efe",
+        "Kalem": "🟢 yeşil"
+      },
+      {
+        "Çocuk": "Duru",
+        "Kalem": "🟣 mor"
+      },
+      {
+        "Çocuk": "Kaan",
+        "Kalem": "🔴 kırmızı"
+      }
+    ]
+  },
+  {
+    "id": "e-1-04",
+    "grup": "e",
+    "seviye": "e-1",
+    "tema": "meyve-tabagi",
+    "baslik": "🍎 Meyve Tabağı",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Poyraz",
+          "Ömer",
+          "Zeynep"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Meyve",
+        "ogeler": [
+          "🍇 üzüm",
+          "🍓 çilek",
+          "🍌 muz"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Zeynep 🍇 üzüm yer.",
+      "Poyraz 🍌 muz yer.",
+      "Ömer 🍓 çilek yer."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "dogrudan",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Poyraz",
+        "Meyve": "🍌 muz"
+      },
+      {
+        "Çocuk": "Ömer",
+        "Meyve": "🍓 çilek"
+      },
+      {
+        "Çocuk": "Zeynep",
+        "Meyve": "🍇 üzüm"
+      }
+    ]
+  },
+  {
+    "id": "e-1-05",
+    "grup": "e",
+    "seviye": "e-1",
+    "tema": "tasitlar",
+    "baslik": "🚗 Taşıtlar",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Bade",
+          "Cem",
+          "Doğa"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Taşıt",
+        "ogeler": [
+          "🚗 araba",
+          "🚂 tren",
+          "✈️ uçak"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Cem ✈️ uçak sever.",
+      "Bade 🚂 tren sever.",
+      "Doğa 🚗 araba sever."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "dogrudan",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Bade",
+        "Taşıt": "🚂 tren"
+      },
+      {
+        "Çocuk": "Cem",
+        "Taşıt": "✈️ uçak"
+      },
+      {
+        "Çocuk": "Doğa",
+        "Taşıt": "🚗 araba"
+      }
+    ]
+  },
+  {
+    "id": "e-1-06",
+    "grup": "e",
+    "seviye": "e-1",
+    "tema": "dondurma",
+    "baslik": "🍦 Dondurma Dükkânı",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Emir",
+          "Ayşe",
+          "Deniz"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Dondurma",
+        "ogeler": [
+          "🍋 limon",
+          "🍫 çikolata",
+          "🥭 mango"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Deniz 🥭 mango sever.",
+      "Emir 🍫 çikolata sever.",
+      "Ayşe 🍋 limon sever."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "dogrudan",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Emir",
+        "Dondurma": "🍫 çikolata"
+      },
+      {
+        "Çocuk": "Ayşe",
+        "Dondurma": "🍋 limon"
+      },
+      {
+        "Çocuk": "Deniz",
+        "Dondurma": "🥭 mango"
+      }
+    ]
+  },
+  {
+    "id": "e-1-07",
+    "grup": "e",
+    "seviye": "e-1",
+    "tema": "okul-cantasi",
+    "baslik": "🎒 Okul Çantası",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Cihan",
+          "Defne",
+          "Arda"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Eşya",
+        "ogeler": [
+          "✂️ makas",
+          "📕 kitap",
+          "🎨 boya"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Arda 📕 kitap taşır.",
+      "Cihan ✂️ makas taşır.",
+      "Defne 🎨 boya taşır."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "dogrudan",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Cihan",
+        "Eşya": "✂️ makas"
+      },
+      {
+        "Çocuk": "Defne",
+        "Eşya": "🎨 boya"
+      },
+      {
+        "Çocuk": "Arda",
+        "Eşya": "📕 kitap"
+      }
+    ]
+  },
+  {
+    "id": "e-1-08",
+    "grup": "e",
+    "seviye": "e-1",
+    "tema": "muzik-kosesi",
+    "baslik": "🎵 Müzik Köşesi",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Derin",
+          "Alp",
+          "Eren"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Çalgı",
+        "ogeler": [
+          "🎸 gitar",
+          "🪘 tef",
+          "🥁 davul"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Alp 🥁 davul çalar.",
+      "Derin 🪘 tef çalar.",
+      "Eren 🎸 gitar çalar."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "dogrudan",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Derin",
+        "Çalgı": "🪘 tef"
+      },
+      {
+        "Çocuk": "Alp",
+        "Çalgı": "🥁 davul"
+      },
+      {
+        "Çocuk": "Eren",
+        "Çalgı": "🎸 gitar"
+      }
+    ]
+  },
+  {
+    "id": "e-2-01",
+    "grup": "e",
+    "seviye": "e-2",
+    "tema": "orman-sofrasi",
+    "baslik": "🐻 Orman Sofrası",
+    "kategoriler": [
+      {
+        "ad": "Hayvan",
+        "ogeler": [
+          "🐰 Tavşan",
+          "🐵 Maymun",
+          "🐶 Köpek"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Yiyecek",
+        "ogeler": [
+          "🍌 muz",
+          "🦴 kemik",
+          "🥛 süt"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "🐰 Tavşan 🥛 süt sevmez.",
+      "🐶 Köpek 🍌 muz sever."
+    ],
+    "ipucuTurleri": [
+      "olumsuz",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Hayvan": "🐰 Tavşan",
+        "Yiyecek": "🦴 kemik"
+      },
+      {
+        "Hayvan": "🐵 Maymun",
+        "Yiyecek": "🥛 süt"
+      },
+      {
+        "Hayvan": "🐶 Köpek",
+        "Yiyecek": "🍌 muz"
+      }
+    ]
+  },
+  {
+    "id": "e-2-02",
+    "grup": "e",
+    "seviye": "e-2",
+    "tema": "oyuncak-sepeti",
+    "baslik": "🧸 Oyuncak Sepeti",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Ali",
+          "Can",
+          "Ece"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Oyuncak",
+        "ogeler": [
+          "🧸 ayıcık",
+          "⚽ top",
+          "🪁 uçurtma"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Ali 🪁 uçurtma sever.",
+      "Can ⚽ top sevmez."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "olumsuz"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Ali",
+        "Oyuncak": "🪁 uçurtma"
+      },
+      {
+        "Çocuk": "Can",
+        "Oyuncak": "🧸 ayıcık"
+      },
+      {
+        "Çocuk": "Ece",
+        "Oyuncak": "⚽ top"
+      }
+    ]
+  },
+  {
+    "id": "e-2-03",
+    "grup": "e",
+    "seviye": "e-2",
+    "tema": "renkli-kalemler",
+    "baslik": "🎨 Renkli Kalemler",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Efe",
+          "Kaan",
+          "Duru"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kalem",
+        "ogeler": [
+          "🔵 mavi",
+          "🔴 kırmızı",
+          "🟡 sarı"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Efe 🔵 mavi kalemi seçer.",
+      "Kaan 🟡 sarı kalemi seçmez."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "olumsuz"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Efe",
+        "Kalem": "🔵 mavi"
+      },
+      {
+        "Çocuk": "Kaan",
+        "Kalem": "🔴 kırmızı"
+      },
+      {
+        "Çocuk": "Duru",
+        "Kalem": "🟡 sarı"
+      }
+    ]
+  },
+  {
+    "id": "e-2-04",
+    "grup": "e",
+    "seviye": "e-2",
+    "tema": "meyve-tabagi",
+    "baslik": "🍎 Meyve Tabağı",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Poyraz",
+          "Zeynep",
+          "Ömer"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Meyve",
+        "ogeler": [
+          "🍇 üzüm",
+          "🍓 çilek",
+          "🍎 elma"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Zeynep 🍎 elma yer.",
+      "Ömer 🍇 üzüm yemez."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "olumsuz"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Poyraz",
+        "Meyve": "🍇 üzüm"
+      },
+      {
+        "Çocuk": "Zeynep",
+        "Meyve": "🍎 elma"
+      },
+      {
+        "Çocuk": "Ömer",
+        "Meyve": "🍓 çilek"
+      }
+    ]
+  },
+  {
+    "id": "e-2-05",
+    "grup": "e",
+    "seviye": "e-2",
+    "tema": "tasitlar",
+    "baslik": "🚗 Taşıtlar",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Cem",
+          "Aras",
+          "Doğa"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Taşıt",
+        "ogeler": [
+          "✈️ uçak",
+          "🚲 bisiklet",
+          "🚌 otobüs"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Cem 🚌 otobüs sevmez.",
+      "Aras ✈️ uçak sever."
+    ],
+    "ipucuTurleri": [
+      "olumsuz",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Cem",
+        "Taşıt": "🚲 bisiklet"
+      },
+      {
+        "Çocuk": "Aras",
+        "Taşıt": "✈️ uçak"
+      },
+      {
+        "Çocuk": "Doğa",
+        "Taşıt": "🚌 otobüs"
+      }
+    ]
+  },
+  {
+    "id": "e-2-06",
+    "grup": "e",
+    "seviye": "e-2",
+    "tema": "dondurma",
+    "baslik": "🍦 Dondurma Dükkânı",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Berk",
+          "Ayşe",
+          "Deniz"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Dondurma",
+        "ogeler": [
+          "🍋 limon",
+          "🍫 çikolata",
+          "🥭 mango"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Ayşe 🍋 limon sever.",
+      "Deniz 🍫 çikolata sevmez."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "olumsuz"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Berk",
+        "Dondurma": "🍫 çikolata"
+      },
+      {
+        "Çocuk": "Ayşe",
+        "Dondurma": "🍋 limon"
+      },
+      {
+        "Çocuk": "Deniz",
+        "Dondurma": "🥭 mango"
+      }
+    ]
+  },
+  {
+    "id": "e-2-07",
+    "grup": "e",
+    "seviye": "e-2",
+    "tema": "okul-cantasi",
+    "baslik": "🎒 Okul Çantası",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Defne",
+          "Arda",
+          "Cihan"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Eşya",
+        "ogeler": [
+          "📕 kitap",
+          "✏️ kalem",
+          "📏 cetvel"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Arda 📕 kitap taşımaz.",
+      "Defne ✏️ kalem taşır."
+    ],
+    "ipucuTurleri": [
+      "olumsuz",
+      "dogrudan"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Defne",
+        "Eşya": "✏️ kalem"
+      },
+      {
+        "Çocuk": "Arda",
+        "Eşya": "📏 cetvel"
+      },
+      {
+        "Çocuk": "Cihan",
+        "Eşya": "📕 kitap"
+      }
+    ]
+  },
+  {
+    "id": "e-2-08",
+    "grup": "e",
+    "seviye": "e-2",
+    "tema": "muzik-kosesi",
+    "baslik": "🎵 Müzik Köşesi",
+    "kategoriler": [
+      {
+        "ad": "Çocuk",
+        "ogeler": [
+          "Buse",
+          "Alp",
+          "Cansu"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Çalgı",
+        "ogeler": [
+          "🪘 tef",
+          "🎸 gitar",
+          "🎹 piyano"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Buse 🎸 gitar çalar.",
+      "Cansu 🪘 tef çalmaz."
+    ],
+    "ipucuTurleri": [
+      "dogrudan",
+      "olumsuz"
+    ],
+    "cozum": [
+      {
+        "Çocuk": "Buse",
+        "Çalgı": "🎸 gitar"
+      },
+      {
+        "Çocuk": "Alp",
+        "Çalgı": "🪘 tef"
+      },
+      {
+        "Çocuk": "Cansu",
+        "Çalgı": "🎹 piyano"
+      }
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(npm install *)",
+      "Bash(ADMIN_PASSWORD=test123 PORT=3111 node server.js)",
+      "Bash(node /private/tmp/claude-501/-Users-cagdascetinkaya-Desktop-izgara-cikarim/337bca52-2a36-4721-8d42-796012d62fd0/scratchpad/test.js)",
+      "Bash(echo \"EXIT=$?\")",
+      "Read(//Applications/**)",
+      "Read(//Users/cagdascetinkaya/.cache/**)",
+      "Bash(node -e \"try{require.resolve\\('puppeteer'\\);console.log\\('puppeteer var'\\)}catch\\(e\\){console.log\\('puppeteer yok'\\)}\")",
+      "Bash(node -e \"console.log\\(require.resolve\\('ws'\\)\\)\")",
+      "Bash(pkill -f \"remote-debugging-port=9222\")",
+      "Bash(\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless=new --disable-gpu --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profil-izgara about:blank)",
+      "Bash(node cdp.js \"http://localhost:3111/\" ogrenci-oyun.png ogrenci)",
+      "Bash(pkill -f \"node server.js\")",
+      "Bash(node kur.js)",
+      "Bash(node cdp.js \"http://localhost:3111/\" ogrenci-mobil.png ogrenci 390 900)",
+      "Bash(node cdp.js \"http://localhost:3111/teacher\" ogretmen.png ogretmen 1280 1250)",
+      "Bash(node -e \"const p=require\\('./package.json'\\);console.log\\('dependencies:',JSON.stringify\\(p.dependencies\\),'\\\\ndevDependencies:',JSON.stringify\\(p.devDependencies||{}\\),'\\\\nstart:',p.scripts.start\\)\")"
+    ]
+  }
+}

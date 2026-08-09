@@ -1,0 +1,16 @@
+{
+  "name": "izgara-cikarim",
+  "version": "1.0.0",
+  "description": "UYCEP Logic - Izgara Çıkarım: sınıf içi çok oyunculu mantık bulmaca oyunu",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "socket.io": "^4.7.5"
+  }
+}

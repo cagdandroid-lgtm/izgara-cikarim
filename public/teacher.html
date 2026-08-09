@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>👩‍🏫 Öğretmen Paneli · Izgara Çıkarım</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="ogretmen">
+
+<header class="ust">
+  <div class="ust-sol">
+    <span class="baslik">👩‍🏫 Öğretmen Paneli</span>
+    <span id="fazRozet" class="rozet">—</span>
+    <span id="modRozet" class="rozet">—</span>
+    <span id="turRozet" class="rozet">Tur 0</span>
+  </div>
+  <div class="ust-sag">
+    <span id="sayac" class="sayac" hidden>⏱ <b>–</b></span>
+    <span id="oyuncuSayi" class="rozet">👥 0</span>
+    <form method="post" action="/teacher/cikis"><button class="btn btn-mini" type="submit">Çıkış</button></form>
+  </div>
+</header>
+
+<main class="panel">
+
+  <div id="bitisUyari" class="bitis-uyari" role="alert" hidden>
+    <span class="bitis-ikon" aria-hidden="true">🔔</span>
+    <div class="bitis-metin">
+      <b id="bitisBaslik">Tur bitti</b>
+      <span id="bitisAlt" class="alt"></span>
+    </div>
+    <button id="bitisKapat" class="btn btn-mini" type="button">Kapat</button>
+  </div>
+
+  <section class="kart">
+    <h2>🎛 Tur Ayarları</h2>
+    <div class="satir">
+      <label for="grup">Grup</label>
+      <select id="grup"></select>
+      <label for="seviye">Seviye</label>
+      <select id="seviye"></select>
+      <label for="mod">Mod</label>
+      <select id="mod">
+        <option value="yaris">🏁 Yarış (herkes kendi tablosunu çözer)</option>
+        <option value="birlikte">🤝 Birlikte (sınıf tek tabloyu doldurur)</option>
+        <option value="ikili">👥 İkili Mod (eşler ortak tabloyu çözer)</option>
+      </select>
+      <label for="sure">Süre (dk, 0 = süresiz)</label>
+      <input id="sure" type="number" min="0" max="60" step="1" value="0">
+    </div>
+    <div class="satir">
+      <label for="bulmaca">Bulmaca</label>
+      <select id="bulmaca"><option value="">🎲 Rastgele (oynanmamışlardan)</option></select>
+      <button id="baslatBtn" class="btn btn-ana">▶️ Başlat</button>
+      <button id="duraklatBtn" class="btn btn-ikincil">⏸ Duraklat</button>
+      <button id="bitirBtn" class="btn btn-ikincil">⏹ Turu Bitir</button>
+    </div>
+    <div class="satir">
+      <button id="iptalBtn" class="btn btn-uyari">♻️ Soruyu İptal Et (puanları geri al)</button>
+      <button id="sifirlaBtn" class="btn btn-uyari">🔄 Oyunu Sıfırla</button>
+      <button id="girisKilitBtn" class="btn btn-ikincil">🔓 Girişler Açık</button>
+      <button id="isimKilitBtn" class="btn btn-ikincil">🔓 İsimler Açık</button>
+    </div>
+    <div class="satir">
+      <label for="duyuruMetin">Sınıfa duyuru</label>
+      <input id="duyuruMetin" type="text" maxlength="200" placeholder="Örn. 5. ipucunu birlikte okuyalım">
+      <button id="duyuruBtn" class="btn btn-ikincil">📣 Gönder</button>
+    </div>
+  </section>
+
+  <section class="kart" id="takimKart" hidden>
+    <h2>👥 Takımlar <span id="takimOzet" class="alt"></span></h2>
+    <div class="satir">
+      <button id="karistirBtn" class="btn btn-ikincil">🔀 Karıştır (yeniden eşleştir)</button>
+      <button id="esleBtn" class="btn btn-ana" disabled>🔗 Seçilenleri Eşle</button>
+      <span id="secimDurum" class="alt">Elle eşlemek için aşağıdan iki öğrenci seçin.</span>
+    </div>
+    <div id="secimCipleri" class="cipler"></div>
+    <div id="takimlar" class="takim-listesi"></div>
+    <p id="takimBos" class="alt">Henüz takım yok. Öğrenciler katıldıktan sonra <b>Başlat</b> ya da <b>Karıştır</b> deyin.</p>
+  </section>
+
+  <section class="kart">
+    <h2>👤 Öğrenciler <span id="ilerlemeOzet" class="alt"></span></h2>
+    <div class="tablo-kaydir">
+      <table class="ogr-tablo">
+        <thead>
+          <tr><th>#</th><th>Ad</th><th>Durum</th><th>İlerleme</th><th>Kesin</th><th>Deneme</th><th>Puan</th><th>Tur</th><th>İşlemler</th></tr>
+        </thead>
+        <tbody id="ogrenciler"></tbody>
+      </table>
+    </div>
+    <p id="bosMesaj" class="alt">Henüz kimse katılmadı. Öğrenciler <b>/</b> adresinden adlarını yazarak girer.</p>
+  </section>
+
+  <section class="kart">
+    <h2>🏁 Podyum</h2>
+    <ol id="podyum" class="podyum"></ol>
+    <p id="podyumBos" class="alt">Bu turda henüz bitiren yok.</p>
+  </section>
+
+  <section class="kart">
+    <details id="cozumKutu">
+      <summary><h2 class="satir-ici">🔑 Bulmaca ve Çözüm (yalnız sen görürsün)</h2></summary>
+      <p class="not-kutu">
+        📖 <b>Anlatımlı çözümler</b> (adım adım çıkarım) ayrı bir dosyadadır:
+        proje klasöründe <code>data/cozumler.md</code>.
+        Bulmacayı <b>id</b> ile arayın — örn. <code>### c-1-03</code>.
+        <span class="alt">Bu dosya güvenlik gereği web üzerinden servis edilmez; yalnız depoda/sunucu diskinde durur.</span>
+      </p>
+      <p id="cozumNot" class="not-kutu ince" hidden></p>
+      <div id="ipucuListe" class="ipucu-ogretmen"></div>
+      <div class="tablo-kaydir"><table id="cozumTablo" class="ogr-tablo"></table></div>
+    </details>
+  </section>
+
+</main>
+
+<div id="duyuru" class="duyuru" role="status" aria-live="polite" hidden></div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/teacher.js"></script>
+</body>
+</html>
