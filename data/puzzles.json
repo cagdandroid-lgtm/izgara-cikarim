@@ -2998,5 +2998,596 @@
         "Çalgı": "🎹 piyano"
       }
     ]
+  },
+  {
+    "id": "c-2-09",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "kosu",
+    "baslik": "🏃 Sınıflar Arası Koşu",
+    "kategoriler": [
+      {
+        "ad": "Varış",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Koşucu",
+        "ogeler": [
+          "Selin",
+          "Kaan",
+          "Melis",
+          "Tuna",
+          "Ada"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Forma",
+        "ogeler": [
+          "mavi",
+          "sarı",
+          "yeşil",
+          "turuncu",
+          "mor"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Kahvaltı",
+        "ogeler": [
+          "muz",
+          "simit",
+          "yumurta",
+          "peynir",
+          "zeytin"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Ada yarışı birinci bitirmedi.",
+      "Yeşil formalı koşucu yarışı sonuncu bitirmedi.",
+      "Ada, turuncu formalı koşucudan önce bitirdi.",
+      "Tuna ile sarı formalı koşucu arasında tam 3 koşucu yarışı bitirdi.",
+      "Kaan ile mor formalı koşucu arasında tam 1 koşucu yarışı bitirdi.",
+      "Selin, mavi formalı koşucudan önce bitirdi.",
+      "Simit yiyen koşucu, Melis'ten önce bitirdi.",
+      "Yeşil formalı koşucu yarışı bitirdikten hemen sonra peynir yiyen koşucu bitirdi.",
+      "Muz yiyen koşucu ile yeşil formalı koşucu arasında tam 2 koşucu yarışı bitirdi.",
+      "Tuna, Melis'ten önce bitirdi.",
+      "Zeytin yiyen koşucu yarışı bitirdikten hemen sonra turuncu formalı koşucu bitirdi."
+    ],
+    "cozum": [
+      {
+        "Varış": "1.",
+        "Koşucu": "Tuna",
+        "Forma": "yeşil",
+        "Kahvaltı": "simit"
+      },
+      {
+        "Varış": "2.",
+        "Koşucu": "Selin",
+        "Forma": "mor",
+        "Kahvaltı": "peynir"
+      },
+      {
+        "Varış": "3.",
+        "Koşucu": "Ada",
+        "Forma": "mavi",
+        "Kahvaltı": "zeytin"
+      },
+      {
+        "Varış": "4.",
+        "Koşucu": "Kaan",
+        "Forma": "turuncu",
+        "Kahvaltı": "muz"
+      },
+      {
+        "Varış": "5.",
+        "Koşucu": "Melis",
+        "Forma": "sarı",
+        "Kahvaltı": "yumurta"
+      }
+    ]
+  },
+  {
+    "id": "c-2-10",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "boy-sirasi",
+    "baslik": "📏 Boy Sırası",
+    "kategoriler": [
+      {
+        "ad": "Boy",
+        "ogeler": [
+          "1. (en kısa)",
+          "2.",
+          "3.",
+          "4.",
+          "5. (en uzun)"
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Öğrenci",
+        "ogeler": [
+          "Baran",
+          "Ceyda",
+          "Poyraz",
+          "Nehir",
+          "Umut"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Tişört",
+        "ogeler": [
+          "beyaz",
+          "lacivert",
+          "yeşil",
+          "kırmızı",
+          "gri"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Spor",
+        "ogeler": [
+          "basketbol",
+          "yüzme",
+          "satranç",
+          "voleybol",
+          "tenis"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Beyaz tişörtlü öğrenci en kısa değildir.",
+      "Baran en uzun değildir.",
+      "Boy sırasında Ceyda ile Poyraz arasında tam 3 öğrenci vardır.",
+      "Yeşil tişörtlü öğrenci, Nehir'den daha kısadır.",
+      "Ceyda, basketbol yapan öğrenciden daha kısadır.",
+      "Boy sırasında kırmızı tişörtlü öğrenci ile yüzme yapan öğrenci arasında tam 2 öğrenci vardır.",
+      "Satranç yapan öğrenci, gri tişörtlü öğrenciden daha kısadır.",
+      "Boy sırasında yeşil tişörtlü öğrenci ile basketbol yapan öğrenci arasında tam 1 öğrenci vardır.",
+      "Kısadan uzuna dizilince önce yeşil tişörtlü öğrenci, hemen ardından yüzme yapan öğrenci gelir.",
+      "Boy sırasında tenis yapan öğrenci ile lacivert tişörtlü öğrenci arasında tam 3 öğrenci vardır.",
+      "Kısadan uzuna dizilince önce satranç yapan öğrenci, hemen ardından Baran gelir."
+    ],
+    "cozum": [
+      {
+        "Boy": "1. (en kısa)",
+        "Öğrenci": "Ceyda",
+        "Tişört": "kırmızı",
+        "Spor": "tenis"
+      },
+      {
+        "Boy": "2.",
+        "Öğrenci": "Umut",
+        "Tişört": "beyaz",
+        "Spor": "satranç"
+      },
+      {
+        "Boy": "3.",
+        "Öğrenci": "Baran",
+        "Tişört": "yeşil",
+        "Spor": "voleybol"
+      },
+      {
+        "Boy": "4.",
+        "Öğrenci": "Nehir",
+        "Tişört": "gri",
+        "Spor": "yüzme"
+      },
+      {
+        "Boy": "5. (en uzun)",
+        "Öğrenci": "Poyraz",
+        "Tişört": "lacivert",
+        "Spor": "basketbol"
+      }
+    ]
+  },
+  {
+    "id": "c-2-11",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "yas-sirasi",
+    "baslik": "🎂 Kuzenlerin Yaş Sırası",
+    "kategoriler": [
+      {
+        "ad": "Yaş",
+        "ogeler": [
+          "1. (en küçük)",
+          "2.",
+          "3.",
+          "4.",
+          "5. (en büyük)"
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Kuzen",
+        "ogeler": [
+          "Zeynep",
+          "Mert",
+          "İpek",
+          "Doruk",
+          "Ela"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Hediye",
+        "ogeler": [
+          "uçurtma",
+          "kitap",
+          "yapboz",
+          "kaykay",
+          "düdük"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Meyve",
+        "ogeler": [
+          "çilek",
+          "karpuz",
+          "kiraz",
+          "erik",
+          "incir"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Mert en büyük değildir.",
+      "Zeynep en küçük değildir.",
+      "Düdük alan kuzen, Zeynep'ten daha küçüktür.",
+      "Erik seven kuzen, uçurtma alan kuzenden daha küçüktür.",
+      "Küçükten büyüğe dizilince önce Ela, hemen ardından incir seven kuzen gelir.",
+      "Küçükten büyüğe dizilince önce kitap alan kuzen, hemen ardından Mert gelir.",
+      "Yaş sırasında Doruk ile çilek seven kuzen arasında tam 3 kuzen vardır.",
+      "Yapboz alan kuzen, Doruk'tan daha küçüktür.",
+      "Yaş sırasında Ela ile çilek seven kuzen arasında tam 1 kuzen vardır.",
+      "Kaykay alan kuzen, Mert'ten daha küçüktür.",
+      "Yaş sırasında uçurtma alan kuzen ile kiraz seven kuzen arasında tam 2 kuzen vardır."
+    ],
+    "cozum": [
+      {
+        "Yaş": "1. (en küçük)",
+        "Kuzen": "İpek",
+        "Hediye": "düdük",
+        "Meyve": "çilek"
+      },
+      {
+        "Yaş": "2.",
+        "Kuzen": "Zeynep",
+        "Hediye": "kaykay",
+        "Meyve": "kiraz"
+      },
+      {
+        "Yaş": "3.",
+        "Kuzen": "Ela",
+        "Hediye": "kitap",
+        "Meyve": "erik"
+      },
+      {
+        "Yaş": "4.",
+        "Kuzen": "Mert",
+        "Hediye": "yapboz",
+        "Meyve": "incir"
+      },
+      {
+        "Yaş": "5. (en büyük)",
+        "Kuzen": "Doruk",
+        "Hediye": "uçurtma",
+        "Meyve": "karpuz"
+      }
+    ]
+  },
+  {
+    "id": "c-2-12",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "yuzme",
+    "baslik": "🏊 Yüzme Yarışı",
+    "kategoriler": [
+      {
+        "ad": "Varış",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Yüzücü",
+        "ogeler": [
+          "Derin",
+          "Alp",
+          "Naz",
+          "Berk",
+          "Sude"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Bone",
+        "ogeler": [
+          "kırmızı",
+          "siyah",
+          "turkuaz",
+          "pembe",
+          "beyaz"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Stil",
+        "ogeler": [
+          "kelebek",
+          "kurbağalama",
+          "serbest",
+          "sırtüstü",
+          "karışık"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Sude yarışı sonuncu bitirmedi.",
+      "Berk yarışı birinci bitirmedi.",
+      "Turkuaz boneli yüzücü yarışı bitirdikten hemen sonra pembe boneli yüzücü bitirdi.",
+      "Sırtüstü yüzen yüzücü yarışı bitirdikten hemen sonra Alp bitirdi.",
+      "Turkuaz boneli yüzücü, serbest yüzen yüzücüden önce bitirdi.",
+      "Derin, karışık yüzen yüzücüden önce bitirdi.",
+      "Alp ile Naz arasında tam 2 yüzücü yarışı bitirdi.",
+      "Kurbağalama yüzen yüzücü ile sırtüstü yüzen yüzücü arasında tam 1 yüzücü yarışı bitirdi.",
+      "Turkuaz boneli yüzücü yarışı bitirdikten hemen sonra kelebek yüzen yüzücü bitirdi.",
+      "Berk yarışı bitirdikten hemen sonra Derin bitirdi.",
+      "Siyah boneli yüzücü yarışı 4. bitirmedi.",
+      "Pembe boneli yüzücü yarışı bitirdikten hemen sonra kırmızı boneli yüzücü bitirdi."
+    ],
+    "cozum": [
+      {
+        "Varış": "1.",
+        "Yüzücü": "Sude",
+        "Bone": "turkuaz",
+        "Stil": "sırtüstü"
+      },
+      {
+        "Varış": "2.",
+        "Yüzücü": "Alp",
+        "Bone": "pembe",
+        "Stil": "kelebek"
+      },
+      {
+        "Varış": "3.",
+        "Yüzücü": "Berk",
+        "Bone": "kırmızı",
+        "Stil": "kurbağalama"
+      },
+      {
+        "Varış": "4.",
+        "Yüzücü": "Derin",
+        "Bone": "beyaz",
+        "Stil": "serbest"
+      },
+      {
+        "Varış": "5.",
+        "Yüzücü": "Naz",
+        "Bone": "siyah",
+        "Stil": "karışık"
+      }
+    ]
+  },
+  {
+    "id": "c-2-13",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "bisiklet",
+    "baslik": "🚲 Bisiklet Turu",
+    "kategoriler": [
+      {
+        "ad": "Varış",
+        "ogeler": [
+          "1.",
+          "2.",
+          "3.",
+          "4.",
+          "5."
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Bisikletçi",
+        "ogeler": [
+          "Kerem",
+          "Lale",
+          "Onur",
+          "Bilge",
+          "Emir"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Bisiklet",
+        "ogeler": [
+          "kırmızı",
+          "yeşil",
+          "mavi",
+          "gümüş",
+          "sarı"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Şehir",
+        "ogeler": [
+          "Bursa",
+          "İzmir",
+          "Rize",
+          "Konya",
+          "Mardin"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Lale turu sonuncu bitirmedi.",
+      "Onur turu birinci bitirmedi.",
+      "Gümüş bisikletli sporcu ile Rize'den gelen bisikletçi arasında tam 1 bisikletçi turu bitirdi.",
+      "Lale ile Mardin'den gelen bisikletçi arasında tam 3 bisikletçi turu bitirdi.",
+      "Lale, yeşil bisikletli sporcudan önce bitirdi.",
+      "Emir ile mavi bisikletli sporcu arasında tam 1 bisikletçi turu bitirdi.",
+      "Bilge ile gümüş bisikletli sporcu arasında tam 2 bisikletçi turu bitirdi.",
+      "Kerem ile Onur arasında tam 1 bisikletçi turu bitirdi.",
+      "Bursa'dan gelen bisikletçi turu bitirdikten hemen sonra Onur bitirdi.",
+      "Sarı bisikletli sporcu turu bitirdikten hemen sonra Emir bitirdi.",
+      "Sarı bisikletli sporcu, Bursa'dan gelen bisikletçiden önce bitirdi.",
+      "Konya'dan gelen bisikletçi, Bilge'den önce bitirdi."
+    ],
+    "cozum": [
+      {
+        "Varış": "1.",
+        "Bisikletçi": "Lale",
+        "Bisiklet": "kırmızı",
+        "Şehir": "Konya"
+      },
+      {
+        "Varış": "2.",
+        "Bisikletçi": "Bilge",
+        "Bisiklet": "mavi",
+        "Şehir": "İzmir"
+      },
+      {
+        "Varış": "3.",
+        "Bisikletçi": "Kerem",
+        "Bisiklet": "sarı",
+        "Şehir": "Rize"
+      },
+      {
+        "Varış": "4.",
+        "Bisikletçi": "Emir",
+        "Bisiklet": "yeşil",
+        "Şehir": "Bursa"
+      },
+      {
+        "Varış": "5.",
+        "Bisikletçi": "Onur",
+        "Bisiklet": "gümüş",
+        "Şehir": "Mardin"
+      }
+    ]
+  },
+  {
+    "id": "c-2-14",
+    "grup": "c",
+    "seviye": "c-2",
+    "tema": "fideler",
+    "baslik": "🌱 Fide Boyları",
+    "kategoriler": [
+      {
+        "ad": "Boy",
+        "ogeler": [
+          "1. (en kısa)",
+          "2.",
+          "3.",
+          "4.",
+          "5. (en uzun)"
+        ],
+        "sirali": true
+      },
+      {
+        "ad": "Öğrenci",
+        "ogeler": [
+          "Deren",
+          "Yiğit",
+          "Bade",
+          "Arda",
+          "Peri"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Bitki",
+        "ogeler": [
+          "fesleğen",
+          "nane",
+          "domates",
+          "lavanta",
+          "biber"
+        ],
+        "sirali": false
+      },
+      {
+        "ad": "Saksı",
+        "ogeler": [
+          "mavi",
+          "kahverengi",
+          "beyaz",
+          "yeşil",
+          "turuncu"
+        ],
+        "sirali": false
+      }
+    ],
+    "ipuclari": [
+      "Bade'nin fidesi en uzun değildir.",
+      "Yeşil saksıdaki fide en uzun değildir.",
+      "Boy sırasında Deren'in fidesi ile biber fidesi arasında tam 1 fide vardır.",
+      "Boy sırasında Yiğit'in fidesi ile beyaz saksıdaki fide arasında tam 1 fide vardır.",
+      "Kısadan uzuna dizilince önce fesleğen fidesi, hemen ardından Peri'nin fidesi gelir.",
+      "Kısadan uzuna dizilince önce Bade'nin fidesi, hemen ardından kahverengi saksıdaki fide gelir.",
+      "Boy sırasında fesleğen fidesi ile Yiğit'in fidesi arasında tam 1 fide vardır.",
+      "Kısadan uzuna dizilince önce lavanta fidesi, hemen ardından Yiğit'in fidesi gelir.",
+      "Boy sırasında Peri'nin fidesi ile yeşil saksıdaki fide arasında tam 1 fide vardır.",
+      "Kısadan uzuna dizilince önce turuncu saksıdaki fide, hemen ardından kahverengi saksıdaki fide gelir.",
+      "Fesleğen fidesi, lavanta fidesinden daha kısadır.",
+      "Boy sırasında nane fidesi ile Peri'nin fidesi arasında tam 2 fide vardır."
+    ],
+    "cozum": [
+      {
+        "Boy": "1. (en kısa)",
+        "Öğrenci": "Bade",
+        "Bitki": "fesleğen",
+        "Saksı": "turuncu"
+      },
+      {
+        "Boy": "2.",
+        "Öğrenci": "Peri",
+        "Bitki": "lavanta",
+        "Saksı": "kahverengi"
+      },
+      {
+        "Boy": "3.",
+        "Öğrenci": "Yiğit",
+        "Bitki": "biber",
+        "Saksı": "mavi"
+      },
+      {
+        "Boy": "4.",
+        "Öğrenci": "Arda",
+        "Bitki": "domates",
+        "Saksı": "yeşil"
+      },
+      {
+        "Boy": "5. (en uzun)",
+        "Öğrenci": "Deren",
+        "Bitki": "nane",
+        "Saksı": "beyaz"
+      }
+    ]
   }
 ]

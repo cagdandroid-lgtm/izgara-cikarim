@@ -145,18 +145,19 @@ lib/oyun.js            socket olayları
 public/index.html·app.js·izgara.js·style.css    öğrenci
 public/bekleme.js      beklerken oynanan hafıza oyunu (yalnız istemci, puana etkisiz)
 public/teacher.html·teacher.js                  öğretmen
-data/puzzles.json      48 bulmaca (e/i/c grupları)
+data/puzzles.json      54 bulmaca (e/i/c grupları)
 data/cozumler.md       anlatımlı çözümler — ÖĞRETMEN İÇİN, web'e servis edilmez
 data/uretec.js         bulmaca üreteci (içerik üretimi için; sunucu bunu kullanmaz)
+data/siralama.js       sıralama-çıkarım bulmacaları üreteci (uretec.js'ten SONRA çalıştırılır)
 data/temalar.js        içerik sözlüğü: fiil çekimleri, kategori fabrikaları, temalar
-data/anlatim.js        adım adım çözüm anlatıcısı (uretec.js kullanır)
+data/anlatim.js        adım adım çözüm anlatıcısı (uretec.js ve siralama.js kullanır)
 ```
 
 ---
 
 ## Bulmaca havuzu
 
-48 bulmaca, her katmanda 8’er tane:
+54 bulmaca: her katmanda 8’er tane, `c-2` katmanında ayrıca 6 sıralama-çıkarım bulmacası:
 
 | Seviye | Grup | Yapı | Tablo | İpucu | İçerik |
 |---|---|---|---|---|---|
@@ -166,12 +167,20 @@ data/anlatim.js        adım adım çözüm anlatıcısı (uretec.js kullanır)
 | `i-2` | i | 3 kategori × 3 öğe | 3 | 5 | + kategoriler arası bağ |
 | `c-1` | c | 3 kategori × 4 öğe | 3 | 7–8 | + koşullu (“Ali kedi beslemiyorsa cuma nöbet tutar”) |
 | `c-2` | c | 4 kategori × 5 öğe | 6 | 10–12 | Einstein klasiği: sıra, “hemen ardından”, “yan yana” |
+| `c-2` (sıralama) | c | 4 kategori × 5 öğe | 6 | 11–12 | **sıralama-çıkarım**: yalnız karşılaştırma ve olumsuzlama (“X, Y’den önce bitirdi”, “Z en uzun değildir”) |
 
 - **e grubu (1.–2. sınıf)** temaları emoji ağırlıklı ve okuma yükü düşüktür: orman sofrası, oyuncak sepeti,
   renkli kalemler, meyve tabağı, taşıtlar, dondurma dükkânı, okul çantası, müzik köşesi.
   Cümlenin öznesi daima ilk kategoridir, her öğede emoji vardır.
 - **i / c grubu** temaları: sihirbazlar, gezegenler, tatlılar, hayvan barınağı, müzik atölyesi,
   okul bahçesi, kitap kulübü, spor günü.
+- **Sıralama-çıkarım bulmacaları** (`c-2-09` … `c-2-14`): koşu, boy sırası, yaş sırası, yüzme,
+  bisiklet turu, fide boyları. İlk kategori sıralıdır (varış / boy / yaş) ve çözüm **tam bir
+  sıralamadır**. İpuçlarında mutlak konum verilmez; yalnız şu türler kullanılır:
+  * karşılaştırma — “Selin, mavi formalı koşucudan önce bitirdi.”, “Ceyda, basketbol yapan öğrenciden daha kısadır.”
+  * bitişiklik — “Kısadan uzuna dizilince önce satranç yapan öğrenci, hemen ardından Baran gelir.”
+  * uzaklık — “Yaş sırasında Doruk ile çilek seven kuzen arasında tam 3 kuzen vardır.”
+  * olumsuzlama — “Baran en uzun değildir.”, “Onur turu birinci bitirmedi.” (her bulmacada en az iki tane)
 
 `e-2`’de olumsuz ipucu **süs değildir**: üreteç, olumsuz ipucu çıkarıldığında çözümün tekliğinin
 bozulduğunu doğrular; yani çocuk gerçekten bir eleme adımı yapar. (3×3’te iki doğrudan ipucu tabloyu
@@ -184,7 +193,7 @@ Sunucu bulmacanın `grup` alanını gönderir; istemci `e` görünce `<body>`’
   (bilgi yalnız renkle verilmez; ekran okuyucular için “olumsuz ipucu” metni de vardır)
 
 Her bulmacanın **tek çözümlü** olduğu, üretim sırasında tüm permütasyonlar taranarak doğrulanmıştır
-(`data/uretec.js`); ayrıca gereksiz ipuçları budanmıştır.
+(`data/uretec.js`, sıralama bulmacaları için `data/siralama.js`); ayrıca gereksiz ipuçları budanmıştır.
 
 ### `data/puzzles.json` şeması
 
@@ -226,7 +235,7 @@ JSON yorum desteklemediğinden şema burada belgelenmiştir. Dosya bir **bulmaca
 ### 📖 Anlatımlı çözümler — `data/cozumler.md`
 
 Her bulmacanın **adım adım çıkarımı** ayrı bir dosyadadır. Tahtada göstermek ya da takılan bir öğrenciye
-ipucu vermek için birebir uygundur; 48 bulmacanın tamamı yalnızca çıkarım adımlarıyla sonuna kadar çözülür.
+ipucu vermek için birebir uygundur; 54 bulmacanın tamamı yalnızca çıkarım adımlarıyla sonuna kadar çözülür.
 
 Dosya seviyelere göre bölümlenir, her bulmaca kendi `id`’siyle başlıklandırılır:
 
@@ -244,14 +253,25 @@ Adım türleri:
 | Köprü kategori | **Dilara = Işık** ve **Işık ≠ Buzul** olduğundan **Dilara ≠ Buzul** ✖ |
 | Koşullu ipucu | **Berk ≠ Kaya** olduğundan koşul devreye girer: **Berk = Halkalı** ✔ |
 | Konum ipucu | **altın** şu sıralarda olamaz: 5. ✖ |
+| Sıralama ipucu | **İpucu 4** (aralarında 3 sıra) → **Tuna** şu sıralarda olamaz: 2., 3., 4. ✖ |
 | Varsayım (yalnız 5 adet c-2’de) | _Deneyelim:_ **1. = Ceren** olsaydı ipuçları çelişirdi → **1. ≠ Ceren** ✖ |
 
 Öğretmen panelindeki **🔑 Bulmaca ve Çözüm** bölümü bu dosyanın yerini ve o anki bulmacanın başlığını not düşer.
 Dosya bilinçli olarak **web üzerinden servis edilmez** (çözüm sızmasın diye); depodan ya da sunucu diskinden okunur.
-`node data/uretec.js` çalıştırıldığında `puzzles.json` ile birlikte yeniden üretilir.
+`node data/uretec.js` çalıştırıldığında `puzzles.json` ile birlikte yeniden üretilir. Sıralama
+bulmacaları ayrı bir üreteçten gelir ve dosyanın **sonuna eklenir**; sıralamayı bozmamak için
+ikisini şu sırayla çalıştırın:
+
+```bash
+node data/uretec.js      # 48 bulmaca — puzzles.json ve cozumler.md'yi SIFIRDAN yazar
+node data/siralama.js    # 6 sıralama bulmacası — ikisine de EKLER (aynı id varsa günceller)
+```
+
+`data/siralama.js` tekrar tekrar çalıştırılabilir: aynı çıktıyı üretir, dosyaları çoğaltmaz.
 
 ### Yeni bulmaca eklemek
-1. `data/puzzles.json` içine yukarıdaki şemaya uygun bir nesne ekleyin (elle ya da `node data/uretec.js` ile).
+1. `data/puzzles.json` içine yukarıdaki şemaya uygun bir nesne ekleyin (elle, `node data/uretec.js`
+   ya da sıralama bulmacaları için `node data/siralama.js` ile).
 2. Sunucuyu yeniden başlatın; dosya açılışta doğrulanır, hatalı bir kayıt varsa sunucu net bir hata mesajıyla durur.
 3. Yeni bir **grup** eklerseniz (`"e"` gibi) öğretmen panelindeki grup listesi kendiliğinden güncellenir.
 

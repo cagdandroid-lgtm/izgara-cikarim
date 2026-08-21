@@ -1,5 +1,7 @@
 'use strict';
 /* Anlatımlı çözüm üreteci.
+   İpucu türleri: eq, neq, cond, left (hemen ardından), next (yan yana),
+   once (önce gelir), ara (aralarında tam k-1 sıra).
    Bulmacayı bir öğrencinin yapacağı gibi adım adım çözer ve her adımı Türkçe cümleye çevirir:
      1) ipuçlarını uygula        2) satır/sütunda tek seçenek kaldıysa işaretle
      3) köprü kategori üzerinden çıkarım   4) tıkanırsa "varsayalım → çelişki" denemesi
@@ -119,6 +121,8 @@ class Cozucu {
       }
       case 'left': return this.konumUygula(no, c, 'left');
       case 'next': return this.konumUygula(no, c, 'next');
+      case 'once': return this.konumUygula(no, c, 'once');
+      case 'ara': return this.konumUygula(no, c, 'ara');
       default: return false;
     }
   }
@@ -131,9 +135,10 @@ class Cozucu {
       if (this.olabilir(0, c.kb, p, c.vb)) Sb.push(p);
       if (this.olabilir(0, c.kc, p, c.vc)) Sc.push(p);
     }
-    const uyar = tur === 'left'
-      ? (p, q) => q === p + 1
-      : (p, q) => Math.abs(q - p) === 1;
+    const uyar = tur === 'left' ? (p, q) => q === p + 1
+      : tur === 'next' ? (p, q) => Math.abs(q - p) === 1
+      : tur === 'once' ? (p, q) => q > p                       // kb, kc'den önce gelir
+      : (p, q) => Math.abs(q - p) === c.k;                     // aralarında tam c.k-1 sıra
 
     let degisti = false;
     const atilanB = [], atilanC = [];
@@ -141,7 +146,10 @@ class Cozucu {
     for (const q of Sc) if (!Sb.some((p) => uyar(p, q))) { this.ele(0, c.kc, q, c.vc); atilanC.push(q); degisti = true; }
     if (!degisti) return false;
 
-    const iliski = tur === 'left' ? 'hemen ardından' : 'yan yana';
+    const iliski = tur === 'left' ? 'hemen ardından'
+      : tur === 'next' ? 'yan yana'
+      : tur === 'once' ? 'önce/sonra'
+      : `aralarında ${c.k - 1} sıra`;
     const parcalar = [];
     if (atilanB.length) parcalar.push(`**${this.ad(c.kb, c.vb)}** şu sıralarda olamaz: ${atilanB.map((p) => this.ad(0, p)).join(', ')}`);
     if (atilanC.length) parcalar.push(`**${this.ad(c.kc, c.vc)}** şu sıralarda olamaz: ${atilanC.map((p) => this.ad(0, p)).join(', ')}`);

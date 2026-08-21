@@ -17,6 +17,7 @@ Bulmacayı **id** ile arayın (örn. `c-1-03`); id öğretmen panelinin sağ üs
 - **i-2 · çift kategori, 3×3** — 8 bulmaca
 - **c-1 · 4×4, olumsuz ve koşullu ipuçları** — 8 bulmaca
 - **c-2 · 5×5 Einstein klasiği** — 8 bulmaca
+- **c-2 · sıralama-çıkarım (boy / yaş / varış sırası)** — 6 bulmaca
 
 ---
 
@@ -2095,3 +2096,708 @@ Bulmacayı **id** ile arayın (örn. `c-1-03`); id öğretmen panelinin sağ üs
 | 3. | Can | Şimşek | mavi |
 | 4. | Damla | Kartal | siyah |
 | 5. | Bade | Fırtına | sarı |
+
+<!-- siralama-bulmacalari -->
+
+---
+
+## c-2 · sıralama-çıkarım (boy / yaş / varış sırası)
+
+> Bu bölümdeki bulmacalar `node data/siralama.js` ile üretilir.
+
+### c-2-09 · 🏃 Sınıflar Arası Koşu
+
+**Tablolar:** Varış _(1., 2., 3., 4., 5.)_ × Koşucu _(Selin, Kaan, Melis, Tuna, Ada)_ × Forma _(mavi, sarı, yeşil, turuncu, mor)_ × Kahvaltı _(muz, simit, yumurta, peynir, zeytin)_
+
+**İpuçları**
+
+1. Ada yarışı birinci bitirmedi.
+2. Yeşil formalı koşucu yarışı sonuncu bitirmedi.
+3. Ada, turuncu formalı koşucudan önce bitirdi.
+4. Tuna ile sarı formalı koşucu arasında tam 3 koşucu yarışı bitirdi.
+5. Kaan ile mor formalı koşucu arasında tam 1 koşucu yarışı bitirdi.
+6. Selin, mavi formalı koşucudan önce bitirdi.
+7. Simit yiyen koşucu, Melis'ten önce bitirdi.
+8. Yeşil formalı koşucu yarışı bitirdikten hemen sonra peynir yiyen koşucu bitirdi.
+9. Muz yiyen koşucu ile yeşil formalı koşucu arasında tam 2 koşucu yarışı bitirdi.
+10. Tuna, Melis'ten önce bitirdi.
+11. Zeytin yiyen koşucu yarışı bitirdikten hemen sonra turuncu formalı koşucu bitirdi.
+
+**Adım adım çözüm**
+
+1. **İpucu 1** → **1. ≠ Ada** ✖
+2. **İpucu 2** → **5. ≠ yeşil** ✖
+3. **İpucu 3** (önce/sonra) → **Ada** şu sıralarda olamaz: 5.; **turuncu** şu sıralarda olamaz: 1., 2. ✖
+4. **İpucu 4** (aralarında 3 sıra) → **Tuna** şu sıralarda olamaz: 2., 3., 4.; **sarı** şu sıralarda olamaz: 2., 3., 4. ✖
+5. **İpucu 6** (önce/sonra) → **Selin** şu sıralarda olamaz: 5.; **mavi** şu sıralarda olamaz: 1. ✖
+6. **İpucu 7** (önce/sonra) → **simit** şu sıralarda olamaz: 5.; **Melis** şu sıralarda olamaz: 1. ✖
+7. **İpucu 8** (hemen ardından) → **peynir** şu sıralarda olamaz: 1. ✖
+8. **İpucu 9** (aralarında 2 sıra) → **muz** şu sıralarda olamaz: 2., 3.; **yeşil** şu sıralarda olamaz: 3. ✖
+9. **İpucu 8** (hemen ardından) → **peynir** şu sıralarda olamaz: 4. ✖
+10. **İpucu 10** (önce/sonra) → **Tuna** şu sıralarda olamaz: 5. ✖
+11. **İpucu 4** (aralarında 3 sıra) → **sarı** şu sıralarda olamaz: 1. ✖
+12. **İpucu 11** (hemen ardından) → **zeytin** şu sıralarda olamaz: 1., 5. ✖
+13. **Tuna** yalnızca **1.** ile eşleşebilir ✔
+14. **İpucu 6** (önce/sonra) → **mavi** şu sıralarda olamaz: 2. ✖
+15. **sarı** yalnızca **5.** ile eşleşebilir ✔
+16. **İpucu 3** (önce/sonra) → **Ada** şu sıralarda olamaz: 4. ✖
+17. **İpucu 6** (önce/sonra) → **Selin** şu sıralarda olamaz: 4. ✖
+18. **İpucu 11** (hemen ardından) → **zeytin** şu sıralarda olamaz: 4. ✖
+19. **Selin**, hiçbir **Varış** seçeneği üzerinden **sarı** ile bağlanamıyor → **Selin ≠ sarı** ✖
+20. **Tuna = 1.** ve **1. ≠ mavi** olduğundan **Tuna ≠ mavi** ✖
+21. **Tuna = 1.** ve **1. ≠ sarı** olduğundan **Tuna ≠ sarı** ✖
+22. **Tuna = 1.** ve **1. ≠ turuncu** olduğundan **Tuna ≠ turuncu** ✖
+23. **Ada**, hiçbir **Varış** seçeneği üzerinden **sarı** ile bağlanamıyor → **Ada ≠ sarı** ✖
+24. **Selin**, hiçbir **Varış** seçeneği üzerinden **muz** ile bağlanamıyor → **Selin ≠ muz** ✖
+25. **Tuna = 1.** ve **1. ≠ peynir** olduğundan **Tuna ≠ peynir** ✖
+26. **Tuna = 1.** ve **1. ≠ zeytin** olduğundan **Tuna ≠ zeytin** ✖
+27. **Ada**, hiçbir **Varış** seçeneği üzerinden **muz** ile bağlanamıyor → **Ada ≠ muz** ✖
+28. **sarı = 5.** ve **5. ≠ simit** olduğundan **sarı ≠ simit** ✖
+29. **sarı = 5.** ve **5. ≠ zeytin** olduğundan **sarı ≠ zeytin** ✖
+30. _Deneyelim:_ **2. = Kaan** olsaydı ipuçları çelişirdi → **2. ≠ Kaan** ✖
+31. **İpucu 5** (aralarında 1 sıra) → **mor** şu sıralarda olamaz: 4. ✖
+32. _Deneyelim:_ **2. = Melis** olsaydı ipuçları çelişirdi → **2. ≠ Melis** ✖
+33. _Deneyelim:_ **2. = Ada** olsaydı ipuçları çelişirdi → **2. ≠ Ada** ✖
+34. **İpucu 3** (önce/sonra) → **turuncu** şu sıralarda olamaz: 3. ✖
+35. **İpucu 11** (hemen ardından) → **zeytin** şu sıralarda olamaz: 2. ✖
+36. **2.** için geriye tek seçenek kaldı: **Selin** ✔
+37. **Ada** yalnızca **3.** ile eşleşebilir ✔
+38. **İpucu 5** (aralarında 1 sıra) → **mor** şu sıralarda olamaz: 1. ✖
+39. **1.** için geriye tek seçenek kaldı: **yeşil** ✔
+40. **İpucu 8** (hemen ardından) → **peynir** şu sıralarda olamaz: 3., 5. ✖
+41. **İpucu 9** (aralarında 2 sıra) → **muz** şu sıralarda olamaz: 1., 5. ✖
+42. **2.** için geriye tek seçenek kaldı: **mor** ✔
+43. **İpucu 5** (aralarında 1 sıra) → **Kaan** şu sıralarda olamaz: 5. ✖
+44. **5.** için geriye tek seçenek kaldı: **Melis** ✔
+45. **3.** için geriye tek seçenek kaldı: **mavi** ✔
+46. **5.** için geriye tek seçenek kaldı: **yumurta** ✔
+47. **1.** için geriye tek seçenek kaldı: **simit** ✔
+48. **Selin = 2.** ve **2. ≠ mavi** olduğundan **Selin ≠ mavi** ✖
+49. **Selin = 2.** ve **2. ≠ yeşil** olduğundan **Selin ≠ yeşil** ✖
+50. **Selin = 2.** ve **2. ≠ turuncu** olduğundan **Selin ≠ turuncu** ✖
+51. **Selin** için geriye tek seçenek kaldı: **mor** ✔
+52. **Tuna** için geriye tek seçenek kaldı: **yeşil** ✔
+53. **Kaan = 4.** ve **4. ≠ mavi** olduğundan **Kaan ≠ mavi** ✖
+54. **Kaan = 4.** ve **4. ≠ sarı** olduğundan **Kaan ≠ sarı** ✖
+55. **Kaan** için geriye tek seçenek kaldı: **turuncu** ✔
+56. **Ada** için geriye tek seçenek kaldı: **mavi** ✔
+57. **Selin = 2.** ve **2. ≠ simit** olduğundan **Selin ≠ simit** ✖
+58. **Selin = 2.** ve **2. ≠ yumurta** olduğundan **Selin ≠ yumurta** ✖
+59. **Selin = 2.** ve **2. ≠ zeytin** olduğundan **Selin ≠ zeytin** ✖
+60. **Selin** için geriye tek seçenek kaldı: **peynir** ✔
+61. **Kaan = 4.** ve **4. ≠ simit** olduğundan **Kaan ≠ simit** ✖
+62. **Kaan = 4.** ve **4. ≠ yumurta** olduğundan **Kaan ≠ yumurta** ✖
+63. **Kaan = 4.** ve **4. ≠ zeytin** olduğundan **Kaan ≠ zeytin** ✖
+64. **Kaan** için geriye tek seçenek kaldı: **muz** ✔
+65. **Melis = 5.** ve **5. ≠ simit** olduğundan **Melis ≠ simit** ✖
+66. **Melis = 5.** ve **5. ≠ zeytin** olduğundan **Melis ≠ zeytin** ✖
+67. **Melis** için geriye tek seçenek kaldı: **yumurta** ✔
+68. **Tuna** için geriye tek seçenek kaldı: **simit** ✔
+69. **mavi = 3.** ve **3. ≠ muz** olduğundan **mavi ≠ muz** ✖
+70. **mavi = 3.** ve **3. ≠ simit** olduğundan **mavi ≠ simit** ✖
+71. **mavi = 3.** ve **3. ≠ yumurta** olduğundan **mavi ≠ yumurta** ✖
+72. **mavi = 3.** ve **3. ≠ peynir** olduğundan **mavi ≠ peynir** ✖
+73. **mavi** için geriye tek seçenek kaldı: **zeytin** ✔
+74. **sarı = 5.** ve **5. ≠ muz** olduğundan **sarı ≠ muz** ✖
+75. **sarı = 5.** ve **5. ≠ peynir** olduğundan **sarı ≠ peynir** ✖
+76. **sarı** için geriye tek seçenek kaldı: **yumurta** ✔
+77. **yeşil = 1.** ve **1. ≠ muz** olduğundan **yeşil ≠ muz** ✖
+78. **yeşil = 1.** ve **1. ≠ peynir** olduğundan **yeşil ≠ peynir** ✖
+79. **yeşil** için geriye tek seçenek kaldı: **simit** ✔
+80. **turuncu = 4.** ve **4. ≠ peynir** olduğundan **turuncu ≠ peynir** ✖
+81. **turuncu** için geriye tek seçenek kaldı: **muz** ✔
+
+**Sonuç**
+
+| Varış | Koşucu | Forma | Kahvaltı |
+|---|---|---|---|
+| 1. | Tuna | yeşil | simit |
+| 2. | Selin | mor | peynir |
+| 3. | Ada | mavi | zeytin |
+| 4. | Kaan | turuncu | muz |
+| 5. | Melis | sarı | yumurta |
+
+### c-2-10 · 📏 Boy Sırası
+
+**Tablolar:** Boy _(1. (en kısa), 2., 3., 4., 5. (en uzun))_ × Öğrenci _(Baran, Ceyda, Poyraz, Nehir, Umut)_ × Tişört _(beyaz, lacivert, yeşil, kırmızı, gri)_ × Spor _(basketbol, yüzme, satranç, voleybol, tenis)_
+
+**İpuçları**
+
+1. Beyaz tişörtlü öğrenci en kısa değildir.
+2. Baran en uzun değildir.
+3. Boy sırasında Ceyda ile Poyraz arasında tam 3 öğrenci vardır.
+4. Yeşil tişörtlü öğrenci, Nehir'den daha kısadır.
+5. Ceyda, basketbol yapan öğrenciden daha kısadır.
+6. Boy sırasında kırmızı tişörtlü öğrenci ile yüzme yapan öğrenci arasında tam 2 öğrenci vardır.
+7. Satranç yapan öğrenci, gri tişörtlü öğrenciden daha kısadır.
+8. Boy sırasında yeşil tişörtlü öğrenci ile basketbol yapan öğrenci arasında tam 1 öğrenci vardır.
+9. Kısadan uzuna dizilince önce yeşil tişörtlü öğrenci, hemen ardından yüzme yapan öğrenci gelir.
+10. Boy sırasında tenis yapan öğrenci ile lacivert tişörtlü öğrenci arasında tam 3 öğrenci vardır.
+11. Kısadan uzuna dizilince önce satranç yapan öğrenci, hemen ardından Baran gelir.
+
+**Adım adım çözüm**
+
+1. **İpucu 1** → **1. (en kısa) ≠ beyaz** ✖
+2. **İpucu 2** → **5. (en uzun) ≠ Baran** ✖
+3. **İpucu 3** (aralarında 3 sıra) → **Ceyda** şu sıralarda olamaz: 2., 3., 4.; **Poyraz** şu sıralarda olamaz: 2., 3., 4. ✖
+4. **İpucu 4** (önce/sonra) → **yeşil** şu sıralarda olamaz: 5. (en uzun); **Nehir** şu sıralarda olamaz: 1. (en kısa) ✖
+5. **İpucu 5** (önce/sonra) → **Ceyda** şu sıralarda olamaz: 5. (en uzun); **basketbol** şu sıralarda olamaz: 1. (en kısa) ✖
+6. **İpucu 3** (aralarında 3 sıra) → **Poyraz** şu sıralarda olamaz: 1. (en kısa) ✖
+7. **İpucu 6** (aralarında 2 sıra) → **kırmızı** şu sıralarda olamaz: 3.; **yüzme** şu sıralarda olamaz: 3. ✖
+8. **İpucu 7** (önce/sonra) → **satranç** şu sıralarda olamaz: 5. (en uzun); **gri** şu sıralarda olamaz: 1. (en kısa) ✖
+9. **İpucu 9** (hemen ardından) → **yeşil** şu sıralarda olamaz: 2.; **yüzme** şu sıralarda olamaz: 1. (en kısa) ✖
+10. **İpucu 6** (aralarında 2 sıra) → **kırmızı** şu sıralarda olamaz: 4. ✖
+11. **İpucu 8** (aralarında 1 sıra) → **basketbol** şu sıralarda olamaz: 4. ✖
+12. **İpucu 10** (aralarında 3 sıra) → **tenis** şu sıralarda olamaz: 2., 3., 4.; **lacivert** şu sıralarda olamaz: 2., 3., 4. ✖
+13. **İpucu 11** (hemen ardından) → **satranç** şu sıralarda olamaz: 4.; **Baran** şu sıralarda olamaz: 1. (en kısa) ✖
+14. **Ceyda** yalnızca **1. (en kısa)** ile eşleşebilir ✔
+15. **Poyraz** yalnızca **5. (en uzun)** ile eşleşebilir ✔
+16. **İpucu 4** (önce/sonra) → **yeşil** şu sıralarda olamaz: 4. ✖
+17. **İpucu 8** (aralarında 1 sıra) → **basketbol** şu sıralarda olamaz: 2. ✖
+18. **İpucu 9** (hemen ardından) → **yüzme** şu sıralarda olamaz: 5. (en uzun) ✖
+19. **İpucu 6** (aralarında 2 sıra) → **kırmızı** şu sıralarda olamaz: 2. ✖
+20. **Baran**, hiçbir **Boy** seçeneği üzerinden **lacivert** ile bağlanamıyor → **Baran ≠ lacivert** ✖
+21. **Baran**, hiçbir **Boy** seçeneği üzerinden **kırmızı** ile bağlanamıyor → **Baran ≠ kırmızı** ✖
+22. **Ceyda = 1. (en kısa)** ve **1. (en kısa) ≠ beyaz** olduğundan **Ceyda ≠ beyaz** ✖
+23. **Ceyda = 1. (en kısa)** ve **1. (en kısa) ≠ gri** olduğundan **Ceyda ≠ gri** ✖
+24. **Poyraz = 5. (en uzun)** ve **5. (en uzun) ≠ yeşil** olduğundan **Poyraz ≠ yeşil** ✖
+25. **Nehir**, hiçbir **Boy** seçeneği üzerinden **lacivert** ile bağlanamıyor → **Nehir ≠ lacivert** ✖
+26. **Nehir**, hiçbir **Boy** seçeneği üzerinden **kırmızı** ile bağlanamıyor → **Nehir ≠ kırmızı** ✖
+27. **Umut**, hiçbir **Boy** seçeneği üzerinden **lacivert** ile bağlanamıyor → **Umut ≠ lacivert** ✖
+28. **Umut**, hiçbir **Boy** seçeneği üzerinden **kırmızı** ile bağlanamıyor → **Umut ≠ kırmızı** ✖
+29. **Baran**, hiçbir **Boy** seçeneği üzerinden **tenis** ile bağlanamıyor → **Baran ≠ tenis** ✖
+30. **Ceyda = 1. (en kısa)** ve **1. (en kısa) ≠ basketbol** olduğundan **Ceyda ≠ basketbol** ✖
+31. **Ceyda = 1. (en kısa)** ve **1. (en kısa) ≠ yüzme** olduğundan **Ceyda ≠ yüzme** ✖
+32. **Poyraz = 5. (en uzun)** ve **5. (en uzun) ≠ yüzme** olduğundan **Poyraz ≠ yüzme** ✖
+33. **Poyraz = 5. (en uzun)** ve **5. (en uzun) ≠ satranç** olduğundan **Poyraz ≠ satranç** ✖
+34. **Nehir**, hiçbir **Boy** seçeneği üzerinden **tenis** ile bağlanamıyor → **Nehir ≠ tenis** ✖
+35. **Umut**, hiçbir **Boy** seçeneği üzerinden **tenis** ile bağlanamıyor → **Umut ≠ tenis** ✖
+36. **lacivert**, hiçbir **Boy** seçeneği üzerinden **yüzme** ile bağlanamıyor → **lacivert ≠ yüzme** ✖
+37. **yeşil**, hiçbir **Boy** seçeneği üzerinden **yüzme** ile bağlanamıyor → **yeşil ≠ yüzme** ✖
+38. **kırmızı**, hiçbir **Boy** seçeneği üzerinden **yüzme** ile bağlanamıyor → **kırmızı ≠ yüzme** ✖
+39. _Deneyelim:_ **2. = Baran** olsaydı ipuçları çelişirdi → **2. ≠ Baran** ✖
+40. **İpucu 11** (hemen ardından) → **satranç** şu sıralarda olamaz: 1. (en kısa) ✖
+41. **İpucu 7** (önce/sonra) → **gri** şu sıralarda olamaz: 2. ✖
+42. **2.** için geriye tek seçenek kaldı: **beyaz** ✔
+43. **4.** için geriye tek seçenek kaldı: **gri** ✔
+44. **3.** için geriye tek seçenek kaldı: **yeşil** ✔
+45. **İpucu 4** (önce/sonra) → **Nehir** şu sıralarda olamaz: 2., 3. ✖
+46. **İpucu 8** (aralarında 1 sıra) → **basketbol** şu sıralarda olamaz: 3. ✖
+47. **İpucu 9** (hemen ardından) → **yüzme** şu sıralarda olamaz: 2. ✖
+48. **İpucu 6** (aralarında 2 sıra) → **kırmızı** şu sıralarda olamaz: 5. (en uzun) ✖
+49. **2.** için geriye tek seçenek kaldı: **Umut** ✔
+50. **3.** için geriye tek seçenek kaldı: **Baran** ✔
+51. **İpucu 11** (hemen ardından) → **satranç** şu sıralarda olamaz: 3. ✖
+52. **5. (en uzun)** için geriye tek seçenek kaldı: **lacivert** ✔
+53. **İpucu 10** (aralarında 3 sıra) → **tenis** şu sıralarda olamaz: 5. (en uzun) ✖
+54. **3.** için geriye tek seçenek kaldı: **voleybol** ✔
+55. **Baran = 3.** ve **3. ≠ beyaz** olduğundan **Baran ≠ beyaz** ✖
+56. **Baran = 3.** ve **3. ≠ gri** olduğundan **Baran ≠ gri** ✖
+57. **Baran** için geriye tek seçenek kaldı: **yeşil** ✔
+58. **Ceyda = 1. (en kısa)** ve **1. (en kısa) ≠ lacivert** olduğundan **Ceyda ≠ lacivert** ✖
+59. **Ceyda** için geriye tek seçenek kaldı: **kırmızı** ✔
+60. **lacivert** yalnızca **Poyraz** ile eşleşebilir ✔
+61. **Nehir = 4.** ve **4. ≠ beyaz** olduğundan **Nehir ≠ beyaz** ✖
+62. **Nehir** için geriye tek seçenek kaldı: **gri** ✔
+63. **Baran = 3.** ve **3. ≠ basketbol** olduğundan **Baran ≠ basketbol** ✖
+64. **Baran = 3.** ve **3. ≠ yüzme** olduğundan **Baran ≠ yüzme** ✖
+65. **Baran = 3.** ve **3. ≠ satranç** olduğundan **Baran ≠ satranç** ✖
+66. **Baran** için geriye tek seçenek kaldı: **voleybol** ✔
+67. **Ceyda = 1. (en kısa)** ve **1. (en kısa) ≠ satranç** olduğundan **Ceyda ≠ satranç** ✖
+68. **Ceyda** için geriye tek seçenek kaldı: **tenis** ✔
+69. **Poyraz** için geriye tek seçenek kaldı: **basketbol** ✔
+70. **Nehir = 4.** ve **4. ≠ satranç** olduğundan **Nehir ≠ satranç** ✖
+71. **Nehir** için geriye tek seçenek kaldı: **yüzme** ✔
+72. **beyaz = 2.** ve **2. ≠ basketbol** olduğundan **beyaz ≠ basketbol** ✖
+73. **beyaz = 2.** ve **2. ≠ yüzme** olduğundan **beyaz ≠ yüzme** ✖
+74. **yüzme** yalnızca **gri** ile eşleşebilir ✔
+75. **beyaz = 2.** ve **2. ≠ voleybol** olduğundan **beyaz ≠ voleybol** ✖
+76. **beyaz = 2.** ve **2. ≠ tenis** olduğundan **beyaz ≠ tenis** ✖
+77. **beyaz** için geriye tek seçenek kaldı: **satranç** ✔
+78. **lacivert = 5. (en uzun)** ve **5. (en uzun) ≠ voleybol** olduğundan **lacivert ≠ voleybol** ✖
+79. **lacivert = 5. (en uzun)** ve **5. (en uzun) ≠ tenis** olduğundan **lacivert ≠ tenis** ✖
+80. **lacivert** için geriye tek seçenek kaldı: **basketbol** ✔
+81. **yeşil = 3.** ve **3. ≠ tenis** olduğundan **yeşil ≠ tenis** ✖
+82. **yeşil** için geriye tek seçenek kaldı: **voleybol** ✔
+
+**Sonuç**
+
+| Boy | Öğrenci | Tişört | Spor |
+|---|---|---|---|
+| 1. (en kısa) | Ceyda | kırmızı | tenis |
+| 2. | Umut | beyaz | satranç |
+| 3. | Baran | yeşil | voleybol |
+| 4. | Nehir | gri | yüzme |
+| 5. (en uzun) | Poyraz | lacivert | basketbol |
+
+### c-2-11 · 🎂 Kuzenlerin Yaş Sırası
+
+**Tablolar:** Yaş _(1. (en küçük), 2., 3., 4., 5. (en büyük))_ × Kuzen _(Zeynep, Mert, İpek, Doruk, Ela)_ × Hediye _(uçurtma, kitap, yapboz, kaykay, düdük)_ × Meyve _(çilek, karpuz, kiraz, erik, incir)_
+
+**İpuçları**
+
+1. Mert en büyük değildir.
+2. Zeynep en küçük değildir.
+3. Düdük alan kuzen, Zeynep'ten daha küçüktür.
+4. Erik seven kuzen, uçurtma alan kuzenden daha küçüktür.
+5. Küçükten büyüğe dizilince önce Ela, hemen ardından incir seven kuzen gelir.
+6. Küçükten büyüğe dizilince önce kitap alan kuzen, hemen ardından Mert gelir.
+7. Yaş sırasında Doruk ile çilek seven kuzen arasında tam 3 kuzen vardır.
+8. Yapboz alan kuzen, Doruk'tan daha küçüktür.
+9. Yaş sırasında Ela ile çilek seven kuzen arasında tam 1 kuzen vardır.
+10. Kaykay alan kuzen, Mert'ten daha küçüktür.
+11. Yaş sırasında uçurtma alan kuzen ile kiraz seven kuzen arasında tam 2 kuzen vardır.
+
+**Adım adım çözüm**
+
+1. **İpucu 1** → **5. (en büyük) ≠ Mert** ✖
+2. **İpucu 2** → **1. (en küçük) ≠ Zeynep** ✖
+3. **İpucu 3** (önce/sonra) → **düdük** şu sıralarda olamaz: 5. (en büyük) ✖
+4. **İpucu 4** (önce/sonra) → **erik** şu sıralarda olamaz: 5. (en büyük); **uçurtma** şu sıralarda olamaz: 1. (en küçük) ✖
+5. **İpucu 5** (hemen ardından) → **Ela** şu sıralarda olamaz: 5. (en büyük); **incir** şu sıralarda olamaz: 1. (en küçük) ✖
+6. **İpucu 6** (hemen ardından) → **kitap** şu sıralarda olamaz: 4., 5. (en büyük); **Mert** şu sıralarda olamaz: 1. (en küçük) ✖
+7. **İpucu 7** (aralarında 3 sıra) → **Doruk** şu sıralarda olamaz: 2., 3., 4.; **çilek** şu sıralarda olamaz: 2., 3., 4. ✖
+8. **İpucu 8** (önce/sonra) → **yapboz** şu sıralarda olamaz: 5. (en büyük); **Doruk** şu sıralarda olamaz: 1. (en küçük) ✖
+9. **İpucu 7** (aralarında 3 sıra) → **çilek** şu sıralarda olamaz: 5. (en büyük) ✖
+10. **İpucu 9** (aralarında 1 sıra) → **Ela** şu sıralarda olamaz: 1. (en küçük), 2., 4. ✖
+11. **İpucu 5** (hemen ardından) → **incir** şu sıralarda olamaz: 2., 3., 5. (en büyük) ✖
+12. **İpucu 10** (önce/sonra) → **kaykay** şu sıralarda olamaz: 4., 5. (en büyük) ✖
+13. **İpucu 11** (aralarında 2 sıra) → **uçurtma** şu sıralarda olamaz: 3.; **kiraz** şu sıralarda olamaz: 3., 4. ✖
+14. **1. (en küçük)** için geriye tek seçenek kaldı: **İpek** ✔
+15. **Doruk** yalnızca **5. (en büyük)** ile eşleşebilir ✔
+16. **İpucu 3** (önce/sonra) → **düdük** şu sıralarda olamaz: 4. ✖
+17. **Ela** yalnızca **3.** ile eşleşebilir ✔
+18. **İpucu 6** (hemen ardından) → **kitap** şu sıralarda olamaz: 2. ✖
+19. **5. (en büyük)** için geriye tek seçenek kaldı: **uçurtma** ✔
+20. **İpucu 11** (aralarında 2 sıra) → **kiraz** şu sıralarda olamaz: 1. (en küçük), 5. (en büyük) ✖
+21. **4.** için geriye tek seçenek kaldı: **yapboz** ✔
+22. **5. (en büyük)** için geriye tek seçenek kaldı: **karpuz** ✔
+23. **3.** için geriye tek seçenek kaldı: **erik** ✔
+24. **Zeynep**, hiçbir **Yaş** seçeneği üzerinden **uçurtma** ile bağlanamıyor → **Zeynep ≠ uçurtma** ✖
+25. **Zeynep**, hiçbir **Yaş** seçeneği üzerinden **kitap** ile bağlanamıyor → **Zeynep ≠ kitap** ✖
+26. **Mert**, hiçbir **Yaş** seçeneği üzerinden **uçurtma** ile bağlanamıyor → **Mert ≠ uçurtma** ✖
+27. **Mert**, hiçbir **Yaş** seçeneği üzerinden **kitap** ile bağlanamıyor → **Mert ≠ kitap** ✖
+28. **İpek = 1. (en küçük)** ve **1. (en küçük) ≠ uçurtma** olduğundan **İpek ≠ uçurtma** ✖
+29. **İpek = 1. (en küçük)** ve **1. (en küçük) ≠ yapboz** olduğundan **İpek ≠ yapboz** ✖
+30. **Doruk = 5. (en büyük)** ve **5. (en büyük) ≠ kitap** olduğundan **Doruk ≠ kitap** ✖
+31. **Doruk = 5. (en büyük)** ve **5. (en büyük) ≠ yapboz** olduğundan **Doruk ≠ yapboz** ✖
+32. **Doruk = 5. (en büyük)** ve **5. (en büyük) ≠ kaykay** olduğundan **Doruk ≠ kaykay** ✖
+33. **Doruk = 5. (en büyük)** ve **5. (en büyük) ≠ düdük** olduğundan **Doruk ≠ düdük** ✖
+34. **Doruk** için geriye tek seçenek kaldı: **uçurtma** ✔
+35. **Ela = 3.** ve **3. ≠ yapboz** olduğundan **Ela ≠ yapboz** ✖
+36. **Zeynep**, hiçbir **Yaş** seçeneği üzerinden **çilek** ile bağlanamıyor → **Zeynep ≠ çilek** ✖
+37. **Zeynep**, hiçbir **Yaş** seçeneği üzerinden **karpuz** ile bağlanamıyor → **Zeynep ≠ karpuz** ✖
+38. **Zeynep**, hiçbir **Yaş** seçeneği üzerinden **erik** ile bağlanamıyor → **Zeynep ≠ erik** ✖
+39. **Mert**, hiçbir **Yaş** seçeneği üzerinden **çilek** ile bağlanamıyor → **Mert ≠ çilek** ✖
+40. **Mert**, hiçbir **Yaş** seçeneği üzerinden **karpuz** ile bağlanamıyor → **Mert ≠ karpuz** ✖
+41. **Mert**, hiçbir **Yaş** seçeneği üzerinden **erik** ile bağlanamıyor → **Mert ≠ erik** ✖
+42. **İpek = 1. (en küçük)** ve **1. (en küçük) ≠ karpuz** olduğundan **İpek ≠ karpuz** ✖
+43. **İpek = 1. (en küçük)** ve **1. (en küçük) ≠ kiraz** olduğundan **İpek ≠ kiraz** ✖
+44. **İpek = 1. (en küçük)** ve **1. (en küçük) ≠ erik** olduğundan **İpek ≠ erik** ✖
+45. **İpek = 1. (en küçük)** ve **1. (en küçük) ≠ incir** olduğundan **İpek ≠ incir** ✖
+46. **İpek** için geriye tek seçenek kaldı: **çilek** ✔
+47. **Doruk = 5. (en büyük)** ve **5. (en büyük) ≠ kiraz** olduğundan **Doruk ≠ kiraz** ✖
+48. **Doruk = 5. (en büyük)** ve **5. (en büyük) ≠ erik** olduğundan **Doruk ≠ erik** ✖
+49. **erik** yalnızca **Ela** ile eşleşebilir ✔
+50. **karpuz** yalnızca **Doruk** ile eşleşebilir ✔
+51. **uçurtma = 5. (en büyük)** ve **5. (en büyük) ≠ çilek** olduğundan **uçurtma ≠ çilek** ✖
+52. **uçurtma = 5. (en büyük)** ve **5. (en büyük) ≠ kiraz** olduğundan **uçurtma ≠ kiraz** ✖
+53. **uçurtma = 5. (en büyük)** ve **5. (en büyük) ≠ erik** olduğundan **uçurtma ≠ erik** ✖
+54. **uçurtma = 5. (en büyük)** ve **5. (en büyük) ≠ incir** olduğundan **uçurtma ≠ incir** ✖
+55. **uçurtma** için geriye tek seçenek kaldı: **karpuz** ✔
+56. **kitap**, hiçbir **Yaş** seçeneği üzerinden **kiraz** ile bağlanamıyor → **kitap ≠ kiraz** ✖
+57. **kitap**, hiçbir **Yaş** seçeneği üzerinden **incir** ile bağlanamıyor → **kitap ≠ incir** ✖
+58. **yapboz = 4.** ve **4. ≠ çilek** olduğundan **yapboz ≠ çilek** ✖
+59. **yapboz = 4.** ve **4. ≠ kiraz** olduğundan **yapboz ≠ kiraz** ✖
+60. **yapboz = 4.** ve **4. ≠ erik** olduğundan **yapboz ≠ erik** ✖
+61. **yapboz** için geriye tek seçenek kaldı: **incir** ✔
+62. _Deneyelim:_ **2. = Mert** olsaydı ipuçları çelişirdi → **2. ≠ Mert** ✖
+63. **İpucu 6** (hemen ardından) → **kitap** şu sıralarda olamaz: 1. (en küçük) ✖
+64. **2.** için geriye tek seçenek kaldı: **Zeynep** ✔
+65. **İpucu 3** (önce/sonra) → **düdük** şu sıralarda olamaz: 2., 3. ✖
+66. **2.** için geriye tek seçenek kaldı: **kaykay** ✔
+67. **Zeynep = 2.** ve **2. ≠ yapboz** olduğundan **Zeynep ≠ yapboz** ✖
+68. **yapboz** yalnızca **Mert** ile eşleşebilir ✔
+69. **Zeynep = 2.** ve **2. ≠ düdük** olduğundan **Zeynep ≠ düdük** ✖
+70. **Zeynep** için geriye tek seçenek kaldı: **kaykay** ✔
+71. **İpek = 1. (en küçük)** ve **1. (en küçük) ≠ kitap** olduğundan **İpek ≠ kitap** ✖
+72. **İpek** için geriye tek seçenek kaldı: **düdük** ✔
+73. **Zeynep = 2.** ve **2. ≠ incir** olduğundan **Zeynep ≠ incir** ✖
+74. **Zeynep** için geriye tek seçenek kaldı: **kiraz** ✔
+75. **kitap = 3.** ve **3. ≠ çilek** olduğundan **kitap ≠ çilek** ✖
+76. **kitap** için geriye tek seçenek kaldı: **erik** ✔
+77. **kaykay = 2.** ve **2. ≠ çilek** olduğundan **kaykay ≠ çilek** ✖
+78. **kaykay** için geriye tek seçenek kaldı: **kiraz** ✔
+
+**Sonuç**
+
+| Yaş | Kuzen | Hediye | Meyve |
+|---|---|---|---|
+| 1. (en küçük) | İpek | düdük | çilek |
+| 2. | Zeynep | kaykay | kiraz |
+| 3. | Ela | kitap | erik |
+| 4. | Mert | yapboz | incir |
+| 5. (en büyük) | Doruk | uçurtma | karpuz |
+
+### c-2-12 · 🏊 Yüzme Yarışı
+
+**Tablolar:** Varış _(1., 2., 3., 4., 5.)_ × Yüzücü _(Derin, Alp, Naz, Berk, Sude)_ × Bone _(kırmızı, siyah, turkuaz, pembe, beyaz)_ × Stil _(kelebek, kurbağalama, serbest, sırtüstü, karışık)_
+
+**İpuçları**
+
+1. Sude yarışı sonuncu bitirmedi.
+2. Berk yarışı birinci bitirmedi.
+3. Turkuaz boneli yüzücü yarışı bitirdikten hemen sonra pembe boneli yüzücü bitirdi.
+4. Sırtüstü yüzen yüzücü yarışı bitirdikten hemen sonra Alp bitirdi.
+5. Turkuaz boneli yüzücü, serbest yüzen yüzücüden önce bitirdi.
+6. Derin, karışık yüzen yüzücüden önce bitirdi.
+7. Alp ile Naz arasında tam 2 yüzücü yarışı bitirdi.
+8. Kurbağalama yüzen yüzücü ile sırtüstü yüzen yüzücü arasında tam 1 yüzücü yarışı bitirdi.
+9. Turkuaz boneli yüzücü yarışı bitirdikten hemen sonra kelebek yüzen yüzücü bitirdi.
+10. Berk yarışı bitirdikten hemen sonra Derin bitirdi.
+11. Siyah boneli yüzücü yarışı 4. bitirmedi.
+12. Pembe boneli yüzücü yarışı bitirdikten hemen sonra kırmızı boneli yüzücü bitirdi.
+
+**Adım adım çözüm**
+
+1. **İpucu 1** → **5. ≠ Sude** ✖
+2. **İpucu 2** → **1. ≠ Berk** ✖
+3. **İpucu 3** (hemen ardından) → **turkuaz** şu sıralarda olamaz: 5.; **pembe** şu sıralarda olamaz: 1. ✖
+4. **İpucu 4** (hemen ardından) → **sırtüstü** şu sıralarda olamaz: 5.; **Alp** şu sıralarda olamaz: 1. ✖
+5. **İpucu 5** (önce/sonra) → **serbest** şu sıralarda olamaz: 1. ✖
+6. **İpucu 6** (önce/sonra) → **Derin** şu sıralarda olamaz: 5.; **karışık** şu sıralarda olamaz: 1. ✖
+7. **İpucu 7** (aralarında 2 sıra) → **Alp** şu sıralarda olamaz: 3.; **Naz** şu sıralarda olamaz: 3., 4. ✖
+8. **İpucu 4** (hemen ardından) → **sırtüstü** şu sıralarda olamaz: 2. ✖
+9. **İpucu 8** (aralarında 1 sıra) → **kurbağalama** şu sıralarda olamaz: 4. ✖
+10. **İpucu 9** (hemen ardından) → **kelebek** şu sıralarda olamaz: 1. ✖
+11. **İpucu 10** (hemen ardından) → **Berk** şu sıralarda olamaz: 4., 5.; **Derin** şu sıralarda olamaz: 1., 2. ✖
+12. **İpucu 6** (önce/sonra) → **karışık** şu sıralarda olamaz: 2., 3. ✖
+13. **İpucu 11** → **4. ≠ siyah** ✖
+14. **İpucu 12** (hemen ardından) → **pembe** şu sıralarda olamaz: 5.; **kırmızı** şu sıralarda olamaz: 1., 2. ✖
+15. **İpucu 3** (hemen ardından) → **turkuaz** şu sıralarda olamaz: 4. ✖
+16. **İpucu 9** (hemen ardından) → **kelebek** şu sıralarda olamaz: 5. ✖
+17. **Berk**, hiçbir **Varış** seçeneği üzerinden **karışık** ile bağlanamıyor → **Berk ≠ karışık** ✖
+18. **turkuaz**, hiçbir **Varış** seçeneği üzerinden **karışık** ile bağlanamıyor → **turkuaz ≠ karışık** ✖
+19. _Deneyelim:_ **1. = Naz** olsaydı ipuçları çelişirdi → **1. ≠ Naz** ✖
+20. **İpucu 7** (aralarında 2 sıra) → **Alp** şu sıralarda olamaz: 4. ✖
+21. **İpucu 4** (hemen ardından) → **sırtüstü** şu sıralarda olamaz: 3. ✖
+22. **İpucu 8** (aralarında 1 sıra) → **kurbağalama** şu sıralarda olamaz: 1., 5. ✖
+23. **1.** için geriye tek seçenek kaldı: **Sude** ✔
+24. **4.** için geriye tek seçenek kaldı: **Derin** ✔
+25. **İpucu 6** (önce/sonra) → **karışık** şu sıralarda olamaz: 4. ✖
+26. **İpucu 10** (hemen ardından) → **Berk** şu sıralarda olamaz: 2. ✖
+27. **1.** için geriye tek seçenek kaldı: **sırtüstü** ✔
+28. **İpucu 4** (hemen ardından) → **Alp** şu sıralarda olamaz: 5. ✖
+29. **İpucu 7** (aralarında 2 sıra) → **Naz** şu sıralarda olamaz: 2. ✖
+30. **İpucu 8** (aralarında 1 sıra) → **kurbağalama** şu sıralarda olamaz: 2. ✖
+31. **kurbağalama** yalnızca **3.** ile eşleşebilir ✔
+32. **İpucu 9** (hemen ardından) → **turkuaz** şu sıralarda olamaz: 2. ✖
+33. **İpucu 3** (hemen ardından) → **pembe** şu sıralarda olamaz: 3. ✖
+34. **İpucu 12** (hemen ardından) → **kırmızı** şu sıralarda olamaz: 4. ✖
+35. **karışık** yalnızca **5.** ile eşleşebilir ✔
+36. **Derin = 4.** ve **4. ≠ kırmızı** olduğundan **Derin ≠ kırmızı** ✖
+37. **Derin = 4.** ve **4. ≠ siyah** olduğundan **Derin ≠ siyah** ✖
+38. **Derin = 4.** ve **4. ≠ turkuaz** olduğundan **Derin ≠ turkuaz** ✖
+39. **Alp = 2.** ve **2. ≠ kırmızı** olduğundan **Alp ≠ kırmızı** ✖
+40. **Alp = 2.** ve **2. ≠ turkuaz** olduğundan **Alp ≠ turkuaz** ✖
+41. **Naz = 5.** ve **5. ≠ turkuaz** olduğundan **Naz ≠ turkuaz** ✖
+42. **Naz = 5.** ve **5. ≠ pembe** olduğundan **Naz ≠ pembe** ✖
+43. **Berk = 3.** ve **3. ≠ pembe** olduğundan **Berk ≠ pembe** ✖
+44. **Sude = 1.** ve **1. ≠ kırmızı** olduğundan **Sude ≠ kırmızı** ✖
+45. **Sude = 1.** ve **1. ≠ pembe** olduğundan **Sude ≠ pembe** ✖
+46. **Derin = 4.** ve **4. ≠ kurbağalama** olduğundan **Derin ≠ kurbağalama** ✖
+47. **Derin = 4.** ve **4. ≠ sırtüstü** olduğundan **Derin ≠ sırtüstü** ✖
+48. **Derin = 4.** ve **4. ≠ karışık** olduğundan **Derin ≠ karışık** ✖
+49. **Alp = 2.** ve **2. ≠ kurbağalama** olduğundan **Alp ≠ kurbağalama** ✖
+50. **Alp = 2.** ve **2. ≠ sırtüstü** olduğundan **Alp ≠ sırtüstü** ✖
+51. **Alp = 2.** ve **2. ≠ karışık** olduğundan **Alp ≠ karışık** ✖
+52. **Naz = 5.** ve **5. ≠ kelebek** olduğundan **Naz ≠ kelebek** ✖
+53. **Naz = 5.** ve **5. ≠ kurbağalama** olduğundan **Naz ≠ kurbağalama** ✖
+54. **Naz = 5.** ve **5. ≠ serbest** olduğundan **Naz ≠ serbest** ✖
+55. **Naz = 5.** ve **5. ≠ sırtüstü** olduğundan **Naz ≠ sırtüstü** ✖
+56. **Naz** için geriye tek seçenek kaldı: **karışık** ✔
+57. **Berk = 3.** ve **3. ≠ kelebek** olduğundan **Berk ≠ kelebek** ✖
+58. **Berk = 3.** ve **3. ≠ serbest** olduğundan **Berk ≠ serbest** ✖
+59. **Berk = 3.** ve **3. ≠ sırtüstü** olduğundan **Berk ≠ sırtüstü** ✖
+60. **Berk** için geriye tek seçenek kaldı: **kurbağalama** ✔
+61. **sırtüstü** yalnızca **Sude** ile eşleşebilir ✔
+62. **kırmızı**, hiçbir **Varış** seçeneği üzerinden **kelebek** ile bağlanamıyor → **kırmızı ≠ kelebek** ✖
+63. **kırmızı**, hiçbir **Varış** seçeneği üzerinden **serbest** ile bağlanamıyor → **kırmızı ≠ serbest** ✖
+64. **kırmızı**, hiçbir **Varış** seçeneği üzerinden **sırtüstü** ile bağlanamıyor → **kırmızı ≠ sırtüstü** ✖
+65. **turkuaz**, hiçbir **Varış** seçeneği üzerinden **kelebek** ile bağlanamıyor → **turkuaz ≠ kelebek** ✖
+66. **turkuaz**, hiçbir **Varış** seçeneği üzerinden **serbest** ile bağlanamıyor → **turkuaz ≠ serbest** ✖
+67. **pembe**, hiçbir **Varış** seçeneği üzerinden **kurbağalama** ile bağlanamıyor → **pembe ≠ kurbağalama** ✖
+68. **pembe**, hiçbir **Varış** seçeneği üzerinden **sırtüstü** ile bağlanamıyor → **pembe ≠ sırtüstü** ✖
+69. **pembe**, hiçbir **Varış** seçeneği üzerinden **karışık** ile bağlanamıyor → **pembe ≠ karışık** ✖
+70. _Deneyelim:_ **1. = siyah** olsaydı ipuçları çelişirdi → **1. ≠ siyah** ✖
+71. **Sude = 1.** ve **1. ≠ siyah** olduğundan **Sude ≠ siyah** ✖
+72. **siyah**, hiçbir **Varış** seçeneği üzerinden **sırtüstü** ile bağlanamıyor → **siyah ≠ sırtüstü** ✖
+73. _Deneyelim:_ **1. = beyaz** olsaydı ipuçları çelişirdi → **1. ≠ beyaz** ✖
+74. **1.** için geriye tek seçenek kaldı: **turkuaz** ✔
+75. **İpucu 3** (hemen ardından) → **pembe** şu sıralarda olamaz: 4. ✖
+76. **İpucu 9** (hemen ardından) → **kelebek** şu sıralarda olamaz: 4. ✖
+77. **İpucu 12** (hemen ardından) → **kırmızı** şu sıralarda olamaz: 5. ✖
+78. **4.** için geriye tek seçenek kaldı: **beyaz** ✔
+79. **5.** için geriye tek seçenek kaldı: **siyah** ✔
+80. **4.** için geriye tek seçenek kaldı: **serbest** ✔
+81. **Derin = 4.** ve **4. ≠ pembe** olduğundan **Derin ≠ pembe** ✖
+82. **Derin** için geriye tek seçenek kaldı: **beyaz** ✔
+83. **Sude** için geriye tek seçenek kaldı: **turkuaz** ✔
+84. **pembe** yalnızca **Alp** ile eşleşebilir ✔
+85. **Naz = 5.** ve **5. ≠ kırmızı** olduğundan **Naz ≠ kırmızı** ✖
+86. **Naz** için geriye tek seçenek kaldı: **siyah** ✔
+87. **Derin = 4.** ve **4. ≠ kelebek** olduğundan **Derin ≠ kelebek** ✖
+88. **Derin** için geriye tek seçenek kaldı: **serbest** ✔
+89. **kırmızı = 3.** ve **3. ≠ karışık** olduğundan **kırmızı ≠ karışık** ✖
+90. **kırmızı** için geriye tek seçenek kaldı: **kurbağalama** ✔
+91. **turkuaz** için geriye tek seçenek kaldı: **sırtüstü** ✔
+92. **siyah = 5.** ve **5. ≠ kelebek** olduğundan **siyah ≠ kelebek** ✖
+93. **siyah = 5.** ve **5. ≠ serbest** olduğundan **siyah ≠ serbest** ✖
+94. **siyah** için geriye tek seçenek kaldı: **karışık** ✔
+95. **pembe = 2.** ve **2. ≠ serbest** olduğundan **pembe ≠ serbest** ✖
+96. **pembe** için geriye tek seçenek kaldı: **kelebek** ✔
+
+**Sonuç**
+
+| Varış | Yüzücü | Bone | Stil |
+|---|---|---|---|
+| 1. | Sude | turkuaz | sırtüstü |
+| 2. | Alp | pembe | kelebek |
+| 3. | Berk | kırmızı | kurbağalama |
+| 4. | Derin | beyaz | serbest |
+| 5. | Naz | siyah | karışık |
+
+### c-2-13 · 🚲 Bisiklet Turu
+
+**Tablolar:** Varış _(1., 2., 3., 4., 5.)_ × Bisikletçi _(Kerem, Lale, Onur, Bilge, Emir)_ × Bisiklet _(kırmızı, yeşil, mavi, gümüş, sarı)_ × Şehir _(Bursa, İzmir, Rize, Konya, Mardin)_
+
+**İpuçları**
+
+1. Lale turu sonuncu bitirmedi.
+2. Onur turu birinci bitirmedi.
+3. Gümüş bisikletli sporcu ile Rize'den gelen bisikletçi arasında tam 1 bisikletçi turu bitirdi.
+4. Lale ile Mardin'den gelen bisikletçi arasında tam 3 bisikletçi turu bitirdi.
+5. Lale, yeşil bisikletli sporcudan önce bitirdi.
+6. Emir ile mavi bisikletli sporcu arasında tam 1 bisikletçi turu bitirdi.
+7. Bilge ile gümüş bisikletli sporcu arasında tam 2 bisikletçi turu bitirdi.
+8. Kerem ile Onur arasında tam 1 bisikletçi turu bitirdi.
+9. Bursa'dan gelen bisikletçi turu bitirdikten hemen sonra Onur bitirdi.
+10. Sarı bisikletli sporcu turu bitirdikten hemen sonra Emir bitirdi.
+11. Sarı bisikletli sporcu, Bursa'dan gelen bisikletçiden önce bitirdi.
+12. Konya'dan gelen bisikletçi, Bilge'den önce bitirdi.
+
+**Adım adım çözüm**
+
+1. **İpucu 1** → **5. ≠ Lale** ✖
+2. **İpucu 2** → **1. ≠ Onur** ✖
+3. **İpucu 4** (aralarında 3 sıra) → **Lale** şu sıralarda olamaz: 2., 3., 4.; **Mardin** şu sıralarda olamaz: 1., 2., 3., 4. ✖
+4. **İpucu 5** (önce/sonra) → **yeşil** şu sıralarda olamaz: 1. ✖
+5. **İpucu 7** (aralarında 2 sıra) → **Bilge** şu sıralarda olamaz: 3.; **gümüş** şu sıralarda olamaz: 3. ✖
+6. **İpucu 3** (aralarında 1 sıra) → **Rize** şu sıralarda olamaz: 1., 5. ✖
+7. **İpucu 9** (hemen ardından) → **Bursa** şu sıralarda olamaz: 5. ✖
+8. **İpucu 10** (hemen ardından) → **sarı** şu sıralarda olamaz: 5.; **Emir** şu sıralarda olamaz: 1. ✖
+9. **İpucu 11** (önce/sonra) → **sarı** şu sıralarda olamaz: 4.; **Bursa** şu sıralarda olamaz: 1. ✖
+10. **İpucu 9** (hemen ardından) → **Onur** şu sıralarda olamaz: 2. ✖
+11. **İpucu 8** (aralarında 1 sıra) → **Kerem** şu sıralarda olamaz: 4. ✖
+12. **İpucu 10** (hemen ardından) → **Emir** şu sıralarda olamaz: 5. ✖
+13. **İpucu 6** (aralarında 1 sıra) → **mavi** şu sıralarda olamaz: 3. ✖
+14. **İpucu 12** (önce/sonra) → **Konya** şu sıralarda olamaz: 5.; **Bilge** şu sıralarda olamaz: 1. ✖
+15. **İpucu 7** (aralarında 2 sıra) → **gümüş** şu sıralarda olamaz: 4. ✖
+16. **İpucu 3** (aralarında 1 sıra) → **Rize** şu sıralarda olamaz: 2. ✖
+17. **Lale** yalnızca **1.** ile eşleşebilir ✔
+18. **Mardin** yalnızca **5.** ile eşleşebilir ✔
+19. **Lale = 1.** ve **1. ≠ yeşil** olduğundan **Lale ≠ yeşil** ✖
+20. **Lale = 1.** ve **1. ≠ Bursa** olduğundan **Lale ≠ Bursa** ✖
+21. **Lale = 1.** ve **1. ≠ Rize** olduğundan **Lale ≠ Rize** ✖
+22. **Lale = 1.** ve **1. ≠ Mardin** olduğundan **Lale ≠ Mardin** ✖
+23. **Emir**, hiçbir **Varış** seçeneği üzerinden **Mardin** ile bağlanamıyor → **Emir ≠ Mardin** ✖
+24. **gümüş**, hiçbir **Varış** seçeneği üzerinden **Rize** ile bağlanamıyor → **gümüş ≠ Rize** ✖
+25. **sarı**, hiçbir **Varış** seçeneği üzerinden **Mardin** ile bağlanamıyor → **sarı ≠ Mardin** ✖
+26. _Deneyelim:_ **2. = Kerem** olsaydı ipuçları çelişirdi → **2. ≠ Kerem** ✖
+27. **İpucu 8** (aralarında 1 sıra) → **Onur** şu sıralarda olamaz: 4. ✖
+28. **İpucu 9** (hemen ardından) → **Bursa** şu sıralarda olamaz: 3. ✖
+29. **Kerem**, hiçbir **Varış** seçeneği üzerinden **Bursa** ile bağlanamıyor → **Kerem ≠ Bursa** ✖
+30. **Onur**, hiçbir **Varış** seçeneği üzerinden **Bursa** ile bağlanamıyor → **Onur ≠ Bursa** ✖
+31. _Deneyelim:_ **2. = Emir** olsaydı ipuçları çelişirdi → **2. ≠ Emir** ✖
+32. **İpucu 6** (aralarında 1 sıra) → **mavi** şu sıralarda olamaz: 4. ✖
+33. **İpucu 10** (hemen ardından) → **sarı** şu sıralarda olamaz: 1. ✖
+34. **İpucu 11** (önce/sonra) → **Bursa** şu sıralarda olamaz: 2. ✖
+35. **İpucu 9** (hemen ardından) → **Onur** şu sıralarda olamaz: 3. ✖
+36. **İpucu 8** (aralarında 1 sıra) → **Kerem** şu sıralarda olamaz: 5. ✖
+37. **2.** için geriye tek seçenek kaldı: **Bilge** ✔
+38. **İpucu 7** (aralarında 2 sıra) → **gümüş** şu sıralarda olamaz: 1., 2. ✖
+39. **İpucu 3** (aralarında 1 sıra) → **Rize** şu sıralarda olamaz: 4. ✖
+40. **İpucu 12** (önce/sonra) → **Konya** şu sıralarda olamaz: 2., 3., 4. ✖
+41. **4.** için geriye tek seçenek kaldı: **Emir** ✔
+42. **İpucu 6** (aralarında 1 sıra) → **mavi** şu sıralarda olamaz: 1., 5. ✖
+43. **İpucu 10** (hemen ardından) → **sarı** şu sıralarda olamaz: 2. ✖
+44. **1.** için geriye tek seçenek kaldı: **kırmızı** ✔
+45. **4.** için geriye tek seçenek kaldı: **yeşil** ✔
+46. **2.** için geriye tek seçenek kaldı: **İzmir** ✔
+47. **Kerem = 3.** ve **3. ≠ kırmızı** olduğundan **Kerem ≠ kırmızı** ✖
+48. **Kerem = 3.** ve **3. ≠ yeşil** olduğundan **Kerem ≠ yeşil** ✖
+49. **Kerem = 3.** ve **3. ≠ mavi** olduğundan **Kerem ≠ mavi** ✖
+50. **Kerem = 3.** ve **3. ≠ gümüş** olduğundan **Kerem ≠ gümüş** ✖
+51. **Kerem** için geriye tek seçenek kaldı: **sarı** ✔
+52. **Lale = 1.** ve **1. ≠ mavi** olduğundan **Lale ≠ mavi** ✖
+53. **Lale = 1.** ve **1. ≠ gümüş** olduğundan **Lale ≠ gümüş** ✖
+54. **Lale** için geriye tek seçenek kaldı: **kırmızı** ✔
+55. **Onur = 5.** ve **5. ≠ yeşil** olduğundan **Onur ≠ yeşil** ✖
+56. **Onur = 5.** ve **5. ≠ mavi** olduğundan **Onur ≠ mavi** ✖
+57. **Onur** için geriye tek seçenek kaldı: **gümüş** ✔
+58. **Bilge = 2.** ve **2. ≠ yeşil** olduğundan **Bilge ≠ yeşil** ✖
+59. **Bilge** için geriye tek seçenek kaldı: **mavi** ✔
+60. **Kerem = 3.** ve **3. ≠ İzmir** olduğundan **Kerem ≠ İzmir** ✖
+61. **Kerem = 3.** ve **3. ≠ Konya** olduğundan **Kerem ≠ Konya** ✖
+62. **Kerem = 3.** ve **3. ≠ Mardin** olduğundan **Kerem ≠ Mardin** ✖
+63. **Kerem** için geriye tek seçenek kaldı: **Rize** ✔
+64. **Lale = 1.** ve **1. ≠ İzmir** olduğundan **Lale ≠ İzmir** ✖
+65. **Lale** için geriye tek seçenek kaldı: **Konya** ✔
+66. **Onur = 5.** ve **5. ≠ İzmir** olduğundan **Onur ≠ İzmir** ✖
+67. **Onur** için geriye tek seçenek kaldı: **Mardin** ✔
+68. **Bilge = 2.** ve **2. ≠ Bursa** olduğundan **Bilge ≠ Bursa** ✖
+69. **Bilge** için geriye tek seçenek kaldı: **İzmir** ✔
+70. **kırmızı = 1.** ve **1. ≠ Bursa** olduğundan **kırmızı ≠ Bursa** ✖
+71. **kırmızı = 1.** ve **1. ≠ İzmir** olduğundan **kırmızı ≠ İzmir** ✖
+72. **kırmızı = 1.** ve **1. ≠ Rize** olduğundan **kırmızı ≠ Rize** ✖
+73. **kırmızı = 1.** ve **1. ≠ Mardin** olduğundan **kırmızı ≠ Mardin** ✖
+74. **kırmızı** için geriye tek seçenek kaldı: **Konya** ✔
+75. **yeşil = 4.** ve **4. ≠ İzmir** olduğundan **yeşil ≠ İzmir** ✖
+76. **yeşil = 4.** ve **4. ≠ Rize** olduğundan **yeşil ≠ Rize** ✖
+77. **yeşil = 4.** ve **4. ≠ Mardin** olduğundan **yeşil ≠ Mardin** ✖
+78. **yeşil** için geriye tek seçenek kaldı: **Bursa** ✔
+79. **mavi = 2.** ve **2. ≠ Rize** olduğundan **mavi ≠ Rize** ✖
+80. **Rize** yalnızca **sarı** ile eşleşebilir ✔
+81. **mavi = 2.** ve **2. ≠ Mardin** olduğundan **mavi ≠ Mardin** ✖
+82. **mavi** için geriye tek seçenek kaldı: **İzmir** ✔
+
+**Sonuç**
+
+| Varış | Bisikletçi | Bisiklet | Şehir |
+|---|---|---|---|
+| 1. | Lale | kırmızı | Konya |
+| 2. | Bilge | mavi | İzmir |
+| 3. | Kerem | sarı | Rize |
+| 4. | Emir | yeşil | Bursa |
+| 5. | Onur | gümüş | Mardin |
+
+### c-2-14 · 🌱 Fide Boyları
+
+**Tablolar:** Boy _(1. (en kısa), 2., 3., 4., 5. (en uzun))_ × Öğrenci _(Deren, Yiğit, Bade, Arda, Peri)_ × Bitki _(fesleğen, nane, domates, lavanta, biber)_ × Saksı _(mavi, kahverengi, beyaz, yeşil, turuncu)_
+
+**İpuçları**
+
+1. Bade'nin fidesi en uzun değildir.
+2. Yeşil saksıdaki fide en uzun değildir.
+3. Boy sırasında Deren'in fidesi ile biber fidesi arasında tam 1 fide vardır.
+4. Boy sırasında Yiğit'in fidesi ile beyaz saksıdaki fide arasında tam 1 fide vardır.
+5. Kısadan uzuna dizilince önce fesleğen fidesi, hemen ardından Peri'nin fidesi gelir.
+6. Kısadan uzuna dizilince önce Bade'nin fidesi, hemen ardından kahverengi saksıdaki fide gelir.
+7. Boy sırasında fesleğen fidesi ile Yiğit'in fidesi arasında tam 1 fide vardır.
+8. Kısadan uzuna dizilince önce lavanta fidesi, hemen ardından Yiğit'in fidesi gelir.
+9. Boy sırasında Peri'nin fidesi ile yeşil saksıdaki fide arasında tam 1 fide vardır.
+10. Kısadan uzuna dizilince önce turuncu saksıdaki fide, hemen ardından kahverengi saksıdaki fide gelir.
+11. Fesleğen fidesi, lavanta fidesinden daha kısadır.
+12. Boy sırasında nane fidesi ile Peri'nin fidesi arasında tam 2 fide vardır.
+
+**Adım adım çözüm**
+
+1. **İpucu 1** → **5. (en uzun) ≠ Bade** ✖
+2. **İpucu 2** → **5. (en uzun) ≠ yeşil** ✖
+3. **İpucu 5** (hemen ardından) → **fesleğen** şu sıralarda olamaz: 5. (en uzun); **Peri** şu sıralarda olamaz: 1. (en kısa) ✖
+4. **İpucu 6** (hemen ardından) → **kahverengi** şu sıralarda olamaz: 1. (en kısa) ✖
+5. **İpucu 8** (hemen ardından) → **lavanta** şu sıralarda olamaz: 5. (en uzun); **Yiğit** şu sıralarda olamaz: 1. (en kısa) ✖
+6. **İpucu 10** (hemen ardından) → **turuncu** şu sıralarda olamaz: 5. (en uzun) ✖
+7. **İpucu 11** (önce/sonra) → **fesleğen** şu sıralarda olamaz: 4.; **lavanta** şu sıralarda olamaz: 1. (en kısa) ✖
+8. **İpucu 5** (hemen ardından) → **Peri** şu sıralarda olamaz: 5. (en uzun) ✖
+9. **İpucu 7** (aralarında 1 sıra) → **Yiğit** şu sıralarda olamaz: 2. ✖
+10. **İpucu 4** (aralarında 1 sıra) → **beyaz** şu sıralarda olamaz: 4. ✖
+11. **İpucu 9** (aralarında 1 sıra) → **yeşil** şu sıralarda olamaz: 3. ✖
+12. **İpucu 12** (aralarında 2 sıra) → **nane** şu sıralarda olamaz: 2., 3., 4.; **Peri** şu sıralarda olamaz: 3. ✖
+13. **İpucu 5** (hemen ardından) → **fesleğen** şu sıralarda olamaz: 2. ✖
+14. **İpucu 7** (aralarında 1 sıra) → **Yiğit** şu sıralarda olamaz: 4. ✖
+15. **İpucu 4** (aralarında 1 sıra) → **beyaz** şu sıralarda olamaz: 2. ✖
+16. **İpucu 8** (hemen ardından) → **lavanta** şu sıralarda olamaz: 3. ✖
+17. **İpucu 9** (aralarında 1 sıra) → **yeşil** şu sıralarda olamaz: 1. (en kısa) ✖
+18. **Yiğit**, hiçbir **Boy** seçeneği üzerinden **lavanta** ile bağlanamıyor → **Yiğit ≠ lavanta** ✖
+19. **Peri**, hiçbir **Boy** seçeneği üzerinden **fesleğen** ile bağlanamıyor → **Peri ≠ fesleğen** ✖
+20. **Peri**, hiçbir **Boy** seçeneği üzerinden **nane** ile bağlanamıyor → **Peri ≠ nane** ✖
+21. **Yiğit**, hiçbir **Boy** seçeneği üzerinden **yeşil** ile bağlanamıyor → **Yiğit ≠ yeşil** ✖
+22. **Peri**, hiçbir **Boy** seçeneği üzerinden **beyaz** ile bağlanamıyor → **Peri ≠ beyaz** ✖
+23. **fesleğen**, hiçbir **Boy** seçeneği üzerinden **yeşil** ile bağlanamıyor → **fesleğen ≠ yeşil** ✖
+24. **nane**, hiçbir **Boy** seçeneği üzerinden **yeşil** ile bağlanamıyor → **nane ≠ yeşil** ✖
+25. **lavanta**, hiçbir **Boy** seçeneği üzerinden **beyaz** ile bağlanamıyor → **lavanta ≠ beyaz** ✖
+26. _Deneyelim:_ **1. (en kısa) = Deren** olsaydı ipuçları çelişirdi → **1. (en kısa) ≠ Deren** ✖
+27. _Deneyelim:_ **2. = Deren** olsaydı ipuçları çelişirdi → **2. ≠ Deren** ✖
+28. **İpucu 3** (aralarında 1 sıra) → **biber** şu sıralarda olamaz: 4. ✖
+29. _Deneyelim:_ **2. = Bade** olsaydı ipuçları çelişirdi → **2. ≠ Bade** ✖
+30. **İpucu 6** (hemen ardından) → **kahverengi** şu sıralarda olamaz: 3. ✖
+31. **İpucu 10** (hemen ardından) → **turuncu** şu sıralarda olamaz: 2. ✖
+32. **fesleğen**, hiçbir **Boy** seçeneği üzerinden **kahverengi** ile bağlanamıyor → **fesleğen ≠ kahverengi** ✖
+33. _Deneyelim:_ **1. (en kısa) = Arda** olsaydı ipuçları çelişirdi → **1. (en kısa) ≠ Arda** ✖
+34. **1. (en kısa)** için geriye tek seçenek kaldı: **Bade** ✔
+35. **İpucu 6** (hemen ardından) → **kahverengi** şu sıralarda olamaz: 4., 5. (en uzun) ✖
+36. **İpucu 10** (hemen ardından) → **turuncu** şu sıralarda olamaz: 3., 4. ✖
+37. **kahverengi** yalnızca **2.** ile eşleşebilir ✔
+38. **İpucu 9** (aralarında 1 sıra) → **Peri** şu sıralarda olamaz: 4. ✖
+39. **İpucu 5** (hemen ardından) → **fesleğen** şu sıralarda olamaz: 3. ✖
+40. **İpucu 7** (aralarında 1 sıra) → **Yiğit** şu sıralarda olamaz: 5. (en uzun) ✖
+41. **İpucu 4** (aralarında 1 sıra) → **beyaz** şu sıralarda olamaz: 3. ✖
+42. **İpucu 8** (hemen ardından) → **lavanta** şu sıralarda olamaz: 4. ✖
+43. **İpucu 12** (aralarında 2 sıra) → **nane** şu sıralarda olamaz: 1. (en kısa) ✖
+44. **Yiğit** yalnızca **3.** ile eşleşebilir ✔
+45. **İpucu 3** (aralarında 1 sıra) → **biber** şu sıralarda olamaz: 1. (en kısa), 5. (en uzun) ✖
+46. **Peri** yalnızca **2.** ile eşleşebilir ✔
+47. **4.** için geriye tek seçenek kaldı: **domates** ✔
+48. **3.** için geriye tek seçenek kaldı: **biber** ✔
+49. **İpucu 3** (aralarında 1 sıra) → **Deren** şu sıralarda olamaz: 4. ✖
+50. **4.** için geriye tek seçenek kaldı: **Arda** ✔
+51. **3.** için geriye tek seçenek kaldı: **mavi** ✔
+52. **5. (en uzun)** için geriye tek seçenek kaldı: **beyaz** ✔
+53. **Deren = 5. (en uzun)** ve **5. (en uzun) ≠ fesleğen** olduğundan **Deren ≠ fesleğen** ✖
+54. **Deren = 5. (en uzun)** ve **5. (en uzun) ≠ domates** olduğundan **Deren ≠ domates** ✖
+55. **Deren = 5. (en uzun)** ve **5. (en uzun) ≠ lavanta** olduğundan **Deren ≠ lavanta** ✖
+56. **Deren = 5. (en uzun)** ve **5. (en uzun) ≠ biber** olduğundan **Deren ≠ biber** ✖
+57. **Deren** için geriye tek seçenek kaldı: **nane** ✔
+58. **Yiğit = 3.** ve **3. ≠ fesleğen** olduğundan **Yiğit ≠ fesleğen** ✖
+59. **Yiğit = 3.** ve **3. ≠ domates** olduğundan **Yiğit ≠ domates** ✖
+60. **Yiğit** için geriye tek seçenek kaldı: **biber** ✔
+61. **Bade = 1. (en kısa)** ve **1. (en kısa) ≠ domates** olduğundan **Bade ≠ domates** ✖
+62. **Bade = 1. (en kısa)** ve **1. (en kısa) ≠ lavanta** olduğundan **Bade ≠ lavanta** ✖
+63. **Bade** için geriye tek seçenek kaldı: **fesleğen** ✔
+64. **Arda = 4.** ve **4. ≠ lavanta** olduğundan **Arda ≠ lavanta** ✖
+65. **Arda** için geriye tek seçenek kaldı: **domates** ✔
+66. **Deren = 5. (en uzun)** ve **5. (en uzun) ≠ mavi** olduğundan **Deren ≠ mavi** ✖
+67. **Deren = 5. (en uzun)** ve **5. (en uzun) ≠ kahverengi** olduğundan **Deren ≠ kahverengi** ✖
+68. **Deren = 5. (en uzun)** ve **5. (en uzun) ≠ yeşil** olduğundan **Deren ≠ yeşil** ✖
+69. **Deren = 5. (en uzun)** ve **5. (en uzun) ≠ turuncu** olduğundan **Deren ≠ turuncu** ✖
+70. **Deren** için geriye tek seçenek kaldı: **beyaz** ✔
+71. **Yiğit = 3.** ve **3. ≠ kahverengi** olduğundan **Yiğit ≠ kahverengi** ✖
+72. **Yiğit = 3.** ve **3. ≠ turuncu** olduğundan **Yiğit ≠ turuncu** ✖
+73. **Yiğit** için geriye tek seçenek kaldı: **mavi** ✔
+74. **Bade = 1. (en kısa)** ve **1. (en kısa) ≠ kahverengi** olduğundan **Bade ≠ kahverengi** ✖
+75. **Bade = 1. (en kısa)** ve **1. (en kısa) ≠ yeşil** olduğundan **Bade ≠ yeşil** ✖
+76. **Bade** için geriye tek seçenek kaldı: **turuncu** ✔
+77. **Arda = 4.** ve **4. ≠ kahverengi** olduğundan **Arda ≠ kahverengi** ✖
+78. **Arda** için geriye tek seçenek kaldı: **yeşil** ✔
+79. **fesleğen = 1. (en kısa)** ve **1. (en kısa) ≠ mavi** olduğundan **fesleğen ≠ mavi** ✖
+80. **fesleğen = 1. (en kısa)** ve **1. (en kısa) ≠ beyaz** olduğundan **fesleğen ≠ beyaz** ✖
+81. **fesleğen** için geriye tek seçenek kaldı: **turuncu** ✔
+82. **nane = 5. (en uzun)** ve **5. (en uzun) ≠ mavi** olduğundan **nane ≠ mavi** ✖
+83. **nane = 5. (en uzun)** ve **5. (en uzun) ≠ kahverengi** olduğundan **nane ≠ kahverengi** ✖
+84. **nane** için geriye tek seçenek kaldı: **beyaz** ✔
+85. **domates = 4.** ve **4. ≠ mavi** olduğundan **domates ≠ mavi** ✖
+86. **domates = 4.** ve **4. ≠ kahverengi** olduğundan **domates ≠ kahverengi** ✖
+87. **domates** için geriye tek seçenek kaldı: **yeşil** ✔
+88. **lavanta = 2.** ve **2. ≠ mavi** olduğundan **lavanta ≠ mavi** ✖
+89. **lavanta** için geriye tek seçenek kaldı: **kahverengi** ✔
+
+**Sonuç**
+
+| Boy | Öğrenci | Bitki | Saksı |
+|---|---|---|---|
+| 1. (en kısa) | Bade | fesleğen | turuncu |
+| 2. | Peri | lavanta | kahverengi |
+| 3. | Yiğit | biber | mavi |
+| 4. | Arda | domates | yeşil |
+| 5. (en uzun) | Deren | nane | beyaz |
