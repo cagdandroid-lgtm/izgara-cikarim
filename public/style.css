@@ -458,6 +458,65 @@ tr.kesin td { background: rgba(47, 107, 70, .05); }
 .ipucu-ogretmen li { margin-bottom: .25rem; }
 #cozumKutu summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }
 
+
+/* ---------- ölçme ve raporlar (yalnız öğretmen) ---------- */
+.hatirlatma {
+  background: var(--uyari-zemin);
+  border-left: 5px solid var(--uyari);
+  border-radius: 8px;
+  padding: .7rem .9rem;
+  margin: 0 0 .7rem;
+}
+.panel .satir .etiket { font-weight: 600; }
+.secim {
+  display: inline-flex; align-items: center; gap: .35rem;
+  min-height: 44px; padding: .2rem .6rem;
+  border: 2px solid var(--cizgi-koyu); border-radius: var(--yuvarlak);
+  background: var(--kagit-2); cursor: pointer;
+}
+.secim input { width: 18px; height: 18px; accent-color: var(--ana); }
+.secim:focus-within { outline: 3px solid var(--vurgu); outline-offset: 2px; }
+.tehlike-satir { margin-top: 1rem; padding-top: .7rem; border-top: 1px dashed var(--cizgi-koyu); }
+#eslesmeKutu { margin: .6rem 0; }
+#gecmisDosya { font: inherit; min-height: 44px; }
+.ogr-tablo .kod-h { font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace; font-weight: 600; }
+.ad-btn {
+  font: inherit; font-weight: 600; color: var(--ana-koyu);
+  background: none; border: 0; padding: .2rem 0; cursor: pointer;
+  text-decoration: underline dotted; text-underline-offset: 3px; min-height: 44px;
+}
+.ad-btn:hover { color: var(--murekkep); }
+.ad-btn:focus-visible { outline: 3px solid var(--vurgu); outline-offset: 2px; }
+
+/* rapor katmanı (modal) */
+.katman {
+  position: fixed; inset: 0; z-index: 40;
+  background: rgba(47, 42, 36, .45);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 1rem; overflow-y: auto;
+}
+.katman[hidden] { display: none; }
+.katman-kutu {
+  background: var(--kagit-2); border: 2px solid var(--cizgi-koyu);
+  border-radius: var(--yuvarlak); box-shadow: var(--golge);
+  padding: 1rem; width: min(720px, 100%); margin: auto;
+}
+.katman-ust { display: flex; align-items: center; justify-content: space-between; gap: .6rem; margin-bottom: .6rem; }
+.katman-ust h2 { margin: 0; }
+.olculer { display: flex; flex-wrap: wrap; gap: .5rem; margin: .6rem 0 .8rem; }
+.olcu {
+  flex: 1 1 6.5rem; text-align: center;
+  background: var(--kagit); border: 1px solid var(--cizgi-koyu);
+  border-radius: var(--yuvarlak); padding: .5rem .4rem;
+}
+.olcu-deger { display: block; font-size: 1.25rem; font-weight: 700; }
+.olcu-etiket { display: block; font-size: .82rem; color: var(--murekkep-2); }
+.degisim {
+  border-left: 5px solid var(--evet); background: var(--evet-zemin);
+  border-radius: 8px; padding: .55rem .8rem; margin: .5rem 0;
+}
+.degisim.eksi { border-left-color: var(--uyari); background: var(--uyari-zemin); }
+
 /* ---------- mobil ---------- */
 @media (max-width: 640px) {
   .ust { padding: .5rem .7rem; }
@@ -466,4 +525,6 @@ tr.kesin td { background: rgba(47, 107, 70, .05); }
   .hucre { width: 44px; height: 44px; }
   .sutun-basi { height: 5.5rem; font-size: .8rem; }
   .arac-cubugu .btn { flex: 1 1 45%; }
+  .katman { padding: .5rem; }
+  .olcu { flex: 1 1 5.5rem; }
 }

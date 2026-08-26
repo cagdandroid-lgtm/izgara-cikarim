@@ -96,6 +96,8 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
   başka bir sekmedeyken de haberi olur. Turu öğretmen kendisi bitirir/iptal ederse uyarı çıkmaz.
 - **🔒 Girişleri Kilitle** (oyun başladıktan sonra yeni katılım kapanır) · **🔒 İsimleri Kilitle**
 - **📣 Sınıfa duyuru** · **🔑 Bulmaca ve çözüm** (yalnız öğretmen görür)
+- **📊 Ölçme ve Raporlar** kartı — CSV dışa aktarım, isim↔kod eşlemesi, öğrenci raporu, veli karnesi
+  (ayrıntı: [Ölçme ve raporlar](#-ölçme-ve-raporlar))
 
 ### Kısayollar (panelde, bir alana yazarken devre dışı)
 | Tuş | İşlev |
@@ -103,6 +105,91 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
 | `Boşluk` | Duraklat / Devam |
 | `B` | Seçili bulmacayla başlat |
 | `N` | Rastgele yeni bulmaca başlat |
+
+---
+
+## 📊 Ölçme ve raporlar
+
+Tüm ölçüm işleri öğretmen panelindeki **📊 Ölçme ve Raporlar** kartında toplanır.
+Bu verilerin hiçbiri öğrenci ekranında görünmez; zorluk gizliliği aynen sürer.
+Kayıtlar **yalnız bellekte** tutulur (Render diski kalıcı değildir) — bu yüzden panel,
+dışa aktarılmamış kayıt varsa hem kartın üstünde hem de tur bitti bildiriminde
+“raporu indirin” hatırlatması gösterir.
+
+### Olay kaydı — standart şema (13 sütun)
+
+Her cevap/görev için sunucu, **tüm UYCEP Logic oyunlarıyla birebir aynı** şemayla kayıt tutar.
+Sütun adları asla değişmez; oyunlar arası birleştirilebilirlik buna bağlıdır.
+
+| Sütun | Bu oyunda ne yazar |
+|---|---|
+| `zaman` | olayın ISO zaman damgası |
+| `oyun` | `izgara-cikarim` |
+| `set_veya_paket` | bulmacanın teması (`sihirbazlar`, `boy-sirasi` …) |
+| `grup` | `e` / `i` / `c` |
+| `ogrenci_kod` | takma ad (`E-01`) — **isim yazılmaz** |
+| `gorev_id` | bulmaca id’si (`c-1-03`) |
+| `kategori` | bulmacanın düşünme türü (aşağıdaki tablo) |
+| `chc` | hedeflenen CHC alanları, `|` ile ayrık (`Gf\|Gsm`) |
+| `zorluk` | katman kodu (`e-1` … `c-2`) — yalnız kayıtta ve panelde |
+| `sonuc` | `dogru` · `yanlis` · `atlandi` |
+| `sure_sn` | tur başlangıcından o ana kadar geçen süre (0,1 sn duyarlıkta) |
+| `deneme` | kaçıncı “Kontrol Et” denemesi |
+| `ipucu_kullanildi` | bu oyunda ayrı bir ipucu dağıtımı olmadığından daima `0` |
+
+Ne zaman kayıt oluşur:
+- **Yanlış “Kontrol Et”** → `yanlis` · **doğru çözüm** → `dogru`
+- **Tur kapanınca** (öğretmen bitirdi / süre doldu / herkes bitirdi) o turda hiç cevabı olmayan
+  her öğrenci için → `atlandi`
+- **Birlikte modunda** doğru çözüm çevrimiçi tüm sınıfa, **İkili Modda** takımın cevabı
+  **iki üyeye de** yazılır (puan nasıl dağıtılıyorsa ölçüm de öyle).
+- **♻️ Soruyu İptal Et** yalnız puanları geri almaz; o turun **ölçüm kayıtlarını da siler**
+  (hatalı/tartışmalı soru veriye karışmasın).
+
+Kategori ve CHC eşlemesi (`lib/olcum.js`; bir bulmacanın kendi `kategori` / `chc` alanı varsa o kullanılır):
+
+| Seviye | `kategori` | `chc` |
+|---|---|---|
+| `e-1` | `dogrudan` | Gf, Gsm |
+| `e-2`, `i-1` | `olumsuz` | Gf, Gsm |
+| `i-2` | `coklu-kategori` | Gf, Gsm |
+| `c-1` | `kosullu` | Gf, Gsm |
+| `c-2` (Einstein) | `konum` | Gf, Gsm, Gv |
+| `c-2` (sıralama) | `siralama` | Gf, Gsm, Gv |
+
+### Takma ad (kod) ve isim↔kod eşlemesi
+- Öğrenci ilk girişinde otomatik olarak bir koda bağlanır: **E-01, E-02, …**
+- Eşleme **yalnız öğretmen panelinde** yaşar: öğrenci tablosunda ayrı bir **Kod** sütunu vardır,
+  **🔐 İsim ↔ Kod Eşlemesi** düğmesi tam listeyi açar.
+- Kopan/geri dönen öğrenci aynı kodda kalır; oyundan çıkarılıp aynı adla dönen öğrenci de
+  eski kodunu geri alır (verisi bölünmesin).
+
+### CSV dışa aktarım
+- **İsim modu** seçilir, sonra **📥 CSV İndir**:
+  * 🔒 **Kodlu** (araştırma): tam olarak yukarıdaki 13 sütun.
+  * 👪 **İsimli** (veli raporu): aynı 13 sütun + sona eklenen tek `ogrenci_ad` sütunu —
+    standart sütunlar değişmediği için dosyalar yine birleştirilebilir.
+- Dosya her zaman oturumdaki **tüm öğrencileri tek dosyada** içerir.
+- Dosya adı: `izgara-cikarim_<grup>_<YYYY-AA-GG>.csv` · UTF-8 BOM’lu (Excel Türkçe karakterleri doğru açar).
+- **🧹 Ölçüm Verisini Sıfırla** (kırmızı, onaylı): yeni bir sınıfa geçerken kullanılır;
+  kayıtları siler, isim↔kod eşlemesini korur.
+
+### Öğrenci Raporu ekranı
+Öğrenci tablosunda **ada** ya da **📄** düğmesine tıklayınca tek ekranda açılır:
+genel doğruluk yüzdesi, **kategori bazlı doğruluk dökümü**, ortalama süre, ortalama deneme,
+en uzun seri ve ulaşılan kademe. Ekran canlıdır (yeni cevaplar geldikçe tazelenir).
+
+**📂 Geçen oturum CSV’si** yüklenirse aynı ekranda bir karşılaştırma satırı belirir:
+`Geçen oturuma göre: %50 → %75 (▲ +25 puan)`. Eşleştirme önce **koda**, kod tutmazsa
+**isme** göre yapılır; böylece hem kodlu hem isimli dosyalar kullanılabilir.
+
+### Veli karnesi (A4)
+- **🖨 Yazdırılabilir Rapor (A4)** — açık rapordaki öğrencinin tek sayfalık karnesi.
+- **🖨 Tüm Karneleri İndir** — sınıftaki her öğrenci için **bir A4 sayfa**, hepsi
+  **tek yazdırılabilir belgede** (veli toplantısı öncesi tek tıkla tüm evrak).
+- Karne veli dilindedir: kategoriler “Koşullu (eğer–ise) akıl yürütme”, “Sıralama çıkarımı” gibi
+  sade başlıklara çevrilir; sonunda kısa bir öğretmen notu ve imza satırı bulunur.
+- Açılan pencerede **Yazdır** ya da **PDF olarak kaydet** seçilebilir.
 
 ---
 
@@ -140,11 +227,14 @@ lib/puan.js            puanlama sabitleri
 lib/takimlar.js        İkili Mod: takım kurulumu, eşleştirme, takım adına denetim
 lib/bulmacalar.js      puzzles.json okuma/doğrulama/indeksleme, çözümün ayıklanması
 lib/kontrol.js         işaret doğrulama + cevap denetimi (yalnız sunucu)
+lib/olcum.js           ölçme standardı: 13 sütunluk olay kaydı, takma ad, CSV, öğrenci özeti
 lib/durum.js           oyun durumu: oyuncular, puanlar, tur, kilitler
 lib/oyun.js            socket olayları
 public/index.html·app.js·izgara.js·style.css    öğrenci
 public/bekleme.js      beklerken oynanan hafıza oyunu (yalnız istemci, puana etkisiz)
 public/teacher.html·teacher.js                  öğretmen
+public/rapor.js        ölçme/rapor arayüzü: CSV, kod eşlemesi, öğrenci raporu, A4 karne
+                       (teacher.html/js gibi yalnız girişi yapmış öğretmene servis edilir)
 data/puzzles.json      54 bulmaca (e/i/c grupları)
 data/cozumler.md       anlatımlı çözümler — ÖĞRETMEN İÇİN, web'e servis edilmez
 data/uretec.js         bulmaca üreteci (içerik üretimi için; sunucu bunu kullanmaz)

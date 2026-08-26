@@ -89,7 +89,7 @@
     <div class="tablo-kaydir">
       <table class="ogr-tablo">
         <thead>
-          <tr><th>#</th><th>Ad</th><th>Durum</th><th>İlerleme</th><th>Kesin</th><th>Deneme</th><th>Puan</th><th>Tur</th><th>İşlemler</th></tr>
+          <tr><th>#</th><th>Kod</th><th>Ad</th><th>Durum</th><th>İlerleme</th><th>Kesin</th><th>Deneme</th><th>Puan</th><th>Tur</th><th>İşlemler</th></tr>
         </thead>
         <tbody id="ogrenciler"></tbody>
       </table>
@@ -101,6 +101,46 @@
     <h2>🏁 Podyum</h2>
     <ol id="podyum" class="podyum"></ol>
     <p id="podyumBos" class="alt">Bu turda henüz bitiren yok.</p>
+  </section>
+
+  <section class="kart" id="olcumKart">
+    <h2>📊 Ölçme ve Raporlar <span id="olcumOzet" class="alt"></span></h2>
+
+    <p id="olcumHatirlatma" class="hatirlatma" role="status" hidden>
+      📥 <b>Raporu indirmeyi unutmayın.</b> <span id="olcumHatirlatmaSayi">0</span> kayıt henüz dışa aktarılmadı;
+      veri yalnız <b>bellekte</b> tutulur (sunucu yeniden başlarsa silinir).
+    </p>
+
+    <div class="satir">
+      <span class="etiket">İsim modu</span>
+      <label class="secim"><input type="radio" name="isimModu" value="kod" checked> 🔒 Kodlu (araştırma)</label>
+      <label class="secim"><input type="radio" name="isimModu" value="isim"> 👪 İsimli (veli raporu)</label>
+      <button id="csvBtn" class="btn btn-ana">📥 CSV İndir (tüm öğrenciler)</button>
+      <button id="karneBtn" class="btn btn-ikincil">🖨 Tüm Karneleri İndir</button>
+      <button id="eslesmeBtn" class="btn btn-ikincil" aria-expanded="false">🔐 İsim ↔ Kod Eşlemesi</button>
+    </div>
+
+    <div class="satir">
+      <label for="gecmisDosya">📂 Geçen oturum CSV'si</label>
+      <input id="gecmisDosya" type="file" accept=".csv,text/csv">
+      <span id="gecmisDurum" class="alt">Seçilirse raporlarda “geçen oturuma göre değişim” satırı görünür.</span>
+    </div>
+
+    <div id="eslesmeKutu" hidden>
+      <p class="alt">Bu eşleme yalnız bu panelde görünür; CSV'de ve öğrenci ekranlarında öğrencinin <b>kodu</b> yer alır.</p>
+      <div class="tablo-kaydir">
+        <table class="ogr-tablo">
+          <thead><tr><th>Kod</th><th>Ad</th><th>Durum</th></tr></thead>
+          <tbody id="eslesmeGovde"></tbody>
+        </table>
+      </div>
+      <p id="eslesmeBos" class="alt">Henüz kod verilmiş öğrenci yok.</p>
+    </div>
+
+    <div class="satir tehlike-satir">
+      <button id="olcumSifirlaBtn" class="btn btn-uyari">🧹 Ölçüm Verisini Sıfırla</button>
+      <span class="alt">Yeni bir sınıfa geçerken kullanın — indirilmemiş kayıtlar kaybolur.</span>
+    </div>
   </section>
 
   <section class="kart">
@@ -120,9 +160,24 @@
 
 </main>
 
+<div id="raporKatman" class="katman" hidden>
+  <div class="katman-kutu" role="dialog" aria-modal="true" aria-labelledby="raporBaslik">
+    <div class="katman-ust">
+      <h2 id="raporBaslik">📄 Öğrenci Raporu</h2>
+      <button id="raporKapat" class="btn btn-mini" type="button">✕ Kapat</button>
+    </div>
+    <div id="raporIcerik"></div>
+    <div class="satir">
+      <button id="karneTekBtn" class="btn btn-ana" type="button">🖨 Yazdırılabilir Rapor (A4)</button>
+      <span class="alt">Yazdır penceresinde “PDF olarak kaydet” de seçebilirsiniz.</span>
+    </div>
+  </div>
+</div>
+
 <div id="duyuru" class="duyuru" role="status" aria-live="polite" hidden></div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="/rapor.js"></script>
 <script src="/teacher.js"></script>
 </body>
 </html>

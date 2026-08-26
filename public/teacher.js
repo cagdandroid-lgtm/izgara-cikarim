@@ -7,6 +7,8 @@
   let son = null;              // son gelen durum
   let listelerDolu = false;
 
+  Rapor.kur(socket);           // ölçme/rapor bölümü (public/rapor.js)
+
   socket.on('durum', (d) => {
     if (!d.ogretmen) return;
     son = d;
@@ -28,8 +30,10 @@
       ? '⏱ Süre doldu — tur bitti'
       : `✅ Tüm ${cogul} tamamladı — tur bitti`;
     const ilk = v.podyum && v.podyum.length ? ` · 1. ${v.podyum[0].ad}` : '';
+    const aktarilmamis = son && son.ogretmen.olcum ? son.ogretmen.olcum.aktarilmamis : 0;
     $('#bitisAlt').textContent =
-      `${v.bulmacaId || '—'} · ${v.bitiren}/${v.toplam} ${tekil} bitirdi${ilk}`;
+      `${v.bulmacaId || '—'} · ${v.bitiren}/${v.toplam} ${tekil} bitirdi${ilk}` +
+      (aktarilmamis ? ` · 📥 ${aktarilmamis} kayıt indirilmedi — ders sonunda CSV'yi indirin` : '');
     $('#bitisUyari').hidden = false;
     zilCal();
     basligiYanipSondur();
@@ -109,6 +113,7 @@
     $('#isimKilitBtn').textContent = d.isimKilitli ? '🔒 İsimler Kilitli' : '🔓 İsimler Açık';
     $('#isimKilitBtn').classList.toggle('etkin', d.isimKilitli);
 
+    Rapor.ciz(d);              // ölçme özeti, kod eşlemesi, açık rapor ekranı
     ogrencileriCiz(d.ogretmen.oyuncular);
     takimlariCiz(d);
     podyumCiz(d.podyum);
@@ -222,7 +227,9 @@
       tr.className = o.cevrimici ? '' : 'cevrimdisi';
       tr.innerHTML =
         `<td>${i + 1}</td>` +
-        `<td class="ad">${kacir(o.ad)}${o.bitti ? ' 🎉' : ''}</td>` +
+        `<td class="kod-h">${kacir(Rapor.kodOf(o.id))}</td>` +
+        `<td class="ad"><button type="button" class="ad-btn" title="Öğrenci raporunu aç">` +
+        `${kacir(o.ad)}${o.bitti ? ' 🎉' : ''}</button></td>` +
         `<td>${o.cevrimici ? '🟢 çevrimiçi' : '🔴 çevrimdışı'}` +
         `${o.takimAd ? `<br><span class="alt">👥 ${kacir(o.takimAd)}</span>` : ''}</td>` +
         `<td><span class="cubuk"><i style="width:${o.ilerleme}%"></i></span> %${o.ilerleme}</td>` +
@@ -230,8 +237,10 @@
         `<td class="puan-h"><b>${o.puan}</b></td>` +
         `<td>${o.turPuani ? '+' + o.turPuani : '–'}</td>` +
         `<td class="islem"></td>`;
+      tr.querySelector('.ad-btn').addEventListener('click', () => Rapor.raporAc(o.id));
       const islem = tr.querySelector('.islem');
       islem.append(
+        dugme('📄', 'btn-mini', () => Rapor.raporAc(o.id), 'Öğrenci raporu'),
         dugme('+5', 'btn-mini', () => socket.emit('t:puan', { id: o.id, delta: 5 })),
         dugme('−5', 'btn-mini', () => socket.emit('t:puan', { id: o.id, delta: -5 })),
         dugme('✏️', 'btn-mini', () => {
@@ -353,6 +362,7 @@
   /* klavye kısayolları */
   document.addEventListener('keydown', (e) => {
     if (/input|select|textarea/i.test(e.target.tagName)) return;
+    if (!$('#raporKatman').hidden) return;          // rapor ekranı açıkken kısayollar kapalı
     if (e.key === ' ') { e.preventDefault(); $('#duraklatBtn').click(); }
     if (e.key.toLowerCase() === 'b') $('#baslatBtn').click();
     if (e.key.toLowerCase() === 'n') { $('#bulmaca').value = ''; $('#baslatBtn').click(); }

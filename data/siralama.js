@@ -239,6 +239,7 @@ function yap(t) {
   return {
     bulmaca: {
       id: t.id, grup: 'c', seviye: 'c-2', tema: t.tema, baslik: t.baslik,
+      kategori: 'siralama',                       // ölçme kaydındaki "kategori" sütunu (lib/olcum.js)
       kategoriler, ipuclari: budandi.map((c) => c.metin), cozum: cozumSatirlari
     },
     clues: budandi.map((c) => c.coz),
