@@ -36,13 +36,24 @@
     <button id="bitisKapat" class="btn btn-mini" type="button">Kapat</button>
   </div>
 
-  <section class="kart">
-    <h2>🎛 Tur Ayarları</h2>
+  <!-- ============ 1) VARSAYILAN AÇIK: oyunu oynatmak için gerekenler ============ -->
+  <details class="kart bolum" open>
+    <summary><h2 class="satir-ici">🎬 Oturum ve Tur</h2><span id="oturumOzet" class="alt"></span></summary>
+
+    <p id="yayinNot" class="not-kutu ince">
+      Öğrenciler <b>/</b> adresinde bekleme ekranında. Grup/etkinlik seçtiğiniz an
+      ekranları kendiliğinden <b>o grubun isim kartlarına</b> döner.
+    </p>
+
     <div class="satir">
       <label for="grup">Grup</label>
       <select id="grup"></select>
-      <label for="seviye">Seviye</label>
+      <label for="seviye">Etkinlik / seviye</label>
       <select id="seviye"></select>
+      <button id="yayinlaBtn" class="btn btn-yesil">🎬 Grubu Yayınla</button>
+    </div>
+
+    <div class="satir">
       <label for="mod">Mod</label>
       <select id="mod">
         <option value="yaris">🏁 Yarış (herkes kendi tablosunu çözer)</option>
@@ -51,41 +62,22 @@
       </select>
       <label for="sure">Süre (dk, 0 = süresiz)</label>
       <input id="sure" type="number" min="0" max="60" step="1" value="0">
-    </div>
-    <div class="satir">
       <label for="bulmaca">Bulmaca</label>
       <select id="bulmaca"><option value="">🎲 Rastgele (oynanmamışlardan)</option></select>
-      <button id="baslatBtn" class="btn btn-ana">▶️ Başlat</button>
-      <button id="duraklatBtn" class="btn btn-ikincil">⏸ Duraklat</button>
-      <button id="bitirBtn" class="btn btn-ikincil">⏹ Turu Bitir</button>
     </div>
-    <div class="satir">
-      <button id="iptalBtn" class="btn btn-uyari">♻️ Soruyu İptal Et (puanları geri al)</button>
-      <button id="sifirlaBtn" class="btn btn-uyari">🔄 Oyunu Sıfırla</button>
-      <button id="girisKilitBtn" class="btn btn-ikincil">🔓 Girişler Açık</button>
-      <button id="isimKilitBtn" class="btn btn-ikincil">🔓 İsimler Açık</button>
-    </div>
-    <div class="satir">
-      <label for="duyuruMetin">Sınıfa duyuru</label>
-      <input id="duyuruMetin" type="text" maxlength="200" placeholder="Örn. 5. ipucunu birlikte okuyalım">
-      <button id="duyuruBtn" class="btn btn-ikincil">📣 Gönder</button>
-    </div>
-  </section>
 
-  <section class="kart" id="takimKart" hidden>
-    <h2>👥 Takımlar <span id="takimOzet" class="alt"></span></h2>
     <div class="satir">
-      <button id="karistirBtn" class="btn btn-ikincil">🔀 Karıştır (yeniden eşleştir)</button>
-      <button id="esleBtn" class="btn btn-ana" disabled>🔗 Seçilenleri Eşle</button>
-      <span id="secimDurum" class="alt">Elle eşlemek için aşağıdan iki öğrenci seçin.</span>
+      <button id="baslatBtn" class="btn btn-yesil">▶️ Başlat</button>
+      <button id="duraklatBtn" class="btn btn-sari">⏸ Duraklat</button>
+      <button id="bitirBtn" class="btn btn-kirmizi">⏹ Turu Bitir</button>
+      <button id="iptalBtn" class="btn btn-kirmizi">♻️ Soruyu İptal Et (puanları geri al)</button>
     </div>
-    <div id="secimCipleri" class="cipler"></div>
-    <div id="takimlar" class="takim-listesi"></div>
-    <p id="takimBos" class="alt">Henüz takım yok. Öğrenciler katıldıktan sonra <b>Başlat</b> ya da <b>Karıştır</b> deyin.</p>
-  </section>
+  </details>
 
-  <section class="kart">
-    <h2>👤 Öğrenciler <span id="ilerlemeOzet" class="alt"></span></h2>
+  <!-- ============ 2) VARSAYILAN AÇIK: canlı oyun durumu ============ -->
+  <details class="kart bolum" open>
+    <summary><h2 class="satir-ici">👤 Canlı Durum</h2><span id="ilerlemeOzet" class="alt"></span></summary>
+
     <div class="tablo-kaydir">
       <table class="ogr-tablo">
         <thead>
@@ -94,17 +86,43 @@
         <tbody id="ogrenciler"></tbody>
       </table>
     </div>
-    <p id="bosMesaj" class="alt">Henüz kimse katılmadı. Öğrenciler <b>/</b> adresinden adlarını yazarak girer.</p>
-  </section>
+    <p id="bosMesaj" class="alt">Henüz kimse katılmadı. Öğrenciler <b>/</b> adresinde kendi isim kartına dokunur.</p>
 
-  <section class="kart">
-    <h2>🏁 Podyum</h2>
+    <div id="farkliGrupKutu" hidden>
+      <h3>⚠ Farklı gruptan girenler</h3>
+      <p class="alt">Bu oturum <b id="aktifGrupAd">—</b> grubuna ait; aşağıdakiler sahneye ve sayaca dahil edilmez.</p>
+      <div class="tablo-kaydir">
+        <table class="ogr-tablo"><tbody id="farkliGrupListe"></tbody></table>
+      </div>
+    </div>
+
+    <div class="satir">
+      <label for="misafirAd">🙋 Misafir ekle</label>
+      <input id="misafirAd" type="text" maxlength="40" placeholder="Misafirin adı">
+      <button id="misafirBtn" class="btn btn-ikincil">➕ Aktif gruba ekle</button>
+      <span class="alt">M-01, M-02… kodu alır; CSV'de “misafir” işaretlidir, araştırma setine girmez.</span>
+    </div>
+
+    <h3>🏁 Podyum</h3>
     <ol id="podyum" class="podyum"></ol>
     <p id="podyumBos" class="alt">Bu turda henüz bitiren yok.</p>
-  </section>
+  </details>
 
-  <section class="kart" id="olcumKart">
-    <h2>📊 Ölçme ve Raporlar <span id="olcumOzet" class="alt"></span></h2>
+  <details class="kart bolum" id="takimKart" open hidden>
+    <summary><h2 class="satir-ici">👥 Takımlar</h2><span id="takimOzet" class="alt"></span></summary>
+    <div class="satir">
+      <button id="karistirBtn" class="btn btn-ikincil">🔀 Karıştır (yeniden eşleştir)</button>
+      <button id="esleBtn" class="btn btn-yesil" disabled>🔗 Seçilenleri Eşle</button>
+      <span id="secimDurum" class="alt">Elle eşlemek için aşağıdan iki öğrenci seçin.</span>
+    </div>
+    <div id="secimCipleri" class="cipler"></div>
+    <div id="takimlar" class="takim-listesi"></div>
+    <p id="takimBos" class="alt">Henüz takım yok. Öğrenciler katıldıktan sonra <b>Başlat</b> ya da <b>Karıştır</b> deyin.</p>
+  </details>
+
+  <!-- ============ 3) VARSAYILAN KAPALI: raporlar ============ -->
+  <details class="kart bolum" id="olcumKart">
+    <summary><h2 class="satir-ici">📊 Ölçme ve Raporlar</h2><span id="olcumOzet" class="alt"></span></summary>
 
     <p id="olcumHatirlatma" class="hatirlatma" role="status" hidden>
       📥 <b>Raporu indirmeyi unutmayın.</b> <span id="olcumHatirlatmaSayi">0</span> kayıt henüz dışa aktarılmadı;
@@ -138,25 +156,94 @@
     </div>
 
     <div class="satir tehlike-satir">
-      <button id="olcumSifirlaBtn" class="btn btn-uyari">🧹 Ölçüm Verisini Sıfırla</button>
+      <button id="olcumSifirlaBtn" class="btn btn-kirmizi">🧹 Ölçüm Verisini Sıfırla</button>
       <span class="alt">Yeni bir sınıfa geçerken kullanın — indirilmemiş kayıtlar kaybolur.</span>
     </div>
-  </section>
+  </details>
 
-  <section class="kart">
-    <details id="cozumKutu">
-      <summary><h2 class="satir-ici">🔑 Bulmaca ve Çözüm (yalnız sen görürsün)</h2></summary>
-      <p class="not-kutu">
-        📖 <b>Anlatımlı çözümler</b> (adım adım çıkarım) ayrı bir dosyadadır:
-        proje klasöründe <code>data/cozumler.md</code>.
-        Bulmacayı <b>id</b> ile arayın — örn. <code>### c-1-03</code>.
-        <span class="alt">Bu dosya güvenlik gereği web üzerinden servis edilmez; yalnız depoda/sunucu diskinde durur.</span>
-      </p>
-      <p id="cozumNot" class="not-kutu ince" hidden></p>
-      <div id="ipucuListe" class="ipucu-ogretmen"></div>
-      <div class="tablo-kaydir"><table id="cozumTablo" class="ogr-tablo"></table></div>
-    </details>
-  </section>
+  <!-- ============ 4) VARSAYILAN KAPALI: ayarlar ============ -->
+  <details class="kart bolum">
+    <summary><h2 class="satir-ici">⚙️ Ayarlar</h2></summary>
+    <div class="satir">
+      <button id="girisKilitBtn" class="btn btn-ikincil">🔓 Girişler Açık</button>
+      <span class="alt">Kilitliyken yeni öğrenci giremez; oyundakiler etkilenmez.</span>
+    </div>
+    <div class="satir">
+      <label for="duyuruMetin">📣 Sınıfa duyuru</label>
+      <input id="duyuruMetin" type="text" maxlength="200" placeholder="Örn. 5. ipucunu birlikte okuyalım">
+      <button id="duyuruBtn" class="btn btn-ikincil">Gönder</button>
+    </div>
+    <div class="satir tehlike-satir">
+      <button id="sifirlaBtn" class="btn btn-kirmizi">🔄 Oyunu Sıfırla (tüm puanlar sıfırlanır)</button>
+    </div>
+  </details>
+
+  <!-- ============ 5) VARSAYILAN KAPALI: çözüm ============ -->
+  <details class="kart bolum" id="cozumKutu">
+    <summary><h2 class="satir-ici">🔑 Bulmaca ve Çözüm (yalnız sen görürsün)</h2></summary>
+    <p class="not-kutu">
+      📖 <b>Anlatımlı çözümler</b> (adım adım çıkarım) ayrı bir dosyadadır:
+      proje klasöründe <code>data/cozumler.md</code>.
+      Bulmacayı <b>id</b> ile arayın — örn. <code>### c-1-03</code>.
+      <span class="alt">Bu dosya güvenlik gereği web üzerinden servis edilmez; yalnız depoda/sunucu diskinde durur.</span>
+    </p>
+    <p id="cozumNot" class="not-kutu ince" hidden></p>
+    <div id="ipucuListe" class="ipucu-ogretmen"></div>
+    <div class="tablo-kaydir"><table id="cozumTablo" class="ogr-tablo"></table></div>
+  </details>
+
+  <!-- ============ 6) EN SONDA, VARSAYILAN KAPALI: öğrenci listesi ============ -->
+  <details class="kart bolum" id="listeKart">
+    <summary><h2 class="satir-ici">🧾 Öğrenci Listesi</h2><span id="listeOzet" class="alt"></span></summary>
+
+    <p class="not-kutu ince">
+      Bu liste <code>data/ogrenciler.json</code> dosyasından gelir. Buradaki değişiklikler
+      <b>o oturumda anında</b> geçerlidir; kalıcı olması için <b>📥 Listeyi İndir</b> deyip
+      dosyayı depodaki <code>data/ogrenciler.json</code> ile değiştirin.
+      <span class="alt">Kodlar dönem boyunca sabittir; ayrılan öğrenci silinmez, <b>pasif</b> yapılır. Misafirler bu dosyaya yazılmaz.</span>
+    </p>
+
+    <div class="satir">
+      <label for="listeGrup">Grup</label>
+      <select id="listeGrup">
+        <option value="hepsi">Hepsi</option>
+        <option value="p">P grubu</option>
+        <option value="e">E grubu</option>
+        <option value="i">İ grubu</option>
+        <option value="c">C grubu</option>
+      </select>
+      <label for="listeDurum">Durum</label>
+      <select id="listeDurum">
+        <option value="hepsi">Hepsi</option>
+        <option value="aktif">Aktif</option>
+        <option value="pasif">Pasif</option>
+      </select>
+      <label for="listeArama">🔎 İsim ara</label>
+      <input id="listeArama" type="search" maxlength="40" placeholder="isim ya da kod">
+      <button id="listeIndirBtn" class="btn btn-ana">📥 Listeyi İndir</button>
+    </div>
+
+    <div class="tablo-kaydir">
+      <table class="ogr-tablo">
+        <thead><tr><th>Kod</th><th>İsim</th><th>Grup</th><th>Durum</th><th>İşlemler</th></tr></thead>
+        <tbody id="listeGovde"></tbody>
+      </table>
+    </div>
+    <p id="listeBos" class="alt" hidden>Bu süzgeçlere uyan kayıt yok.</p>
+
+    <div class="satir">
+      <label for="yeniIsim">➕ Yeni öğrenci</label>
+      <input id="yeniIsim" type="text" maxlength="40" placeholder="Ad Soyad">
+      <select id="yeniGrup">
+        <option value="p">P grubu</option>
+        <option value="e">E grubu</option>
+        <option value="i">İ grubu</option>
+        <option value="c">C grubu</option>
+      </select>
+      <input id="yeniKod" type="text" maxlength="8" placeholder="kod (boşsa otomatik)">
+      <button id="listeEkleBtn" class="btn btn-ikincil">Ekle</button>
+    </div>
+  </details>
 
 </main>
 
@@ -177,7 +264,9 @@
 <div id="duyuru" class="duyuru" role="status" aria-live="polite" hidden></div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="/bildirim.js"></script>
 <script src="/rapor.js"></script>
+<script src="/liste.js"></script>
 <script src="/teacher.js"></script>
 </body>
 </html>

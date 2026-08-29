@@ -11,16 +11,28 @@
 </head>
 <body>
 
-<!-- ---------- giriş ---------- -->
-<main id="giris" class="ekran kart giris-kart">
-  <h1>🧩 Izgara Çıkarım</h1>
-  <p class="alt">İpuçlarını oku, tabloyu işaretle, gizemi çöz!</p>
-  <form id="girisForm">
-    <label for="ad">Adın</label>
-    <input id="ad" name="ad" type="text" maxlength="24" autocomplete="off" required placeholder="Örn. Elif">
-    <button type="submit" class="btn btn-ana">Oyuna Katıl 🚀</button>
-  </form>
+<!-- ---------- giriş: SINIF OTURUMU MODELİ (isim yazılmaz, grup seçilmez) ---------- -->
+<canvas id="ambiyans" class="ambiyans" aria-hidden="true"></canvas>
+
+<!-- öğretmen henüz grup/etkinlik seçmediyse: sayaçsız bekleme ekranı -->
+<main id="bekleme" class="ekran giris-ekran" hidden>
+  <div class="kart giris-kart">
+    <div class="bekleme-ikon" aria-hidden="true">🧩</div>
+    <h1>Öğretmenini bekle</h1>
+    <p class="alt">Etkinlik seçilince adın burada belirecek. Hazır ol! 🧠</p>
+    <div class="nokta-sira" aria-hidden="true"><i></i><i></i><i></i></div>
+  </div>
+</main>
+
+<!-- öğretmen seçimi yapınca: yalnız o grubun aktif öğrenci kartları -->
+<main id="isimSecim" class="ekran giris-ekran" hidden>
+  <div class="secim-ust">
+    <h1>👋 Adına dokun</h1>
+    <p class="alt">Kendi adını bulup dokun — oyuna öyle katılıyorsun.</p>
+  </div>
+  <div id="isimKartlari" class="isim-kartlari"></div>
   <p id="girisHata" class="uyari" role="alert" hidden></p>
+  <p id="secimBos" class="alt" hidden>Bu grupta aktif öğrenci yok. Öğretmenine söyle.</p>
 </main>
 
 <!-- ---------- bekleme / duraklama / sonuç ---------- -->
@@ -89,6 +101,8 @@
 <div id="duyuru" class="duyuru" role="status" aria-live="polite" hidden></div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="/ambiyans.js"></script>
+<script src="/giris.js"></script>
 <script src="/izgara.js"></script>
 <script src="/bekleme.js"></script>
 <script src="/app.js"></script>

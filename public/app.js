@@ -7,45 +7,41 @@
 
   const durumum = {
     sid: localStorage.getItem('izgara_sid') || null,
-    ad: localStorage.getItem('izgara_ad') || '',
+    kod: localStorage.getItem('izgara_kod') || null,
+    ad: '',
     katildi: false,
     bulmacaAnahtari: null,
     ses: localStorage.getItem('izgara_ses') !== 'kapali',
-    sonKamu: null
+    sonKamu: null,
+    sonLobi: null
   };
 
-  /* ---------------- giriş ---------------- */
-  $('#ad').value = durumum.ad;
+  /* ---------------- giriş: SINIF OTURUMU MODELİ ----------------
+     Ekran çizimi public/giris.js'te; burada yalnız katılım akışı var. */
+  Giris.kur((kod) => katil(kod));
 
-  $('#girisForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const ad = $('#ad').value.trim();
-    if (ad.length < 2) return hataGoster('Adın en az 2 harf olmalı.');
-    katil(ad);
+  socket.on('lobi', (l) => {
+    durumum.sonLobi = l;
+    if (!durumum.katildi) Giris.ciz(l);          // oyundakini rahatsız etme
   });
 
-  function katil(ad) {
-    socket.emit('katil', { ad, sid: durumum.sid }, (cevap) => {
-      if (!cevap || cevap.hata) return hataGoster((cevap && cevap.hata) || 'Bağlanılamadı.');
+  function katil(kod) {
+    socket.emit('katil', { kod, sid: durumum.sid }, (cevap) => {
+      if (!cevap || cevap.hata) return Giris.hata((cevap && cevap.hata) || 'Bağlanılamadı.');
       durumum.sid = cevap.sid;
+      durumum.kod = cevap.kod;
       durumum.ad = cevap.ad;
       durumum.katildi = true;
       localStorage.setItem('izgara_sid', cevap.sid);
-      localStorage.setItem('izgara_ad', cevap.ad);
-      $('#giris').hidden = true;
+      localStorage.setItem('izgara_kod', cevap.kod);
+      Giris.gizle();
       $('#oyun').hidden = false;
-      hataGoster('');
+      Giris.hata('');
     });
   }
 
-  function hataGoster(m) {
-    const e = $('#girisHata');
-    e.textContent = m;
-    e.hidden = !m;
-  }
-
   socket.on('connect', () => {
-    if (durumum.sid && durumum.ad) katil(durumum.ad);   // kopan bağlantıda otomatik dönüş
+    if (durumum.sid && durumum.kod) katil(durumum.kod);   // kopan bağlantıda otomatik dönüş
   });
   socket.on('disconnect', () => {
     if (durumum.katildi) ortuGoster('📡', 'Bağlantı koptu', 'Yeniden bağlanmaya çalışıyorum… Puanın duruyor, merak etme.');
@@ -54,6 +50,18 @@
     durumum.katildi = false;
     localStorage.removeItem('izgara_sid');
     ortuGoster('🚪', 'Oyundan çıkarıldın', 'Öğretmenin seni oyundan çıkardı. Birkaç dakika sonra tekrar katılabilirsin.');
+  });
+
+  /* Öğretmen ismi serbest bıraktı: isim kartlarına dön (yanlış isme dokunulmuşsa) */
+  socket.on('serbest', () => {
+    durumum.katildi = false;
+    durumum.sid = null;
+    durumum.kod = null;
+    localStorage.removeItem('izgara_sid');
+    localStorage.removeItem('izgara_kod');
+    ortuGizle();
+    Giris.ciz(durumum.sonLobi);
+    Giris.hata('Öğretmenin ismi serbest bıraktı. Kendi adına dokunabilirsin.');
   });
 
   /* ---------------- durum akışı ---------------- */
@@ -107,7 +115,7 @@
 
   /* ---------------- çizim ---------------- */
   function ciz(d) {
-    $('#giris').hidden = true;
+    Giris.gizle();
     $('#oyun').hidden = false;
 
     $('#benimPuan').textContent = '⭐ ' + d.ben.puan;

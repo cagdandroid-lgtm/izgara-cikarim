@@ -11,8 +11,39 @@ Aşağıdaki standartlara İSTİSNASIZ uy:
 - Port: process.env.PORT || 3000 (Render uyumu için zorunlu)
 
 ## Roller ve akış
-- Öğrenci: / adresinden isim girerek katılır. Oda kodu YOK; herkes tek
-  sınıf odasına bağlanır. Dersler hibrittir: sınıftaki öğrenciler de
+- Öğrenci girişi (SINIF OTURUMU MODELİ): Öğrenci / adresinde isim
+  YAZMAZ ve grup SEÇMEZ. Oturumun grubu, öğretmenin panelde seçtiği
+  set/pakete göre otomatik belirlenir. Öğretmen henüz seçim yapmadıysa
+  öğrenci ekranında ortam animasyonlu bir bekleme ekranı görünür
+  ("Öğretmenini bekle" tonunda, sayaçsız); set seçildiği an ekran
+  kendiliğinden AKTİF grubun öğrenci kartlarına döner: yalnız o grubun
+  aktif öğrencileri, baş harfli avatar balonlu büyük kartlar. Öğrenci
+  kendi adına dokunarak girer; seçilen isim soluklaşır/kilitlenir
+  ("🎮 oyunda" rozeti), öğretmen panelden serbest bırakabilir. Öğrenci
+  ekranında hiçbir aşamada diğer grupların isimleri veya sayısı
+  görünmez.
+- Karma oturum (isteğe bağlı): Öğretmen panelden "karma oturum" açarsa
+  girişe grup seçim adımı eklenir: grup kartlarında YALNIZ resmî grup
+  adı + emoji + grup rengi bulunur (uydurma takma adlar üretilmez);
+  grup seçilince o grubun isim kartları gelir.
+- Tek grup oturumu: Bir oyun oturumu TEK gruba aittir. Sahne, lobi ve
+  tüm sayaçlar ("X oyuncu sahnede") yalnız AKTİF grubun oyuncularını
+  sayar ve gösterir; kilit açıkken farklı gruptan giren öğrenci sahneye
+  ve sayaca dahil edilmez, panelde "farklı grup ⚠" işaretiyle ayrı
+  listelenir (öğretmen isterse aktif gruba taşır veya çıkarır).
+- Misafir öğrenci: Öğretmen panelinden anlık misafir eklenebilir (ad
+  girilir); misafir, listeye o oturumluk katılır ve M-01, M-02... kodu
+  alır. Misafir kayıtları CSV'de "misafir" işaretiyle tutulur ve
+  araştırma setine dahil edilmez.
+- Öğrenci Listesi yönetim ekranı: Panelde ogrenciler.json içeriği
+  görüntülenir; öğretmen ekleme/düzenleme/pasifleştirme yapabilir.
+  Liste, parametrelere göre filtrelenebilir (grup, aktif/pasif) ve
+  isim arama kutusu bulunur.
+  Değişiklik o oturumda anında geçerlidir; kalıcılık için "Listeyi
+  İndir" düğmesi güncel ogrenciler.json'u indirir (öğretmen depoya
+  koyup push'lar). Giriş ekranındaki isim kartları, paneldeki grup
+  seçimine göre filtrelenir (yalnız o grubun aktif öğrencileri
+  görünür). Dersler hibrittir: sınıftaki öğrenciler de
   uzaktan (Zoom/Jitsi üzerinden derse katılan) öğrenciler de aynı
   bağlantıyı kullanır; oyun bu iki durum arasında hiçbir ayrım yapmaz.
 - Öğretmen: /teacher rotası. teacher.html'e doğrudan erişim engellenir;
@@ -79,6 +110,32 @@ Aşağıdaki standartlara İSTİSNASIZ uy:
     tuvali · 7-Mini yılan · 8-Top sektirme · 9-Piksel boyama ·
     10-Kelime avı (harf ızgarası) · 11-Hızlı işlem kartları ·
     12-Engelden atlama koşusu.
+- Çalışma yapılandırmaları: Mod, PROJE BAŞINA bir tasarım kararıdır —
+  her oyun tüm modları desteklemek zorunda DEĞİLDİR; mekaniğine en uygun
+  mod(lar) seçilir (tek modlu oyun tamamen geçerlidir) ve seçim README'de
+  bir cümleyle gerekçelendirilir. Kullanılabilir yapılandırmalar (oda
+  kodu kuralı değişmez — modlar panelden yönetilir, öğrenci kod girmez):
+  * BİREYSEL: herkes kendi başına (varsayılan).
+  * TAKIM: mevcut takım modu standardı (otomatik eşleştirme, takım
+    adı/rengi).
+  * BİRLİKTE (Boss Modu): tüm sınıf tek takımdır ve ortak bir "bölüm
+    sonu canavarı"na karşı oynar — her öğrencinin doğru cevabı canavarın
+    canından düşürür, canavar ekranda büyükçe görünür ve tepki animasyonu
+    verir; can bitince sınıfça zafer kutlaması. Yanlış cevap canavara
+    can KAZANDIRMAZ (ceza yok, yalnız katkı var). Kayıtlar yine öğrenci
+    bazlıdır (kim kaç hasar vurdu panelde görünür, öğrencilere toplam
+    gösterilir).
+  Akış geçişleri desteklenir: öğretmen "Düşün-Eşleş-Paylaş" akışını
+  başlatabilir (önce herkes aynı görevi bireysel çözer, süre bitince
+  aynı görev takım moduna döner, takım ortak cevabını verir) ve tersi
+  "Önce Birlikte, Sonra Tek Başına" akışı (ortak çözümden sonra herkese
+  benzer yeni görev bireysel gelir).
+  ÖLÇME KORUNUR: Takım ve Birlikte modlarında da olay kayıtları ÖĞRENCİ
+  bazlı tutulur (hangi hamleyi/işareti kimin yaptığı, ogrenci_kod ile);
+  kayda ek bir "mod" alanı yazılır (bireysel/takim/birlikte/dep-bireysel
+  /dep-takim) ki analizde bireysel performans ile grup içi performans
+  ayrıştırılabilsin. README'de oyunun hangi modları desteklediği ve
+  gerekçesi yazılır.
 - Takım modu değerlendirmesi: Her yeni oyunda, mekaniğin ikili/takımlı
   çalışmaya uygun olup olmadığı geliştirme sırasında DEĞERLENDİRİLİR.
   Uygunsa "Takım Modu" eklenir, uygun değilse README'ye tek cümlelik
@@ -200,8 +257,13 @@ Aşağıdaki standartlara İSTİSNASIZ uy:
   deneme, ipucu_kullanildi. Sütun adları asla değiştirilemez —
   oyunlar arası birleştirilebilirlik (ve akademik analiz) buna bağlıdır.
 - Takma ad (pseudonym): Kayıtlarda öğrencinin ADI değil KODU yazılır
-  (ör. E-07). İsim↔kod eşlemesi yalnız öğretmen panelinde tutulur ve
-  görünür; öğrenci ilk girişinde koduna otomatik bağlanır. CSV dışa
+  (ör. E-07). Kodlar KALICI ana listeden gelir: her depoda data/
+  ogrenciler.json (isim ↔ kod; TÜM oyunlarda aynı dosya, dönem başında
+  bir kez oluşturulur) — oyun, girilen ismi bu listeyle eşleştirir ve
+  aynı öğrenci her hafta her oyunda AYNI kodu alır. Listede olmayan
+  isim girilirse panelde uyarı çıkar ve öğretmen eşleme yapar. Depolar
+  PRIVATE tutulur. Demografik bilgi (doğum tarihi vb.) sisteme asla
+  girilmez; öğretmenin çevrimdışı dosyasında kodla eşlenir. CSV dışa
   aktarımında öğretmen "isimli" (veli raporu için) veya "kodlu"
   (araştırma için) seçer.
 - CSV dışa aktarım: Oturum sonunda tek tık; Render diski kalıcı
@@ -221,6 +283,16 @@ Aşağıdaki standartlara İSTİSNASIZ uy:
   tüm evrak hazır olur).
 - Bu verilerin hiçbiri öğrenci ekranında görünmez; zorluk gizliliği
   ve sıralama kuralları aynen sürer.
+- Süreç verisi (Katman-2, YALNIZ "araştırma oyunu" işaretli projelerde):
+  Cevap düzeyi kayıt (12 sütun) her oyunda zorunludur ve Rasch madde
+  kalibrasyonu için yeterlidir. Buna ek olarak araştırma oyunu seçilen
+  projelerde olay bazlı süreç akışı tutulur: her etkileşim
+  [zaman(ms), ogrenci_kod, mod, eylem, detay] satırı olarak kaydedilir
+  (tıklama, işaret koyma/silme, bekleme başlangıcı, arkadaş hamlesi
+  sonrası düzeltme, çakışma). Ayrı bir "olaylar.csv" olarak dışa
+  aktarılır. Amaç: işbirlikli göstergelerin (senkronizasyon, bekleme,
+  rol paylaşımı) sonradan puanlanabilmesi. Hangi projelerin araştırma
+  oyunu olduğu bilinçli seçilir; her oyuna yayılmaz.
 
 ## Etkinlik bilgi modali ve veli özeti (TÜM OYUNLARDA ZORUNLU)
 - Öğretmen panelinin sağ üst köşesinde göze batmayan bir "ℹ️ Etkinlik
@@ -294,6 +366,14 @@ Aşağıdaki standartlara İSTİSNASIZ uy:
     veya küçük dosyalar kullanılabilir; ses varsayılan olarak AÇIK ama
     düşük seviyede başlar ve her öğrenci ekranında tek dokunuşla
     kapatılabilir (🔇 düğmesi, tercih hatırlanır).
+- Öğretmen paneli düzeni (tüm oyunlarda ZORUNLU): Panel, AÇILIR-KAPANIR
+  bölümlerden oluşur (akordeon). Varsayılan AÇIK gelenler yalnız oyunu
+  oynatmak için gerekenlerdir: oyun akış kontrolleri (set/paket seçimi,
+  başlat/duraklat, soru-tur ilerletme) ve canlı oyun durumu. Diğer her
+  şey varsayılan KAPALI başlar: sıralama sahnesi kontrolleri (oyun
+  başlayınca açılabilir), raporlar/CSV, ayarlar ve EN SONDA Öğrenci
+  Listesi yönetimi. Bölüm başlıkları tek tıkla açılır; panelin üstü
+  hep sade kalır.
 - Öğretmen paneli düğme renk kodu (tüm oyunlarda TUTARLI ve ZORUNLU):
   * Başlat / Devam: yeşil · Duraklat: sarı · Turu/Soruyu bitir ve
     geçersiz kıl: kırmızı · Sıfırla ve yıkıcı işlemler: kırmızı, üstelik
@@ -312,6 +392,13 @@ Aşağıdaki standartlara İSTİSNASIZ uy:
 - Kullanım kolaylığı: Mobil ve tablet uyumlu, büyük dokunma hedefleri
   (en az 44px), okunaklı yazı boyutları (gövde metin 16px+), net ve
   kısa yönergeler. Font: Poppins veya benzeri okunaklı bir sans-serif.
+- Set/paket teması (platform oyunlarında ZORUNLU): Set tabanlı oyunlarda
+  (KHLike, P Atölyesi) her set/paket kendi görsel kimliğiyle gelir — set
+  JSON'ında "tema" alanı: etkinlik adı (öğrenciye oyunun adı olarak bu
+  gösterilir, platform adı değil), renk paleti, arka plan dünyası, lobi
+  ambiyansı ve uygunsa ikon/maskot varyantı. Amaç: aynı motorun her hafta
+  YENİ BİR OYUN olarak algılanması ("yine aynı şey" yorgunluğunu önler).
+  Tema yalnız görünümü değiştirir; mekanik, ölçme ve panel aynı kalır.
 - Doğru cevapta konfeti/kutlama animasyonu, yanlışta nazik geri bildirim.
   Sesler opsiyonel ve kapatılabilir.
 

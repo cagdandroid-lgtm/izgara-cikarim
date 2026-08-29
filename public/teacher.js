@@ -7,7 +7,8 @@
   let son = null;              // son gelen durum
   let listelerDolu = false;
 
-  Rapor.kur(socket);           // ölçme/rapor bölümü (public/rapor.js)
+  Rapor.kur(socket);                     // ölçme/rapor bölümü (public/rapor.js)
+  ListeUI.kur(socket, duyuruGoster);     // öğrenci listesi bölümü (public/liste.js)
 
   socket.on('durum', (d) => {
     if (!d.ogretmen) return;
@@ -18,62 +19,7 @@
   socket.on('duyuru', ({ mesaj }) => duyuruGoster('📣 ' + mesaj));
   socket.on('saat', ({ kalanSn }) => sayacYaz(kalanSn));
 
-  /* ---------------- tur bitti uyarısı ---------------- */
-  const asilBaslik = document.title;
-  let basliktZaman = null;
-
-  socket.on('turBitti', (v) => {
-    const ikili = v.mod === 'ikili';
-    const tekil = ikili ? 'takım' : 'öğrenci';
-    const cogul = ikili ? 'takımlar' : 'öğrenciler';
-    $('#bitisBaslik').textContent = v.sebep === 'sure'
-      ? '⏱ Süre doldu — tur bitti'
-      : `✅ Tüm ${cogul} tamamladı — tur bitti`;
-    const ilk = v.podyum && v.podyum.length ? ` · 1. ${v.podyum[0].ad}` : '';
-    const aktarilmamis = son && son.ogretmen.olcum ? son.ogretmen.olcum.aktarilmamis : 0;
-    $('#bitisAlt').textContent =
-      `${v.bulmacaId || '—'} · ${v.bitiren}/${v.toplam} ${tekil} bitirdi${ilk}` +
-      (aktarilmamis ? ` · 📥 ${aktarilmamis} kayıt indirilmedi — ders sonunda CSV'yi indirin` : '');
-    $('#bitisUyari').hidden = false;
-    zilCal();
-    basligiYanipSondur();
-  });
-
-  $('#bitisKapat').addEventListener('click', () => {
-    $('#bitisUyari').hidden = true;
-    durdurBaslik();
-  });
-
-  function basligiYanipSondur() {
-    durdurBaslik();
-    let acik = false;
-    basliktZaman = setInterval(() => {
-      acik = !acik;
-      document.title = acik ? '🔔 TUR BİTTİ' : asilBaslik;
-    }, 900);
-    // öğretmen sekmeye dönünce yanıp sönme dursun
-    window.addEventListener('focus', durdurBaslik, { once: true });
-    setTimeout(durdurBaslik, 30000);
-  }
-  function durdurBaslik() {
-    if (basliktZaman) clearInterval(basliktZaman);
-    basliktZaman = null;
-    document.title = asilBaslik;
-  }
-
-  let sesBaglam = null;
-  function zilCal() {
-    try {
-      sesBaglam = sesBaglam || new (window.AudioContext || window.webkitAudioContext)();
-      [880, 660, 990].forEach((hz, i) => {
-        const o = sesBaglam.createOscillator(), g = sesBaglam.createGain();
-        o.type = 'sine'; o.frequency.value = hz; g.gain.value = 0.05;
-        o.connect(g); g.connect(sesBaglam.destination);
-        const t = sesBaglam.currentTime + i * 0.16;
-        o.start(t); o.stop(t + 0.16);
-      });
-    } catch (e) { /* ses engelliyse sessiz geç */ }
-  }
+  Bildirim.kur(socket, () => son);   // tur bitti uyarısı (public/bildirim.js)
 
   /* takımın doluluk çubuğu, tam yayın beklemeden canlı güncellenir */
   socket.on('takimIlerleme', (t) => {
@@ -93,8 +39,10 @@
     $('#modRozet').textContent =
       d.mod === 'birlikte' ? '🤝 Birlikte' : d.mod === 'ikili' ? '👥 İkili Mod' : '🏁 Yarış';
     $('#turRozet').textContent = 'Tur ' + d.turNo + (d.bulmaca ? ' · ' + d.bulmaca.id : '');
-    $('#oyuncuSayi').textContent = '👥 ' + d.ogretmen.oyuncular.length +
-      ' (' + d.ogretmen.oyuncular.filter((o) => o.cevrimici).length + ' çevrimiçi)';
+    const sahnedekiler = d.ogretmen.oyuncular.filter((o) => !o.farkliGrup);
+    $('#oyuncuSayi').textContent = '👥 ' + sahnedekiler.length +
+      ' (' + sahnedekiler.filter((o) => o.cevrimici).length + ' çevrimiçi)';
+    oturumOzetCiz(d);
     sayacYaz(d.kalanSn);
 
     if (!listelerDolu) doldurListeler(d);
@@ -110,14 +58,25 @@
     $('#bitirBtn').disabled = d.faz !== 'oyun';
     $('#girisKilitBtn').textContent = d.girisKilitli ? '🔒 Girişler Kilitli' : '🔓 Girişler Açık';
     $('#girisKilitBtn').classList.toggle('etkin', d.girisKilitli);
-    $('#isimKilitBtn').textContent = d.isimKilitli ? '🔒 İsimler Kilitli' : '🔓 İsimler Açık';
-    $('#isimKilitBtn').classList.toggle('etkin', d.isimKilitli);
 
-    Rapor.ciz(d);              // ölçme özeti, kod eşlemesi, açık rapor ekranı
+    Rapor.ciz(d);                          // ölçme özeti, kod eşlemesi, açık rapor ekranı
+    ListeUI.tazele(d.ogretmen.liste);      // öğrenci listesi bölümü
     ogrencileriCiz(d.ogretmen.oyuncular);
     takimlariCiz(d);
     podyumCiz(d.podyum);
     cozumCiz(d);
+  }
+
+  /* Öğrencilerin ne gördüğünü tek satırda özetler (bekleme ekranı mı, isim kartları mı) */
+  function oturumOzetCiz(d) {
+    const l = d.ogretmen.lobi;
+    const gAdi = gAd[d.grup] || d.grup;
+    $('#oturumOzet').textContent = l.secimYapildi
+      ? `· ${gAdi} yayında · ${l.ogrenciler.length} isim kartı · ${l.ogrenciler.filter((o) => o.oyunda).length} tanesi girdi`
+      : '· öğrenciler bekleme ekranında — grup seçin ya da “Grubu Yayınla” deyin';
+    $('#yayinNot').hidden = l.secimYapildi;
+    $('#yayinlaBtn').disabled = l.secimYapildi;
+    $('#aktifGrupAd').textContent = gAdi;
   }
 
   /* ---------------- ikili mod: takımlar ---------------- */
@@ -215,44 +174,66 @@
   }
 
   function ogrencileriCiz(oyuncular) {
+    const sahnede = oyuncular.filter((o) => !o.farkliGrup);
+    const disarida = oyuncular.filter((o) => o.farkliGrup);
+
     const tb = $('#ogrenciler');
     tb.innerHTML = '';
-    $('#bosMesaj').hidden = oyuncular.length > 0;
-    const ort = oyuncular.length
-      ? Math.round(oyuncular.reduce((t, o) => t + o.ilerleme, 0) / oyuncular.length) : 0;
-    $('#ilerlemeOzet').textContent = oyuncular.length ? `· ortalama ilerleme %${ort}` : '';
+    $('#bosMesaj').hidden = sahnede.length > 0;
+    const ort = sahnede.length
+      ? Math.round(sahnede.reduce((t, o) => t + o.ilerleme, 0) / sahnede.length) : 0;
+    $('#ilerlemeOzet').textContent = sahnede.length ? `· ortalama ilerleme %${ort}` : '';
 
-    oyuncular.forEach((o, i) => {
+    sahnede.forEach((o, i) => tb.appendChild(ogrenciSatiri(o, i + 1)));
+
+    // farklı gruptan girenler ayrı listelenir; sahneye ve sayaca dahil DEĞİLdir
+    $('#farkliGrupKutu').hidden = disarida.length === 0;
+    const fb = $('#farkliGrupListe');
+    fb.innerHTML = '';
+    disarida.forEach((o) => {
       const tr = document.createElement('tr');
-      tr.className = o.cevrimici ? '' : 'cevrimdisi';
-      tr.innerHTML =
-        `<td>${i + 1}</td>` +
-        `<td class="kod-h">${kacir(Rapor.kodOf(o.id))}</td>` +
-        `<td class="ad"><button type="button" class="ad-btn" title="Öğrenci raporunu aç">` +
-        `${kacir(o.ad)}${o.bitti ? ' 🎉' : ''}</button></td>` +
-        `<td>${o.cevrimici ? '🟢 çevrimiçi' : '🔴 çevrimdışı'}` +
-        `${o.takimAd ? `<br><span class="alt">👥 ${kacir(o.takimAd)}</span>` : ''}</td>` +
-        `<td><span class="cubuk"><i style="width:${o.ilerleme}%"></i></span> %${o.ilerleme}</td>` +
-        `<td>${o.kesin}</td><td>${o.denemeler}</td>` +
-        `<td class="puan-h"><b>${o.puan}</b></td>` +
-        `<td>${o.turPuani ? '+' + o.turPuani : '–'}</td>` +
-        `<td class="islem"></td>`;
-      tr.querySelector('.ad-btn').addEventListener('click', () => Rapor.raporAc(o.id));
-      const islem = tr.querySelector('.islem');
-      islem.append(
-        dugme('📄', 'btn-mini', () => Rapor.raporAc(o.id), 'Öğrenci raporu'),
-        dugme('+5', 'btn-mini', () => socket.emit('t:puan', { id: o.id, delta: 5 })),
-        dugme('−5', 'btn-mini', () => socket.emit('t:puan', { id: o.id, delta: -5 })),
-        dugme('✏️', 'btn-mini', () => {
-          const ad = prompt('Yeni ad:', o.ad);
-          if (ad) socket.emit('t:isim', { id: o.id, ad });
-        }, 'İsmi değiştir'),
-        dugme('🚫', 'btn-mini', () => {
-          if (confirm(`${o.ad} oyundan çıkarılsın mı? (2 dakika aynı isimle giremez)`)) socket.emit('t:at', { id: o.id });
+      tr.innerHTML = `<td class="kod-h">${kacir(o.kod)}</td><td class="ad">${kacir(o.ad)}</td>` +
+        `<td>⚠ ${kacir((gAd[o.grup] || o.grup))}</td><td class="islem"></td>`;
+      tr.querySelector('.islem').append(
+        dugme('↪️ Aktif gruba al', 'btn-mini', () => socket.emit('t:grubaTasi', { id: o.id }), 'Bu oturumun grubuna taşı'),
+        dugme('🚫 Çıkar', 'btn-mini', () => {
+          if (confirm(`${o.ad} oyundan çıkarılsın mı?`)) socket.emit('t:at', { id: o.id });
         }, 'Oyundan çıkar')
       );
-      tb.appendChild(tr);
+      fb.appendChild(tr);
     });
+  }
+
+  function ogrenciSatiri(o, sira) {
+    const tr = document.createElement('tr');
+    tr.className = o.cevrimici ? '' : 'cevrimdisi';
+    tr.innerHTML =
+      `<td>${sira}</td>` +
+      `<td class="kod-h">${kacir(o.kod)}${o.misafir ? ' <span class="rozet tek">misafir</span>' : ''}</td>` +
+      `<td class="ad"><button type="button" class="ad-btn" title="Öğrenci raporunu aç">` +
+      `${kacir(o.ad)}${o.bitti ? ' 🎉' : ''}</button></td>` +
+      `<td>${o.cevrimici ? '🟢 çevrimiçi' : '🔴 çevrimdışı'}` +
+      `${o.takimAd ? `<br><span class="alt">👥 ${kacir(o.takimAd)}</span>` : ''}</td>` +
+      `<td><span class="cubuk"><i style="width:${o.ilerleme}%"></i></span> %${o.ilerleme}</td>` +
+      `<td>${o.kesin}</td><td>${o.denemeler}</td>` +
+      `<td class="puan-h"><b>${o.puan}</b></td>` +
+      `<td>${o.turPuani ? '+' + o.turPuani : '–'}</td>` +
+      `<td class="islem"></td>`;
+    tr.querySelector('.ad-btn').addEventListener('click', () => Rapor.raporAc(o.id));
+    tr.querySelector('.islem').append(
+      dugme('📄', 'btn-mini', () => Rapor.raporAc(o.id), 'Öğrenci raporu'),
+      dugme('+5', 'btn-mini', () => socket.emit('t:puan', { id: o.id, delta: 5 })),
+      dugme('−5', 'btn-mini', () => socket.emit('t:puan', { id: o.id, delta: -5 })),
+      dugme('🔓', 'btn-mini', () => {
+        if (confirm(`${o.ad} ismi serbest bırakılsın mı? Kart yeniden seçilebilir olur, oturumdaki puanı silinir.`)) {
+          socket.emit('t:serbest', { id: o.id });
+        }
+      }, 'İsmi serbest bırak (yanlış isme dokunulduysa)'),
+      dugme('🚫', 'btn-mini', () => {
+        if (confirm(`${o.ad} oyundan çıkarılsın mı? (2 dakika aynı kodla giremez)`)) socket.emit('t:at', { id: o.id });
+      }, 'Oyundan çıkar')
+    );
+    return tr;
   }
 
   function podyumCiz(podyum) {
@@ -330,8 +311,11 @@
   $('#girisKilitBtn').addEventListener('click', () => {
     socket.emit('t:kilit', { tip: 'giris', deger: !(son && son.girisKilitli) });
   });
-  $('#isimKilitBtn').addEventListener('click', () => {
-    socket.emit('t:kilit', { tip: 'isim', deger: !(son && son.isimKilitli) });
+  $('#yayinlaBtn').addEventListener('click', () => {
+    ayarYolla();
+    socket.emit('t:yayinla', {}, (r) => {
+      if (r && r.ok) duyuruGoster(`🎬 ${gAd[r.grup] || r.grup} yayında — isim kartları öğrencilerde.`);
+    });
   });
   $('#karistirBtn').addEventListener('click', () => {
     if (!confirm('Takımlar yeniden dağıtılsın mı? Mevcut eşleşmeler bozulur.')) return;

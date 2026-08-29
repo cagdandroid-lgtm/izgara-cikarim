@@ -42,16 +42,42 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
 
 ## Oyun akışı
 
-1. Öğrenci `/` adresinden **adını** yazıp katılır.
-2. Öğretmen panelden **grup + seviye + mod** seçip **Başlat** der.
-3. Öğrenci ekranında bulmacanın tabloları ve numaralı ipuçları görünür.
+1. Öğrenci `/` adresini açar. Öğretmen henüz seçim yapmadıysa **ortam animasyonlu, sayaçsız bir
+   bekleme ekranı** görür (“Öğretmenini bekle”).
+2. Öğretmen panelden **grup + etkinlik** seçer (ya da **🎬 Grubu Yayınla** der). Bekleyen ekranlar
+   **yenileme gerekmeden** o grubun **isim kartlarına** döner; öğrenci kendi adına dokunup katılır.
+   Ayrıntı: [Sınıf oturumu modeli](#-sınıf-oturumu-modeli-giriş).
+3. Öğretmen **mod + süre** seçip **Başlat** der.
+4. Öğrenci ekranında bulmacanın tabloları ve numaralı ipuçları görünür.
    - Hücreye dokunuş: **boş → ✔ → ✖ → boş**
    - ✔ konulduğunda aynı satır/sütundaki boş hücreler otomatik ✖ olur (eleme kolaylığı).
    - Aynı satır/sütunda iki ✔ varsa hücre kesikli kırmızı çerçeveyle uyarır.
-4. **Kontrol Et** → sunucu çözümle karşılaştırır:
+5. **Kontrol Et** → sunucu çözümle karşılaştırır:
    - Tamamı doğruysa konfeti + puan.
    - Değilse **tamamen doğru belirlenmiş satırlar yeşille** vurgulanır. Hücre bazlı hiçbir bilgi sızdırılmaz.
    - Ard arda denemeyi engellemek için 4 sn bekleme ve her hatalı denemede −5 puan uygulanır.
+
+### 🎒 Sınıf oturumu modeli (giriş)
+
+Öğrenci **isim YAZMAZ ve grup SEÇMEZ**; oturumun grubunu öğretmen belirler.
+
+- **Bekleme ekranı** — öğretmen seçim yapana kadar: yavaş süzülen çıkarım simgeleriyle
+  ortam animasyonu, sayaç yok. (`prefers-reduced-motion` açıksa animasyon hiç başlamaz.)
+- **İsim kartları** — seçim yapılır yapılmaz canlı olarak gelir (`lobi` olayı; sayfa yenilenmez):
+  **yalnız o grubun aktif öğrencileri**, baş harfli avatar balonlu büyük kartlar.
+  Başka grupların isimleri ya da sayısı öğrenci istemcisine **hiçbir aşamada gönderilmez**.
+- **Kart durumları** — bir isme dokunulduğunda kart soluklaşır ve kilitlenir: **🎮 oyunda**.
+  Bağlantısı kopan öğrencinin kartı **🔄 geri dön** olur (aynı kartla kaldığı yerden devam eder).
+  Öğretmen panelden **🔓** ile ismi serbest bırakabilir (yanlış isme dokunulduysa).
+- **Kod** — öğrenci `data/ogrenciler.json` listesindeki **kalıcı koduna** bağlanır; tüm ölçüm
+  kayıtları bu kodla tutulur.
+- **Tek grup oturumu** — bir oturum tek gruba aittir. Skor tablosu, podyum ve “👥 N” sayacı yalnız
+  **aktif grubun** oyuncularını sayar. Öğretmen grubu ders ortasında değiştirirse eski gruptakiler
+  panelde **⚠ farklı gruptan girenler** başlığı altına düşer; **↪️ Aktif gruba al** ya da
+  **🚫 Çıkar** denebilir. (Taşıma, öğrencinin listedeki grubunu da günceller.)
+- **Misafir** — öğretmen panelden anlık misafir ekler; misafir **M-01, M-02…** kodunu alır,
+  o oturumun isim kartlarında belirir, CSV'de `M-` kodu ve isimli çıktıda “(misafir)” ile
+  işaretlenir ve indirilen `ogrenciler.json`'a **yazılmaz** (araştırma setine girmez).
 
 ### Modlar
 | Mod | Ne olur | Puanlama |
@@ -83,18 +109,37 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
 
 ## Öğretmen paneli
 
-- Bağlı öğrenci listesi: çevrimiçi 🟢 / çevrimdışı 🔴, ilerleme %, kesinleşen satır, deneme, puan
+Panel **açılır-kapanır bölümlerden** oluşur. Varsayılan **AÇIK** olanlar yalnız oyunu oynatmak
+için gerekenlerdir; kalan her şey kapalı başlar, en sonda da öğrenci listesi yönetimi durur:
+
+| Bölüm | Varsayılan | İçerik |
+|---|---|---|
+| 🎬 **Oturum ve Tur** | açık | grup + etkinlik seçimi, 🎬 Grubu Yayınla, mod/süre/bulmaca, Başlat · Duraklat · Turu Bitir · Soruyu İptal Et |
+| 👤 **Canlı Durum** | açık | öğrenci tablosu, ⚠ farklı gruptan girenler, 🙋 misafir ekleme, podyum |
+| 👥 **Takımlar** | açık (yalnız İkili Modda görünür) | canlı doluluk, 🔀 Karıştır, 🔗 Seçilenleri Eşle |
+| 📊 **Ölçme ve Raporlar** | kapalı | CSV, isim↔kod eşlemesi, öğrenci raporu, veli karnesi |
+| ⚙️ **Ayarlar** | kapalı | 🔒 Girişleri Kilitle, 📣 duyuru, 🔄 Oyunu Sıfırla |
+| 🔑 **Bulmaca ve Çözüm** | kapalı | o anki bulmacanın ipuçları ve çözüm tablosu |
+| 🧾 **Öğrenci Listesi** | kapalı (en sonda) | `ogrenciler.json` yönetimi — [ayrıntı](#-öğrenci-listesi-dataogrencilerjson) |
+
+Düğme renk kodu: **yeşil** başlat/devam · **sarı** duraklat · **kırmızı** turu bitir, soruyu iptal
+ve yıkıcı işlemler (onay sorulur, diğerlerinden uzağa yerleştirilir) · **gri** bilgi/gezinme.
+Renk asla tek başına anlam taşımaz; her düğmede ikon + metin de vardır.
+
+- Bağlı öğrenci listesi: kod, çevrimiçi 🟢 / çevrimdışı 🔴, ilerleme %, kesinleşen satır, deneme, puan
 - **Başlat / Duraklat / Turu Bitir / Oyunu Sıfırla**
 - Grup (e/i/c), seviye (e-1, e-2, i-1, i-2, c-1, c-2), mod, süre (dk; 0 = süresiz), belirli bulmaca ya da 🎲 rastgele
   — seviye listesi seçili gruba göre daralır, uyumsuz eşleşme seçilemez
 - **♻️ Soruyu İptal Et** — o turda dağıtılan tüm puanlar herkesten geri alınır, sıralama yeniden hesaplanır
   (elle yapılan +/− düzeltmeler korunur)
-- Öğrenci başına **+5 / −5** puan (İkili Modda tüm takıma), ✏️ isim değiştirme, 🚫 oyundan çıkarma (2 dk aynı isimle giremez)
+- Öğrenci başına **+5 / −5** puan (İkili Modda tüm takıma), 📄 öğrenci raporu,
+  **🔓 ismi serbest bırak** (kart yeniden seçilebilir olur), 🚫 oyundan çıkarma (2 dk aynı kodla giremez)
+  — isim düzeltme artık **🧾 Öğrenci Listesi** bölümünden yapılır ve oturumdakine anında yansır
 - İkili Modda ayrıca: **👥 Takımlar** kartı — canlı doluluk, 🔀 Karıştır, 🔗 Seçilenleri Eşle
 - **🔔 Tur bitti uyarısı** — son öğrenci/takım da tamamladığında (ya da süre dolduğunda) panelin üstünde
   yeşil bir bildirim çıkar, kısa bir zil çalar ve sekme başlığı yanıp söner. Böylece öğretmen
   başka bir sekmedeyken de haberi olur. Turu öğretmen kendisi bitirir/iptal ederse uyarı çıkmaz.
-- **🔒 Girişleri Kilitle** (oyun başladıktan sonra yeni katılım kapanır) · **🔒 İsimleri Kilitle**
+- **🔒 Girişleri Kilitle** (oyun başladıktan sonra yeni katılım kapanır)
 - **📣 Sınıfa duyuru** · **🔑 Bulmaca ve çözüm** (yalnız öğretmen görür)
 - **📊 Ölçme ve Raporlar** kartı — CSV dışa aktarım, isim↔kod eşlemesi, öğrenci raporu, veli karnesi
   (ayrıntı: [Ölçme ve raporlar](#-ölçme-ve-raporlar))
@@ -105,6 +150,36 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
 | `Boşluk` | Duraklat / Devam |
 | `B` | Seçili bulmacayla başlat |
 | `N` | Rastgele yeni bulmaca başlat |
+
+---
+
+## 🧾 Öğrenci listesi (`data/ogrenciler.json`)
+
+Tüm UYCEP Logic depolarında **aynı** dosyadır; isim ↔ kod eşlemesini ve grubu tutar.
+Kodlar dönem boyunca sabittir — araştırma verisinin sürekliliği buna bağlıdır.
+
+```jsonc
+{
+  "_aciklama": "…",
+  "guncelleme": "2026-08-29",
+  "ogrenciler": [
+    { "kod": "C-12", "isim": "Deniz K.", "grup": "c", "aktif": true }
+  ]
+}
+```
+
+- `kod` dönem boyunca **değişmez**; ayrılan öğrenci **silinmez**, `aktif: false` yapılır
+  (giriş ekranında görünmez, eski kayıtları anlamlı kalır).
+- Doğum tarihi, iletişim gibi kişisel bilgiler bu dosyaya **asla** yazılmaz. Depo **private** tutulur.
+- Dosya yoksa sunucu ilk açılışta boş bir **şablon** oluşturur ve konsola uyarı basar.
+
+Panelin en altındaki **🧾 Öğrenci Listesi** bölümünden yönetilir:
+grup ve aktif/pasif süzgeci, **🔎 isim/kod arama**, ✏️ isim düzeltme, ↔️ grup değiştirme,
+⛔ pasifleştirme / ✅ yeniden aktif etme, ➕ yeni öğrenci (kod boş bırakılırsa sıradaki kod verilir).
+
+Değişiklikler **o oturumda anında** geçerlidir (isim düzeltmesi oyundaki öğrenciye de yansır) ama
+sunucu belleğindedir. Kalıcı olması için **📥 Listeyi İndir** deyip inen `ogrenciler.json`'u depodaki
+dosyayla değiştirip push edin. İndirilen dosyaya **misafirler yazılmaz**.
 
 ---
 
@@ -127,7 +202,7 @@ Sütun adları asla değişmez; oyunlar arası birleştirilebilirlik buna bağl�
 | `oyun` | `izgara-cikarim` |
 | `set_veya_paket` | bulmacanın teması (`sihirbazlar`, `boy-sirasi` …) |
 | `grup` | `e` / `i` / `c` |
-| `ogrenci_kod` | takma ad (`E-01`) — **isim yazılmaz** |
+| `ogrenci_kod` | listedeki kalıcı kod (`C-12`), misafirlerde `M-01` — **isim yazılmaz** |
 | `gorev_id` | bulmaca id’si (`c-1-03`) |
 | `kategori` | bulmacanın düşünme türü (aşağıdaki tablo) |
 | `chc` | hedeflenen CHC alanları, `|` ile ayrık (`Gf\|Gsm`) |
@@ -158,7 +233,9 @@ Kategori ve CHC eşlemesi (`lib/olcum.js`; bir bulmacanın kendi `kategori` / `c
 | `c-2` (sıralama) | `siralama` | Gf, Gsm, Gv |
 
 ### Takma ad (kod) ve isim↔kod eşlemesi
-- Öğrenci ilk girişinde otomatik olarak bir koda bağlanır: **E-01, E-02, …**
+- Kod **uydurulmaz**: öğrenci giriş ekranında kendi kartına dokununca `data/ogrenciler.json`
+  içindeki **kalıcı koduna** bağlanır (`P-03`, `E-07`, `C-12` …). Aynı öğrenci her hafta,
+  her oyunda aynı kodu alır. Misafirler oturumluk **M-01, M-02…** kodunu kullanır.
 - Eşleme **yalnız öğretmen panelinde** yaşar: öğrenci tablosunda ayrı bir **Kod** sütunu vardır,
   **🔐 İsim ↔ Kod Eşlemesi** düğmesi tam listeyi açar.
 - Kopan/geri dönen öğrenci aynı kodda kalır; oyundan çıkarılıp aynı adla dönen öğrenci de
@@ -226,15 +303,22 @@ lib/env.js             bağımlılıksız .env yükleyici
 lib/puan.js            puanlama sabitleri
 lib/takimlar.js        İkili Mod: takım kurulumu, eşleştirme, takım adına denetim
 lib/bulmacalar.js      puzzles.json okuma/doğrulama/indeksleme, çözümün ayıklanması
+lib/liste.js           kalıcı öğrenci listesi: isim↔kod, misafir, oturum içi düzenleme, dışa aktarım
+lib/gorunum.js         dışa açılan paketler (skor, kamu, kişisel, lobi, öğretmen) — tek grup süzgeci burada
 lib/kontrol.js         işaret doğrulama + cevap denetimi (yalnız sunucu)
 lib/olcum.js           ölçme standardı: 13 sütunluk olay kaydı, takma ad, CSV, öğrenci özeti
 lib/durum.js           oyun durumu: oyuncular, puanlar, tur, kilitler
 lib/oyun.js            socket olayları
 public/index.html·app.js·izgara.js·style.css    öğrenci
+public/giris.js        bekleme ekranı + isim kartları (sınıf oturumu modeli)
+public/ambiyans.js     giriş/bekleme ekranlarının ortam animasyonu (oyun ekranında çalışmaz)
 public/bekleme.js      beklerken oynanan hafıza oyunu (yalnız istemci, puana etkisiz)
 public/teacher.html·teacher.js                  öğretmen
 public/rapor.js        ölçme/rapor arayüzü: CSV, kod eşlemesi, öğrenci raporu, A4 karne
-                       (teacher.html/js gibi yalnız girişi yapmış öğretmene servis edilir)
+public/liste.js        öğrenci listesi yönetim ekranı (süzgeç, arama, ekle/düzenle/pasifleştir)
+public/bildirim.js     "tur bitti" uyarısı (bildirim çubuğu + zil + sekme başlığı)
+                       — bu üç dosya da teacher.html/js gibi yalnız girişi yapmış öğretmene servis edilir
+data/ogrenciler.json   KALICI öğrenci listesi (isim ↔ kod) — tüm UYCEP Logic oyunlarında AYNI dosya
 data/puzzles.json      54 bulmaca (e/i/c grupları)
 data/cozumler.md       anlatımlı çözümler — ÖĞRETMEN İÇİN, web'e servis edilmez
 data/uretec.js         bulmaca üreteci (içerik üretimi için; sunucu bunu kullanmaz)
