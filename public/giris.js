@@ -9,8 +9,12 @@ window.Giris = (function () {
 
   let sec = () => {};
 
-  function kur(onSec) {
+  function kur(onSec, onGrubuUnut) {
     sec = onSec;
+    $('#beklemeGoster').addEventListener('click', () => {
+      not('');
+      if (onGrubuUnut) onGrubuUnut();
+    });
     Ambiyans.kur('ambiyans');
   }
 
@@ -55,6 +59,15 @@ window.Giris = (function () {
     e.hidden = !m;
   }
 
+  /* Bekleme ekranındaki bilgi satırı ("etkinlik bitti", "bu grup senin değil" gibi).
+     gosterDugmesi: ortak tablet durumunda öğrencinin kartlara yine de bakabilmesi için. */
+  function not(m, gosterDugmesi) {
+    const e = $('#beklemeNot');
+    e.textContent = m || '';
+    e.hidden = !m;
+    $('#beklemeGoster').hidden = !gosterDugmesi;
+  }
+
   const basHarf = (isim) => String(isim || '?').trim().charAt(0).toLocaleUpperCase('tr');
   function ton(kod) {                       // koda göre sabit, yumuşak bir renk tonu
     let t = 0;
@@ -62,5 +75,5 @@ window.Giris = (function () {
     return t;
   }
 
-  return { kur, ciz, gizle, hata };
+  return { kur, ciz, gizle, hata, not: not };
 })();

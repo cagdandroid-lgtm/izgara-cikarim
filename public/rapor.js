@@ -77,7 +77,15 @@ window.Rapor = (function () {
     $('#eslesmeBos').hidden = kodlar.length > 0;
   }
 
-  const tumOgrenciler = () => (son ? son.ogretmen.oyuncular : []);
+  /* Rapor/karne listesi oturuma bir kez katılmış HERKESİ kapsar: "Etkinliği Bitir"den sonra
+     öğrenci listesi boşalsa da öğretmen karneleri üretebilsin. */
+  const tumOgrenciler = () => {
+    if (!son) return [];
+    const canli = son.ogretmen.oyuncular;
+    const kodlar = son.ogretmen.olcum.kodlar || [];
+    return kodlar.map((k) => canli.find((o) => o.id === k.id) || { id: k.id, ad: k.ad, kod: k.kod })
+      .concat(canli.filter((o) => !kodlar.some((k) => k.id === o.id)));
+  };
   const dersEtiketi = () => (son && son.ogretmen.dersEtiketi) || '';
   /* Karne/rapor adı: "İsimli" veli içindir, "Kodlu" isim yerine öğrenci kodunu yazar. */
   const kodluMu = () => {

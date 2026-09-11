@@ -35,8 +35,11 @@
 
   /* ---------------- çizim ---------------- */
   function ciz(d) {
-    const fazAdi = { lobi: '⏳ Lobi', oyun: d.duraklatildi ? '⏸ Duraklatıldı' : '🟢 Oyunda', sonuc: '🏁 Tur bitti' };
-    $('#fazRozet').textContent = fazAdi[d.faz] || d.faz;
+    const oturumAdi = {
+      bosta: '⚪ Boşta', lobi: '⏳ Lobi',
+      oyun: d.duraklatildi ? '⏸ Duraklatıldı' : '🟢 Oyunda', sonuc: '🏁 Tur bitti'
+    };
+    $('#fazRozet').textContent = oturumAdi[d.oturum] || d.oturum;
     $('#modRozet').textContent =
       d.mod === 'birlikte' ? '🤝 Birlikte' : d.mod === 'ikili' ? '👥 İkili Mod' : '🏁 Yarış';
     $('#turRozet').textContent = 'Tur ' + d.turNo + (d.bulmaca ? ' · ' + d.bulmaca.id : '');
@@ -63,6 +66,10 @@
     if (document.activeElement !== $('#otomatikDoldur')) $('#otomatikDoldur').checked = !!d.otomatikDoldur;
     $('#mod').disabled = d.ilerlemeMod === 'bireysel';
     // "Sıradaki" yalnız senkron + öğretmen onaylı modda, tur bittiğinde anlamlıdır
+    // (2) grup/etkinlik yalnız BOŞTA ve LOBİ'de seçilebilir
+    const secilebilir = d.ogretmen.secilebilir;
+    ['#grup', '#seviye', '#yayinlaBtn'].forEach((x) => { $(x).disabled = !secilebilir; });
+    $('#kilitNot').hidden = secilebilir;
     $('#sonrakiBtn').hidden = !(d.ilerlemeMod === 'senkron' && d.gecis === 'onayli');
     $('#sonrakiBtn').disabled = d.faz !== 'sonuc';
     $('#duraklatBtn').textContent = d.duraklatildi ? '▶️ Devam Ettir' : '⏸ Duraklat';
@@ -268,8 +275,17 @@
       else if (r && r.bulmacaId) duyuruGoster('⏭ Sıradaki soru: ' + r.bulmacaId);
     });
   });
+  $('#etkinlikBitirBtn').addEventListener('click', () => {
+    if (!confirm('Etkinlik kapanacak, öğrenciler isim ekranına dönecek. Emin misiniz?')) return;
+    socket.emit('t:etkinlikBitir', {}, (r) => {
+      if (r && r.hata) return duyuruGoster('⚠️ ' + r.hata);
+      duyuruGoster(`⏹ Etkinlik bitti · ${(r && r.dusen) || 0} öğrenci isim ekranına döndü. ` +
+        'Yeni grup seçip yayınlayabilirsiniz.');
+    });
+  });
+
   $('#bitirBtn').addEventListener('click', () => {
-    if (confirm('Tur bitirilsin mi? Öğrenciler sonuç ekranını görecek.')) socket.emit('t:bitir', {});
+    if (confirm('Bu TUR bitirilsin mi? Oturum ve grup devam eder, öğrenciler sonuç ekranını görür.')) socket.emit('t:bitir', {});
   });
   $('#iptalBtn').addEventListener('click', () => {
     if (confirm('Bu bulmacadan dağıtılan TÜM puanlar herkesten geri alınacak. Onaylıyor musun?')) socket.emit('t:iptal', {});

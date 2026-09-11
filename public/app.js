@@ -8,6 +8,7 @@
   const durumum = {
     sid: localStorage.getItem('izgara_sid') || null,
     kod: localStorage.getItem('izgara_kod') || null,
+    grubum: localStorage.getItem('izgara_grup') || null,   // yalnız "kendi grubunu bekle" için
     ad: '',
     katildi: false,
     bulmacaAnahtari: null,
@@ -18,24 +19,64 @@
 
   /* ---------------- giriş: SINIF OTURUMU MODELİ ----------------
      Ekran çizimi public/giris.js'te; burada yalnız katılım akışı var. */
-  Giris.kur((kod) => katil(kod));
+  Giris.kur((kod) => katil(kod), () => {          // "yine de göster": grup hafızasını unut
+    durumum.grubum = null;
+    localStorage.removeItem('izgara_grup');
+    Giris.ciz(durumum.sonLobi);
+  });
   SoruAlani.kur(socket);
 
   socket.on('lobi', (l) => {
     durumum.sonLobi = l;
-    if (!durumum.katildi) Giris.ciz(l);          // oyundakini rahatsız etme
+    if (durumum.katildi) return;                 // oyundakini rahatsız etme
+    // (3) başka grubun etkinliği yayındaysa öğrenci KENDİ grubu açılana kadar bekler
+    if (l && l.secimYapildi && durumum.grubum && l.grup !== durumum.grubum) {
+      $('#bekleme').hidden = false;
+      $('#isimSecim').hidden = true;
+      $('#oyun').hidden = true;
+      Ambiyans.basla();
+      Giris.not('Şu an başka bir grubun etkinliği var. Kendi grubunu bekle. ⏳', true);
+      return;
+    }
+    if (l && l.secimYapildi) Giris.not('');      // kendi grubu yayında: eski uyarı kalkar
+    Giris.ciz(l);
   });
+
+  /* "C-04" → "c" · misafirlerde (M-01) grup bilinmez, hafıza kurulmaz */
+  function grubuCikar(kod) {
+    const h = String(kod || '').charAt(0).toLocaleLowerCase('tr');
+    return 'peic'.includes(h) && h ? h : null;
+  }
 
   function katil(kod) {
     socket.emit('katil', { kod, sid: durumum.sid }, (cevap) => {
-      if (!cevap || cevap.hata) return Giris.hata((cevap && cevap.hata) || 'Bağlanılamadı.');
+      if (!cevap || cevap.hata) {
+        // (3) eski grup koruması: yayınlanan grup başkasınınsa cihazdaki kimlik bırakılır,
+        // öğrenci kendi grubu yayınlanana kadar bekleme ekranında kalır
+        if (cevap && cevap.baskaGrup) {
+          durumum.kod = null;
+          durumum.sid = null;
+          durumum.grubum = grubuCikar(kod);      // kendi grubu yayınlanana kadar beklesin
+          localStorage.removeItem('izgara_kod');
+          localStorage.removeItem('izgara_sid');
+          if (durumum.grubum) localStorage.setItem('izgara_grup', durumum.grubum);
+          Giris.not(cevap.hata, true);
+          $('#bekleme').hidden = false;
+          $('#isimSecim').hidden = true;
+          return;
+        }
+        return Giris.hata((cevap && cevap.hata) || 'Bağlanılamadı.');
+      }
       durumum.sid = cevap.sid;
       durumum.kod = cevap.kod;
       durumum.ad = cevap.ad;
       durumum.katildi = true;
       localStorage.setItem('izgara_sid', cevap.sid);
       localStorage.setItem('izgara_kod', cevap.kod);
+      durumum.grubum = grubuCikar(cevap.kod);
+      if (durumum.grubum) localStorage.setItem('izgara_grup', durumum.grubum);
       Giris.gizle();
+      Giris.not('');
       $('#oyun').hidden = false;
       Giris.hata('');
     });
@@ -78,6 +119,12 @@
 
   socket.on('serbest', () => {
     kimligiSil('Öğretmenin ismi serbest bıraktı. Kendi adına dokunabilirsin. 🔓');
+  });
+
+  /* Öğretmen etkinliği bitirdi: oyun görünümü kapanır, kimlik silinir, bekleme ekranına dönülür */
+  socket.on('etkinlikBitti', () => {
+    kimligiSil('');
+    Giris.not('⏹ Etkinlik bitti. Öğretmenin yeni bir etkinlik açmasını bekliyoruz.');
   });
 
   /* ---------------- durum akışı ---------------- */

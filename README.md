@@ -57,6 +57,33 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
 5. Öğrenci **tam eşleştirmeyi yapıp tek kez gönderir** (tabloyu doldurmak zorunda değildir) →
    doğruysa hız bonuslu puan, yanlışsa puan yok ve doğru eşleştirme gösterilir.
 
+### 🔄 Oturum yaşam döngüsü
+
+```
+BOŞTA ──(grup + etkinlik yayınla)──► LOBİ ──(Başlat)──► OYUN ──(Turu Bitir/süre/herkes cevapladı)──► SONUÇ
+  ▲                                    │                  │                                            │
+  └──────────────── ⏹ Etkinliği Bitir ─┴──────────────────┴────────────────────────────────────────────┘
+```
+
+| Düğme | Rengi | Ne yapar |
+|---|---|---|
+| **⏹ Turu Bitir** (tur satırında) | nötr | **Yalnız o turu** kapatır. Oturum, grup ve öğrenciler yerinde kalır; öğrenciler sonuç ekranını görür. |
+| **⏹ Etkinliği Bitir** (üst şeritte) | kırmızı | **Oturumu kapatır.** Onay sorar (“Etkinlik kapanacak, öğrenciler isim ekranına dönecek. Emin misiniz?”). Tur durur, oturum **BOŞTA**'ya döner, öğrenciler oyun görünümünden düşer, **cihazlarındaki kimlik silinir** ve bekleme ekranına geçerler. |
+
+- **⏹ Etkinliği Bitir her durumda görünür ve tıklanabilir** (boşta, lobide, tur sürerken, sonuç ekranında) —
+  üst şeritte, diğer düğmelerden uzakta durur.
+- **Grup ve etkinlik seçicileri yalnız BOŞTA ve LOBİ'de açıktır.** Tur başlayınca kilitlenir ve altlarında
+  “🔒 Grup ve etkinlik tur başladıktan sonra değiştirilemez — değiştirmek için Etkinliği Bitir” notu görünür.
+  Kilit **sunucuda** da uygulanır: tur sürerken gelen grup/etkinlik değişikliği ve başka grubun
+  bulmacasıyla başlatma reddedilir. Grup değiştirmenin başka yolu yoktur.
+- **Eski grup koruması:** yeni grup yayınlandıktan sonra önceki gruptan bir öğrenci aynı cihazla girmeye
+  çalışırsa sunucu **“Bu etkinlik senin grubun için değil. Kendi grubunu bekle. ⏳”** der; cihaz bekleme
+  ekranında kalır ve kendi grubu yayınlanana kadar isim kartlarını göstermez. (Ortak tablet için
+  “🔄 Yine de isim kartlarını göster” düğmesi vardır.)
+- **Ölçüm verisi korunur:** etkinlik bitince canlı öğrenci listesi boşalır ama olay kayıtları, isim↔kod
+  eşlemesi, CSV ve karneler oturum boyunca erişilebilir kalır. Tur sürerken bitirilirse cevap vermemiş
+  öğrenciler `atlandi` olarak kaydedilir.
+
 ### 🎒 Sınıf oturumu modeli (giriş)
 
 Öğrenci **isim YAZMAZ ve grup SEÇMEZ**; oturumun grubunu öğretmen belirler.
@@ -180,7 +207,10 @@ için gerekenlerdir; kalan her şey kapalı başlar, en sonda da öğrenci liste
 
 | Bölüm | Varsayılan | İçerik |
 |---|---|---|
-| 🎬 **Oturum ve Tur** | açık | grup + etkinlik, 🏷 ders etiketi, 🎬 Grubu Yayınla, ilerleme modu · geçiş · 🤖 otomatik ✗ doldurma, mod/süre/bulmaca, Başlat · ⏭ Sıradaki · Duraklat · Turu Bitir · Soruyu İptal Et |
+| 🎬 **Oturum ve Tur** | açık | grup + etkinlik (tur başlayınca kilitlenir), 🏷 ders etiketi, 🎬 Grubu Yayınla, ilerleme modu · geçiş · 🤖 otomatik ✗ doldurma, mod/süre/bulmaca, Başlat · ⏭ Sıradaki · Duraklat · Turu Bitir · Soruyu İptal Et |
+
+Üst şeritte, bölümlerden bağımsız olarak: oturum durumu rozeti (⚪ Boşta · ⏳ Lobi · 🟢 Oyunda · 🏁 Tur bitti),
+öğrenci sayacı ve kırmızı **⏹ Etkinliği Bitir**.
 | 👤 **Canlı Durum** | açık | öğrenci tablosu, ⚠ farklı gruptan girenler, 🙋 misafir ekleme, podyum |
 | 👥 **Takımlar** | açık (yalnız İkili Modda görünür) | canlı doluluk, 🔀 Karıştır, 🔗 Seçilenleri Eşle |
 | 📊 **Ölçme ve Raporlar** | kapalı | CSV, isim↔kod eşlemesi, öğrenci raporu, veli karnesi |

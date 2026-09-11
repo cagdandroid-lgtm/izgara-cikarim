@@ -21,6 +21,8 @@
   <div class="ust-sag">
     <span id="sayac" class="sayac" hidden>⏱ <b>–</b></span>
     <span id="oyuncuSayi" class="rozet">👥 0</span>
+    <button id="etkinlikBitirBtn" class="btn btn-mini btn-kirmizi" type="button"
+            title="Oturumu kapatır: öğrenciler isim ekranına döner, grup yeniden seçilebilir">⏹ Etkinliği Bitir</button>
     <form method="post" action="/teacher/cikis"><button class="btn btn-mini" type="submit">Çıkış</button></form>
   </div>
 </header>
@@ -55,6 +57,8 @@
       <button id="yayinlaBtn" class="btn btn-yesil">🎬 Grubu Yayınla</button>
     </div>
     <p class="alt">Ders etiketi serbest metindir; CSV kayıtlarına ve karne/rapor başlığına yazılır.</p>
+    <p id="kilitNot" class="not-kutu ince" hidden>🔒 Grup ve etkinlik tur başladıktan sonra değiştirilemez —
+      <b>değiştirmek için Etkinliği Bitir</b> (üst şeritte).</p>
 
     <div class="satir">
       <label for="ilerlemeMod">İlerleme</label>
@@ -87,7 +91,7 @@
       <button id="baslatBtn" class="btn btn-yesil">▶️ Başlat</button>
       <button id="duraklatBtn" class="btn btn-sari">⏸ Duraklat</button>
       <button id="sonrakiBtn" class="btn btn-yesil">⏭ Sıradaki Soru</button>
-      <button id="bitirBtn" class="btn btn-kirmizi">⏹ Turu Bitir</button>
+      <button id="bitirBtn" class="btn btn-ikincil" title="Yalnız bu turu kapatır; oturum ve grup devam eder">⏹ Turu Bitir</button>
       <button id="iptalBtn" class="btn btn-kirmizi">♻️ Soruyu İptal Et (puanları geri al)</button>
     </div>
   </details>
