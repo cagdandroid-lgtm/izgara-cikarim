@@ -7,6 +7,7 @@
   let son = null;              // son gelen durum
   let listelerDolu = false;
 
+  TakimUI.kur(socket, duyuruGoster, () => son);
   Rapor.kur(socket);                     // ölçme/rapor bölümü (public/rapor.js)
   ListeUI.kur(socket, duyuruGoster);     // öğrenci listesi bölümü (public/liste.js)
 
@@ -48,11 +49,20 @@
     if (!listelerDolu) doldurListeler(d);
     $('#grup').value = d.grup;
     seviyeListesiTazele(d);
-    $('#seviye').value = d.seviye;
+    $('#seviye').value = d.ogretmen.seviye;
     $('#mod').value = d.mod;
     if (document.activeElement !== $('#sure')) $('#sure').value = Math.round(d.sureSn / 60);
+    if (document.activeElement !== $('#dersEtiketi')) $('#dersEtiketi').value = d.ogretmen.dersEtiketi || '';
     bulmacaListesiTazele(d);
 
+    $('#ilerlemeMod').value = d.ilerlemeMod;
+    $('#gecis').value = d.gecis;
+    $('#gecis').disabled = d.ilerlemeMod === 'bireysel';
+    if (document.activeElement !== $('#otomatikDoldur')) $('#otomatikDoldur').checked = !!d.otomatikDoldur;
+    $('#mod').disabled = d.ilerlemeMod === 'bireysel';
+    // "Sıradaki" yalnız senkron + öğretmen onaylı modda, tur bittiğinde anlamlıdır
+    $('#sonrakiBtn').hidden = !(d.ilerlemeMod === 'senkron' && d.gecis === 'onayli');
+    $('#sonrakiBtn').disabled = d.faz !== 'sonuc';
     $('#duraklatBtn').textContent = d.duraklatildi ? '▶️ Devam Ettir' : '⏸ Duraklat';
     $('#duraklatBtn').disabled = d.faz !== 'oyun';
     $('#bitirBtn').disabled = d.faz !== 'oyun';
@@ -62,7 +72,7 @@
     Rapor.ciz(d);                          // ölçme özeti, kod eşlemesi, açık rapor ekranı
     ListeUI.tazele(d.ogretmen.liste);      // öğrenci listesi bölümü
     ogrencileriCiz(d.ogretmen.oyuncular);
-    takimlariCiz(d);
+    TakimUI.ciz(d);
     podyumCiz(d.podyum);
     cozumCiz(d);
   }
@@ -71,80 +81,13 @@
   function oturumOzetCiz(d) {
     const l = d.ogretmen.lobi;
     const gAdi = gAd[d.grup] || d.grup;
+    const etiket = d.ogretmen.dersEtiketi ? `🏷 ${d.ogretmen.dersEtiketi} · ` : '';
     $('#oturumOzet').textContent = l.secimYapildi
-      ? `· ${gAdi} yayında · ${l.ogrenciler.length} isim kartı · ${l.ogrenciler.filter((o) => o.oyunda).length} tanesi girdi`
-      : '· öğrenciler bekleme ekranında — grup seçin ya da “Grubu Yayınla” deyin';
+      ? `· ${etiket}${gAdi} yayında · ${l.ogrenciler.length} isim kartı · ${l.ogrenciler.filter((o) => o.oyunda).length} tanesi girdi`
+      : `· ${etiket}öğrenciler bekleme ekranında — grup seçin ya da “Grubu Yayınla” deyin`;
     $('#yayinNot').hidden = l.secimYapildi;
     $('#yayinlaBtn').disabled = l.secimYapildi;
     $('#aktifGrupAd').textContent = gAdi;
-  }
-
-  /* ---------------- ikili mod: takımlar ---------------- */
-  let secilenler = [];
-
-  function takimlariCiz(d) {
-    const kart = $('#takimKart');
-    if (d.mod !== 'ikili') { kart.hidden = true; return; }
-    kart.hidden = false;
-
-    const takimlar = d.ogretmen.takimlar || [];
-    $('#takimBos').hidden = takimlar.length > 0;
-    $('#takimOzet').textContent = takimlar.length
-      ? `· ${takimlar.length} takım · ${takimlar.filter((t) => t.bitti).length} tanesi bitirdi` : '';
-
-    const kap = $('#takimlar');
-    kap.innerHTML = '';
-    takimlar.forEach((t) => {
-      const el = document.createElement('div');
-      el.className = 'takim' + (t.bitti ? ' bitti' : '');
-      el.dataset.id = t.id;
-      const uyeler = t.uyeler.map((u) =>
-        `<span class="uye">${u.cevrimici ? '🟢' : '🔴'} ${kacir(u.ad)}</span>`).join('<span class="ve">&</span>');
-      el.innerHTML =
-        `<div class="takim-ust"><b>${uyeler || '<i>boş</i>'}</b>` +
-        `${t.uyeler.length === 1 ? ' <span class="rozet tek">tek kişilik</span>' : ''}` +
-        `${t.bitti ? ' <span class="rozet bitti-rozet">🎉 bitirdi</span>' : ''}</div>` +
-        `<div class="takim-alt">` +
-        `<span class="cubuk"><i style="width:${t.ilerleme}%"></i></span> ` +
-        `<span class="yuzde">%${t.ilerleme}</span> · kesin ${t.kesin} · deneme ${t.denemeler}` +
-        `</div>`;
-      kap.appendChild(el);
-    });
-
-    // elle eşleme için öğrenci çipleri
-    const cip = $('#secimCipleri');
-    cip.innerHTML = '';
-    d.ogretmen.oyuncular.forEach((o) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'cip' + (secilenler.includes(o.id) ? ' secili' : '');
-      b.textContent = `${o.cevrimici ? '🟢' : '🔴'} ${o.ad}`;
-      b.title = o.takimAd ? `Şu anki takım: ${o.takimAd}` : 'Takımsız';
-      b.setAttribute('aria-pressed', String(secilenler.includes(o.id)));
-      b.addEventListener('click', () => secimDegistir(o.id));
-      cip.appendChild(b);
-    });
-    secimTazele();
-  }
-
-  function secimDegistir(id) {
-    const i = secilenler.indexOf(id);
-    if (i >= 0) secilenler.splice(i, 1);
-    else { secilenler.push(id); if (secilenler.length > 2) secilenler.shift(); }
-    if (son) takimlariCiz(son);
-  }
-
-  function secimTazele() {
-    const adlar = secilenler.map((id) => {
-      const o = (son && son.ogretmen.oyuncular.find((x) => x.id === id)) || null;
-      return o ? o.ad : '?';
-    });
-    $('#esleBtn').disabled = secilenler.length !== 2;
-    $('#secimDurum').textContent = secilenler.length === 2
-      ? `Eşlenecek: ${adlar.join(' & ')}`
-      : secilenler.length === 1
-        ? `${adlar[0]} seçildi — bir öğrenci daha seçin.`
-        : 'Elle eşlemek için aşağıdan iki öğrenci seçin.';
   }
 
   const gAd = { e: 'E grubu (1.–2. sınıf)', i: 'İ grubu', c: 'C grubu', p: 'P grubu' };
@@ -161,7 +104,8 @@
     const liste = [...new Set(d.ogretmen.bulmacaListesi
       .filter((b) => b.grup === $('#grup').value).map((b) => b.seviye))].sort();
     sec.innerHTML = liste.map((s) => `<option value="${s}">${s}</option>`).join('');
-    sec.value = liste.includes(secili) ? secili : (liste.includes(d.seviye) ? d.seviye : liste[0] || '');
+    const sv = d.ogretmen.seviye;
+    sec.value = liste.includes(secili) ? secili : (liste.includes(sv) ? sv : liste[0] || '');
   }
 
   function bulmacaListesiTazele(d) {
@@ -182,7 +126,11 @@
     $('#bosMesaj').hidden = sahnede.length > 0;
     const ort = sahnede.length
       ? Math.round(sahnede.reduce((t, o) => t + o.ilerleme, 0) / sahnede.length) : 0;
-    $('#ilerlemeOzet').textContent = sahnede.length ? `· ortalama ilerleme %${ort}` : '';
+    const bireysel = son && son.ilerlemeMod === 'bireysel';
+    $('#ilerlemeOzet').textContent = !sahnede.length ? ''
+      : bireysel
+        ? `· 🎯 bireysel · ortalama soru: ${(sahnede.reduce((t, o) => t + o.soruNo, 0) / sahnede.length).toFixed(1)}`
+        : `· 👥 senkron · ${sahnede.filter((o) => o.bitti).length}/${sahnede.length} cevapladı · ortalama tablo %${ort}`;
 
     sahnede.forEach((o, i) => tb.appendChild(ogrenciSatiri(o, i + 1)));
 
@@ -214,8 +162,9 @@
       `${kacir(o.ad)}${o.bitti ? ' 🎉' : ''}</button></td>` +
       `<td>${o.cevrimici ? '🟢 çevrimiçi' : '🔴 çevrimdışı'}` +
       `${o.takimAd ? `<br><span class="alt">👥 ${kacir(o.takimAd)}</span>` : ''}</td>` +
-      `<td><span class="cubuk"><i style="width:${o.ilerleme}%"></i></span> %${o.ilerleme}</td>` +
-      `<td>${o.kesin}</td><td>${o.denemeler}</td>` +
+      `<td>${o.tamamlandi ? '🏅 bitti' : o.soruNo}${o.bitti && !o.tamamlandi ? ' ✔' : ''}</td>` +
+      `<td title="ilk denemede doğru / cevaplanan">${o.isabet}/${o.soruSayisi}</td>` +
+      `<td title="ızgarayı kullandı mı">${o.tabloKullandi ? '🧮 %' + o.ilerleme : '—'}</td>` +
       `<td class="puan-h"><b>${o.puan}</b></td>` +
       `<td>${o.turPuani ? '+' + o.turPuani : '–'}</td>` +
       `<td class="islem"></td>`;
@@ -249,6 +198,13 @@
   }
 
   function cozumCiz(d) {
+    const sn = $('#soruNot');
+    const soru = d.ogretmen.soru;
+    sn.hidden = !soru;
+    if (soru) {
+      sn.innerHTML = `🔎 <b>Sınıfa sorulan soru:</b> ${kacir(soru.metin)}<br>` +
+        `<span class="alt">Seçenekler: ${kacir(soru.secenekler.join(' · '))} — doğru cevap: <b>${kacir(soru.dogruCevap)}</b></span>`;
+    }
     const ip = $('#ipucuListe'), t = $('#cozumTablo'), not = $('#cozumNot');
     if (!d.bulmaca || !d.ogretmen.cozum) {
       ip.innerHTML = '<p class="alt">Tur başlayınca burada bulmacanın ipuçları ve çözümü görünür.</p>';
@@ -278,13 +234,17 @@
   /* ---------------- olaylar ---------------- */
   function ayarYolla() {
     socket.emit('t:ayar', {
+      dersEtiketi: $('#dersEtiketi').value,
+      ilerlemeMod: $('#ilerlemeMod').value,
+      gecis: $('#gecis').value,
+      otomatikDoldur: $('#otomatikDoldur').checked,
       grup: $('#grup').value,
       seviye: $('#seviye').value,
       mod: $('#mod').value,
       sureSn: Math.max(0, Math.min(60, Number($('#sure').value) || 0)) * 60
     });
   }
-  ['#grup', '#seviye', '#mod', '#sure'].forEach((s) => $(s).addEventListener('change', () => {
+  ['#grup', '#seviye', '#mod', '#sure', '#ilerlemeMod', '#gecis', '#otomatikDoldur'].forEach((s) => $(s).addEventListener('change', () => {
     if (s === '#grup' && son) seviyeListesiTazele(son);   // grup değişince seviye listesi de daralır
     ayarYolla();
     if (s === '#grup' || s === '#seviye') { if (son) bulmacaListesiTazele(son); }
@@ -299,6 +259,12 @@
   $('#duraklatBtn').addEventListener('click', () => {
     socket.emit('t:duraklat', { deger: !(son && son.duraklatildi) });
   });
+  $('#sonrakiBtn').addEventListener('click', () => {
+    socket.emit('t:sonraki', {}, (r) => {
+      if (r && r.hata) duyuruGoster('⚠️ ' + r.hata);
+      else if (r && r.bulmacaId) duyuruGoster('⏭ Sıradaki soru: ' + r.bulmacaId);
+    });
+  });
   $('#bitirBtn').addEventListener('click', () => {
     if (confirm('Tur bitirilsin mi? Öğrenciler sonuç ekranını görecek.')) socket.emit('t:bitir', {});
   });
@@ -311,31 +277,19 @@
   $('#girisKilitBtn').addEventListener('click', () => {
     socket.emit('t:kilit', { tip: 'giris', deger: !(son && son.girisKilitli) });
   });
+  function etiketYolla() {
+    socket.emit('t:etiket', { metin: $('#dersEtiketi').value });
+  }
+  $('#dersEtiketi').addEventListener('change', etiketYolla);
+  $('#dersEtiketi').addEventListener('blur', etiketYolla);
+  $('#dersEtiketi').addEventListener('keydown', (e) => { if (e.key === 'Enter') etiketYolla(); });
+
   $('#yayinlaBtn').addEventListener('click', () => {
     ayarYolla();
-    socket.emit('t:yayinla', {}, (r) => {
+    socket.emit('t:yayinla', { dersEtiketi: $('#dersEtiketi').value }, (r) => {
       if (r && r.ok) duyuruGoster(`🎬 ${gAd[r.grup] || r.grup} yayında — isim kartları öğrencilerde.`);
     });
   });
-  $('#karistirBtn').addEventListener('click', () => {
-    if (!confirm('Takımlar yeniden dağıtılsın mı? Mevcut eşleşmeler bozulur.')) return;
-    secilenler = [];
-    socket.emit('t:karistir', {}, (r) => {
-      if (r && r.hata) duyuruGoster('⚠️ ' + r.hata);
-      else if (r && r.ok) duyuruGoster(`🔀 ${r.takim} takım oluşturuldu`);
-    });
-  });
-
-  $('#esleBtn').addEventListener('click', () => {
-    if (secilenler.length !== 2) return;
-    socket.emit('t:esle', { id1: secilenler[0], id2: secilenler[1] }, (r) => {
-      if (r && r.hata) return duyuruGoster('⚠️ ' + r.hata);
-      duyuruGoster(`🔗 Eşlendi: ${r.ad}`);
-      secilenler = [];
-      if (son) takimlariCiz(son);
-    });
-  });
-
   $('#duyuruBtn').addEventListener('click', () => {
     const m = $('#duyuruMetin').value.trim();
     if (!m) return;

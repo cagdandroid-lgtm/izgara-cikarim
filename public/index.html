@@ -35,6 +35,17 @@
   <p id="secimBos" class="alt" hidden>Bu grupta aktif öğrenci yok. Öğretmenine söyle.</p>
 </main>
 
+<!-- ---------- girdi ama öğretmen henüz başlatmadı ---------- -->
+<main id="hazir" class="ekran giris-ekran" hidden>
+  <div class="kart giris-kart">
+    <div class="bekleme-ikon" aria-hidden="true">🎒</div>
+    <h1 id="hazirBaslik">Hazırsın!</h1>
+    <p id="hazirMetin" class="alt">Öğretmenin etkinliği başlatmasını bekliyoruz.</p>
+    <p id="hazirPuan" class="hazir-puan" hidden></p>
+    <div class="nokta-sira" aria-hidden="true"><i></i><i></i><i></i></div>
+  </div>
+</main>
+
 <!-- ---------- bekleme / duraklama / sonuç ---------- -->
 <div id="ortu" class="ortu" hidden>
   <div class="ortu-ic kart">
@@ -54,7 +65,7 @@
   <header class="ust">
     <div class="ust-sol">
       <span id="bulmacaBaslik" class="baslik">—</span>
-      <span id="seviyeRozet" class="rozet">—</span>
+      <span id="siraRozet" class="rozet" hidden>—</span>
       <span id="modRozet" class="rozet">—</span>
     </div>
     <div class="ust-sag">
@@ -65,14 +76,30 @@
   </header>
 
   <div class="duzen">
-    <section class="tablolar" aria-label="Çıkarım tabloları">
+    <section class="tablolar" aria-label="Soru ve çıkarım tabloları">
       <div id="esBilgi" class="es-bilgi" role="status" aria-live="polite" hidden></div>
-      <div id="izgaralar"></div>
-      <div class="arac-cubugu">
-        <button id="kontrolBtn" class="btn btn-ana">✅ Kontrol Et</button>
-        <button id="temizleBtn" class="btn btn-ikincil">🧽 Tabloyu Temizle</button>
-      </div>
-      <p id="geriBildirim" class="geri-bildirim" role="status" aria-live="polite"></p>
+
+      <!-- ASIL SORU: tablo bir araçtır, cevap buradan verilir -->
+      <section class="soru-alani" aria-label="Soru">
+        <div class="soru-ust">
+          <span class="soru-etiket">🔎 Soru</span>
+          <span id="soruSayac" class="rozet" hidden>—</span>
+        </div>
+        <h2 id="soruMetin">—</h2>
+        <div id="secenekler" class="secenek-kartlari" role="group" aria-label="Cevap seçenekleri"></div>
+        <p id="cevapGeri" class="geri-bildirim" role="status" aria-live="polite"></p>
+        <p class="alt">Tabloyu doldurmadan da cevaplayabilirsin; tablo yalnız düşünmene yardım eder.</p>
+      </section>
+
+      <details id="izgaraKutu" class="izgara-kutu" open>
+        <summary><span>🧮 Çıkarım tablosu <span class="alt">(yardımcı araç)</span></span></summary>
+        <div id="izgaralar"></div>
+        <div class="arac-cubugu">
+          <button id="kontrolBtn" class="btn btn-ikincil">🔍 Tabloyu Denetle</button>
+          <button id="temizleBtn" class="btn btn-ikincil">🧽 Tabloyu Temizle</button>
+        </div>
+        <p id="geriBildirim" class="geri-bildirim" role="status" aria-live="polite"></p>
+      </details>
     </section>
 
     <aside class="yan">
@@ -103,8 +130,11 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/ambiyans.js"></script>
 <script src="/giris.js"></script>
+<script src="/efekt.js"></script>
+<script src="/soru.js"></script>
 <script src="/izgara.js"></script>
 <script src="/bekleme.js"></script>
+<script src="/ortu.js"></script>
 <script src="/app.js"></script>
 </body>
 </html>

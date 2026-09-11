@@ -10,7 +10,7 @@ const oyunuKur = require('./lib/oyun');
 
 const PORT = process.env.PORT || 3000;
 const RENDERDA = !!process.env.RENDER;
-const YEREL_VARSAYILAN = 'uycep';
+const YEREL_VARSAYILAN = 'uycep-local';   // UYCEP Logic ortak standardı (CLAUDE.md)
 
 /* ADMIN_PASSWORD yoksa davranış ortama göre ayrılır:
    yerelde varsayılan şifreyle çalışır, Render'da panel kapalı kalır. */
@@ -51,8 +51,8 @@ const yetkili = (req) => cerezler(req).admin_auth === 'true';
 
 /* ---------- öğretmen dosyalarına doğrudan erişim engellenir ---------- */
 app.use((req, res, next) => {
-  // rapor/liste/bildirim.js de panel dosyalarıdır; öğrenci tarafında hiç yüklenmez
-  if (/^\/(teacher\.(html|js)|(rapor|liste|bildirim)\.js)$/.test(req.path) && !yetkili(req)) return res.redirect('/teacher');
+  // rapor/liste/bildirim/takim.js de panel dosyalarıdır; öğrenci tarafında hiç yüklenmez
+  if (/^\/(teacher\.(html|js)|(rapor|liste|bildirim|takim)\.js)$/.test(req.path) && !yetkili(req)) return res.redirect('/teacher');
   next();
 });
 

@@ -38,6 +38,8 @@ window.Rapor = (function () {
       $('#eslesmeBtn').setAttribute('aria-expanded', String(!k.hidden));
     });
     $('#gecmisDosya').addEventListener('change', gecmisYukle);
+    document.querySelectorAll('input[name="karneModu"]').forEach((r) =>
+      r.addEventListener('change', () => { if (acikRapor) raporCiz(acikRapor); }));
     $('#olcumSifirlaBtn').addEventListener('click', () => {
       if (!confirm('Bu oturumun TÜM ölçüm kayıtları silinecek (isim↔kod eşlemesi kalır). İndirmediyseniz veriler kaybolur. Emin misiniz?')) return;
       socket.emit('t:olcumSifirla', {}, (r) => bilgi(`🧹 ${(r && r.silinen) || 0} kayıt silindi`));
@@ -57,6 +59,7 @@ window.Rapor = (function () {
     const o = d.ogretmen.olcum;
     $('#olcumOzet').textContent =
       `· ${o.kayit} olay kaydı · ${o.kodlar.length} öğrenci kodu` +
+      (dersEtiketi() ? ` · 🏷 ${dersEtiketi()}` : '') +
       (gecmis ? ` · 📂 ${gecmis.ad}` : '');
     $('#olcumHatirlatma').hidden = !(o.aktarilmamis > 0);
     if (o.aktarilmamis > 0) {
@@ -75,6 +78,13 @@ window.Rapor = (function () {
   }
 
   const tumOgrenciler = () => (son ? son.ogretmen.oyuncular : []);
+  const dersEtiketi = () => (son && son.ogretmen.dersEtiketi) || '';
+  /* Karne/rapor adı: "İsimli" veli içindir, "Kodlu" isim yerine öğrenci kodunu yazar. */
+  const kodluMu = () => {
+    const s = document.querySelector('input[name="karneModu"]:checked');
+    return !!s && s.value === 'kod';
+  };
+  const gosterAd = (o) => (kodluMu() ? kodOf(o.id) : o.ad);
   const kodOf = (id) => {
     const k = son && son.ogretmen.olcum.kodlar.find((x) => x.id === id);
     return k ? k.kod : '—';
@@ -183,7 +193,9 @@ window.Rapor = (function () {
     const o = tumOgrenciler().find((x) => x.id === id);
     const oz = ozetOf(id);
     if (!o || !oz) { raporKapat(); return; }
-    $('#raporBaslik').textContent = `📄 ${o.ad} · ${kodOf(id)}`;
+    $('#raporBaslik').textContent = kodluMu()
+      ? `📄 ${kodOf(id)}` + (dersEtiketi() ? ` · ${dersEtiketi()}` : '')
+      : `📄 ${o.ad} · ${kodOf(id)}` + (dersEtiketi() ? ` · ${dersEtiketi()}` : '');
     const eski = gecmisBul(o);
     const fark = eski ? oz.dogruluk - eski.dogruluk : null;
     const kutu = (etiket, deger) => `<div class="olcu"><span class="olcu-deger">${deger}</span><span class="olcu-etiket">${etiket}</span></div>`;
@@ -234,8 +246,9 @@ window.Rapor = (function () {
       '<tr><td colspan="3">Bu oturumda kayıt oluşmadı.</td></tr>';
     return `<section class="karne">
       <header><h1>🧩 Izgara Çıkarım — Öğrenci Karnesi</h1>
-        <p class="ust-bilgi">UYCEP Logic · ${kacir(bugun)}</p></header>
-      <p class="ogrenci"><b>${kacir(o.ad)}</b> <span class="kod">(${kacir(kodOf(o.id))})</span></p>
+        <p class="ust-bilgi">UYCEP Logic · ${kacir(bugun)}${dersEtiketi() ? ' · ' + kacir(dersEtiketi()) : ''}</p></header>
+      <p class="ogrenci"><b>${kacir(gosterAd(o))}</b>` +
+      (kodluMu() ? '' : ` <span class="kod">(${kacir(kodOf(o.id))})</span>`) + `</p>
       <table class="ozet">
         <tr><th>Katıldığı bulmaca</th><td>${oz.gorev}</td><th>Çözdüğü bulmaca</th><td>${oz.cozulen}</td></tr>
         <tr><th>Doğruluk</th><td>%${oz.dogruluk}</td><th>Ortalama süre</th><td>${oz.ortSureSn} sn</td></tr>
@@ -248,7 +261,7 @@ window.Rapor = (function () {
         <tbody>${kat}</tbody>
       </table>
       <h2>Öğretmen notu</h2>
-      <p class="veli">${kacir(veliCumlesi(o.ad, oz))}</p>
+      <p class="veli">${kacir(veliCumlesi(gosterAd(o), oz))}</p>
       <p class="imza">Öğretmen: ..................................................</p>
       <footer>Bu karne sınıf içi etkinlik verilerinden üretilmiştir · Izgara Çıkarım · UYCEP Logic</footer>
     </section>`;
@@ -258,7 +271,8 @@ window.Rapor = (function () {
     if (!ogrenciler.length) return bilgi('⚠️ Karne üretilecek öğrenci yok.');
     const pencere = window.open('', '_blank');
     if (!pencere) return bilgi('⚠️ Açılır pencere engellendi. Tarayıcı ayarından izin verin.');
-    const baslik = ogrenciler.length === 1 ? `Karne · ${ogrenciler[0].ad}` : `Tüm Karneler (${ogrenciler.length})`;
+    const baslik = (ogrenciler.length === 1 ? `Karne · ${gosterAd(ogrenciler[0])}` : `Tüm Karneler (${ogrenciler.length})`) +
+      (dersEtiketi() ? ` · ${dersEtiketi()}` : '');
     pencere.document.write(`<!doctype html><html lang="tr"><head><meta charset="utf-8">
 <title>${kacir(baslik)}</title><style>${KARNE_CSS}</style></head><body>
 <div class="arac no-print">

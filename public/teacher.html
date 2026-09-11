@@ -50,7 +50,24 @@
       <select id="grup"></select>
       <label for="seviye">Etkinlik / seviye</label>
       <select id="seviye"></select>
+      <label for="dersEtiketi">🏷 Ders etiketi</label>
+      <input id="dersEtiketi" type="text" maxlength="60" placeholder="Örn. 2. Ders · 12 Eylül">
       <button id="yayinlaBtn" class="btn btn-yesil">🎬 Grubu Yayınla</button>
+    </div>
+    <p class="alt">Ders etiketi serbest metindir; CSV kayıtlarına ve karne/rapor başlığına yazılır.</p>
+
+    <div class="satir">
+      <label for="ilerlemeMod">İlerleme</label>
+      <select id="ilerlemeMod">
+        <option value="senkron">👥 Senkron — herkes aynı soruda</option>
+        <option value="bireysel">🎯 Bireysel — herkes kendi hızında</option>
+      </select>
+      <label for="gecis">Sıradaki soruya geçiş</label>
+      <select id="gecis">
+        <option value="otomatik">⏭ Otomatik</option>
+        <option value="onayli">🖐 Öğretmen onaylı</option>
+      </select>
+      <label class="secim"><input type="checkbox" id="otomatikDoldur"> 🤖 Izgarada otomatik ✗ doldurma</label>
     </div>
 
     <div class="satir">
@@ -69,6 +86,7 @@
     <div class="satir">
       <button id="baslatBtn" class="btn btn-yesil">▶️ Başlat</button>
       <button id="duraklatBtn" class="btn btn-sari">⏸ Duraklat</button>
+      <button id="sonrakiBtn" class="btn btn-yesil">⏭ Sıradaki Soru</button>
       <button id="bitirBtn" class="btn btn-kirmizi">⏹ Turu Bitir</button>
       <button id="iptalBtn" class="btn btn-kirmizi">♻️ Soruyu İptal Et (puanları geri al)</button>
     </div>
@@ -81,7 +99,7 @@
     <div class="tablo-kaydir">
       <table class="ogr-tablo">
         <thead>
-          <tr><th>#</th><th>Kod</th><th>Ad</th><th>Durum</th><th>İlerleme</th><th>Kesin</th><th>Deneme</th><th>Puan</th><th>Tur</th><th>İşlemler</th></tr>
+          <tr><th>#</th><th>Kod</th><th>Ad</th><th>Durum</th><th>Soru</th><th>İsabet</th><th>Tablo</th><th>Puan</th><th>Tur</th><th>İşlemler</th></tr>
         </thead>
         <tbody id="ogrenciler"></tbody>
       </table>
@@ -130,12 +148,18 @@
     </p>
 
     <div class="satir">
-      <span class="etiket">İsim modu</span>
+      <span class="etiket">CSV isim modu</span>
       <label class="secim"><input type="radio" name="isimModu" value="kod" checked> 🔒 Kodlu (araştırma)</label>
       <label class="secim"><input type="radio" name="isimModu" value="isim"> 👪 İsimli (veli raporu)</label>
       <button id="csvBtn" class="btn btn-ana">📥 CSV İndir (tüm öğrenciler)</button>
-      <button id="karneBtn" class="btn btn-ikincil">🖨 Tüm Karneleri İndir</button>
       <button id="eslesmeBtn" class="btn btn-ikincil" aria-expanded="false">🔐 İsim ↔ Kod Eşlemesi</button>
+    </div>
+
+    <div class="satir">
+      <span class="etiket">Karne / rapor adı</span>
+      <label class="secim"><input type="radio" name="karneModu" value="isim" checked> 👪 İsimli (veliye)</label>
+      <label class="secim"><input type="radio" name="karneModu" value="kod"> 🔒 Kodlu (isim yerine kod)</label>
+      <button id="karneBtn" class="btn btn-ikincil">🖨 Tüm Karneleri İndir</button>
     </div>
 
     <div class="satir">
@@ -187,6 +211,7 @@
       Bulmacayı <b>id</b> ile arayın — örn. <code>### c-1-03</code>.
       <span class="alt">Bu dosya güvenlik gereği web üzerinden servis edilmez; yalnız depoda/sunucu diskinde durur.</span>
     </p>
+    <p id="soruNot" class="not-kutu" hidden></p>
     <p id="cozumNot" class="not-kutu ince" hidden></p>
     <div id="ipucuListe" class="ipucu-ogretmen"></div>
     <div class="tablo-kaydir"><table id="cozumTablo" class="ogr-tablo"></table></div>
@@ -266,6 +291,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="/bildirim.js"></script>
 <script src="/rapor.js"></script>
+<script src="/takim.js"></script>
 <script src="/liste.js"></script>
 <script src="/teacher.js"></script>
 </body>

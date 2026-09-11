@@ -23,7 +23,7 @@ npm start                   # http://localhost:3000
 
 | Ortam | `ADMIN_PASSWORD` yoksa |
 |---|---|
-| **Yerel** (`RENDER` yok) | Varsayılan yerel şifre **`uycep`** ile çalışır — `.env` oluşturmak zorunlu değildir |
+| **Yerel** (`RENDER` yok) | Varsayılan yerel şifre **`uycep-local`** ile çalışır — `.env` oluşturmak zorunlu değildir |
 | **Render** (`RENDER` var) | Varsayılan **kullanılmaz**; loga büyük uyarı basılır ve `/teacher` girişi şifre tanımlanana kadar kapalı kalır (503) |
 
 Kendi şifrenizi belirlemek isterseniz `cp .env.example .env` deyip değeri değiştirin; `.env` varsa varsayılan yerine o kullanılır.
@@ -47,15 +47,16 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
 2. Öğretmen panelden **grup + etkinlik** seçer (ya da **🎬 Grubu Yayınla** der). Bekleyen ekranlar
    **yenileme gerekmeden** o grubun **isim kartlarına** döner; öğrenci kendi adına dokunup katılır.
    Ayrıntı: [Sınıf oturumu modeli](#-sınıf-oturumu-modeli-giriş).
-3. Öğretmen **mod + süre** seçip **Başlat** der.
-4. Öğrenci ekranında bulmacanın tabloları ve numaralı ipuçları görünür.
+3. Öğretmen **ilerleme modu + geçiş + mod + süre** seçip **Başlat** der. Başlatılana kadar
+   giren öğrenciler “Hazırsın! Öğretmenini bekliyoruz” ekranında durur — **kimse etkinliğe erken giremez**.
+4. Öğrenci ekranında **asıl soru + seçenek kartları**, numaralı ipuçları ve yardımcı
+   **çıkarım tablosu** görünür.
    - Hücreye dokunuş: **boş → ✔ → ✖ → boş**
    - ✔ konulduğunda aynı satır/sütundaki boş hücreler otomatik ✖ olur (eleme kolaylığı).
    - Aynı satır/sütunda iki ✔ varsa hücre kesikli kırmızı çerçeveyle uyarır.
-5. **Kontrol Et** → sunucu çözümle karşılaştırır:
-   - Tamamı doğruysa konfeti + puan.
-   - Değilse **tamamen doğru belirlenmiş satırlar yeşille** vurgulanır. Hücre bazlı hiçbir bilgi sızdırılmaz.
-   - Ard arda denemeyi engellemek için 4 sn bekleme ve her hatalı denemede −5 puan uygulanır.
+5. Öğrenci **soruyu cevaplar** (tabloyu doldurmak zorunda değildir) → puan cevaba göre verilir.
+   Yanlış cevap cezasızdır, tekrar denenebilir; yalnız “ilk denemede doğru” bonusu kaçar.
+   **🔍 Tabloyu Denetle** puan vermez: hangi satırların kesinleştiğini söyler, hücre bilgisi sızdırmaz.
 
 ### 🎒 Sınıf oturumu modeli (giriş)
 
@@ -69,6 +70,13 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
 - **Kart durumları** — bir isme dokunulduğunda kart soluklaşır ve kilitlenir: **🎮 oyunda**.
   Bağlantısı kopan öğrencinin kartı **🔄 geri dön** olur (aynı kartla kaldığı yerden devam eder).
   Öğretmen panelden **🔓** ile ismi serbest bırakabilir (yanlış isme dokunulduysa).
+- **Kimlik yaşam döngüsü** — öğretmen bir öğrenciyi **🚫 çıkardığında** ya da ismini
+  **🔓 serbest bıraktığında**, o cihazdaki kimlik (`izgara_sid` + `izgara_kod`) **silinir**,
+  oyun görünümü kapanır ve isim seçme ekranı açılır; kısa bir açıklama satırı görünür.
+  Çocuk asla eski oyun ekranında takılı kalmaz. Çıkarma sonrası sunucu bağlantıyı kapattığı için
+  istemci **kendiliğinden yeniden bağlanır** — isim kartları canlı kalır, dokunuş sunucuya ulaşır.
+  Kimlik silinmediği sürece (normal kopma, sekme kapanması, **sayfa yenileme**) öğrenci aynı
+  isimle döner ve puanı/işaretleri kaldığı yerden sürer.
 - **Kod** — öğrenci `data/ogrenciler.json` listesindeki **kalıcı koduna** bağlanır; tüm ölçüm
   kayıtları bu kodla tutulur.
 - **Tek grup oturumu** — bir oturum tek gruba aittir. Skor tablosu, podyum ve “👥 N” sayacı yalnız
@@ -78,6 +86,54 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
 - **Misafir** — öğretmen panelden anlık misafir ekler; misafir **M-01, M-02…** kodunu alır,
   o oturumun isim kartlarında belirir, CSV'de `M-` kodu ve isimli çıktıda “(misafir)” ile
   işaretlenir ve indirilen `ogrenciler.json`'a **yazılmaz** (araştırma setine girmez).
+
+### 🏷 Ders etiketi
+
+Öğretmen oturumu açarken **🎬 Grubu Yayınla** satırındaki serbest metin alanına bir etiket yazar
+(örn. `2. Ders · 12 Eylül`). Etiket:
+
+- her olay kaydına `ders_etiketi` sütunu olarak yazılır (standart 13 sütun **değişmez**, etiket sona eklenir),
+- panelin oturum özetinde ve 📊 Ölçme kartında 🏷 ile görünür,
+- **veli karnesi ve öğrenci raporu başlığında** tarihin yanında yer alır.
+
+Etiket istenirse boş bırakılabilir; o zaman kayıtlarda boş geçer ve başlıklarda görünmez.
+
+### 🔎 Soru ekranı — tablo araçtır, cevap değil
+
+Her bulmacadan, çözümü okunarak **tek bir asıl soru** türetilir (içerik üretilmez; cümle kalıpları
+ipuçlarıyla aynı sözlükten gelir):
+
+> 🔎 **Soru:** Ejderha besleyen sihirbaz kim? → `Efe` `Bora` `Gökçe` `Deniz`
+
+- Seçenek kartları soru alanının altındadır; **tablo doldurulmadan da cevaplanabilir**.
+- Puan **cevaptan** gelir, tablodan değil. Tablo yalnız düşünmeye yardım eder ve katlanabilir bir
+  kutudadır.
+- Ölçme kaydında **`tablo_kullandi`** (0/1) ayrı bir alandır: öğrenci ızgaraya hiç dokunmadan mı
+  bildi, eleyerek mi? (araştırma için değerli)
+
+### 🧮 Izgara işaretleme
+
+- Hücre döngüsü: **boş → ✗ → ✓ → boş** (önce çarpı; eleme bu oyunun özüdür).
+- **Otomatik doldurma varsayılan olarak KAPALIDIR.** Öğretmen panelden açarsa ✓ konduğunda aynı
+  satır/sütundaki boş hücrelere ✗ yazılır; bu ✗'ler normal hücredir, öğrenci **silebilir/değiştirebilir**.
+- **🧽 Tabloyu Temizle** onay sorar ve **hem sunucudaki hem ekrandaki** tüm işaretleri, kesinleşme
+  vurgularını ve geri alma izlerini sıfırlar.
+
+### ⏱ İlerleme modu ve geçiş kontrolü
+
+| Ayar | Seçenekler | Ne olur |
+|---|---|---|
+| **İlerleme** | 👥 Senkron | Herkes aynı soruda; cevaplayan arkadaşlarını bekler (bekleme mini oyunu açılır). |
+| | 🎯 Bireysel | Herkes kendi hızında; cevaplayan **beklemez**, sıradaki bulmacaya hemen geçer. Panelde herkesin kaçıncı soruda olduğu görünür. |
+| **Geçiş** (senkronda) | ⏭ Otomatik | Tur bitince 6 sn sonuç sahnesi, ardından sıradaki soru kendiliğinden açılır. |
+| | 🖐 Öğretmen onaylı | Öğretmen **⏭ Sıradaki Soru** diyene kadar sonuç/bekleme ekranı kalır. |
+
+**Puanlama (cevaba göre):** `500 taban + hız bonusu (hedef süreye göre azalan, en çok 500) +
+100 ilk denemede doğru bonusu`. Sıralama kişiler arası hıza değil **bu puana** göre yapılır; listede
+puanla birlikte **kaçıncı soruda** olunduğu da yazar. Öğrenci her sorudan sonra **kendi** sırasını ve
+puanını görür (tam liste öğrenci ekranında yayınlanmaz).
+
+**Kapanış rozetleri:** 🏆 **En Yüksek Puan** ve 🎯 **En İsabetli** (ilk denemede doğru bilme yüzdesi).
 
 ### Modlar
 | Mod | Ne olur | Puanlama |
@@ -114,7 +170,7 @@ için gerekenlerdir; kalan her şey kapalı başlar, en sonda da öğrenci liste
 
 | Bölüm | Varsayılan | İçerik |
 |---|---|---|
-| 🎬 **Oturum ve Tur** | açık | grup + etkinlik seçimi, 🎬 Grubu Yayınla, mod/süre/bulmaca, Başlat · Duraklat · Turu Bitir · Soruyu İptal Et |
+| 🎬 **Oturum ve Tur** | açık | grup + etkinlik, 🏷 ders etiketi, 🎬 Grubu Yayınla, ilerleme modu · geçiş · 🤖 otomatik ✗ doldurma, mod/süre/bulmaca, Başlat · ⏭ Sıradaki · Duraklat · Turu Bitir · Soruyu İptal Et |
 | 👤 **Canlı Durum** | açık | öğrenci tablosu, ⚠ farklı gruptan girenler, 🙋 misafir ekleme, podyum |
 | 👥 **Takımlar** | açık (yalnız İkili Modda görünür) | canlı doluluk, 🔀 Karıştır, 🔗 Seçilenleri Eşle |
 | 📊 **Ölçme ve Raporlar** | kapalı | CSV, isim↔kod eşlemesi, öğrenci raporu, veli karnesi |
@@ -126,7 +182,8 @@ Düğme renk kodu: **yeşil** başlat/devam · **sarı** duraklat · **kırmız�
 ve yıkıcı işlemler (onay sorulur, diğerlerinden uzağa yerleştirilir) · **gri** bilgi/gezinme.
 Renk asla tek başına anlam taşımaz; her düğmede ikon + metin de vardır.
 
-- Bağlı öğrenci listesi: kod, çevrimiçi 🟢 / çevrimdışı 🔴, ilerleme %, kesinleşen satır, deneme, puan
+- Bağlı öğrenci listesi: kod, çevrimiçi 🟢 / çevrimdışı 🔴, **kaçıncı soruda**, isabet (ilk denemede
+  doğru / cevaplanan), tabloyu kullanıp kullanmadığı, puan
 - **Başlat / Duraklat / Turu Bitir / Oyunu Sıfırla**
 - Grup (e/i/c), seviye (e-1, e-2, i-1, i-2, c-1, c-2), mod, süre (dk; 0 = süresiz), belirli bulmaca ya da 🎲 rastgele
   — seviye listesi seçili gruba göre daralır, uyumsuz eşleşme seçilemez
@@ -212,6 +269,13 @@ Sütun adları asla değişmez; oyunlar arası birleştirilebilirlik buna bağl�
 | `deneme` | kaçıncı “Kontrol Et” denemesi |
 | `ipucu_kullanildi` | bu oyunda ayrı bir ipucu dağıtımı olmadığından daima `0` |
 
+Standart 13 sütunun **ardına** eklenen alanlar (adlar ve sıra bozulmadığı için dosyalar yine
+birleştirilebilir): `ders_etiketi` · `mod` (bireysel/takim/birlikte) · `ilerleme` (senkron/bireysel) ·
+`tablo_kullandi` (0/1) ve yalnız isimli dışa aktarımda `ogrenci_ad`.
+
+Kayıt artık **cevaba** düşer (`dogru`/`yanlis`), tabloyu denetlemeye değil; tur kapanınca cevap
+vermeyenler `atlandi` olur.
+
 Ne zaman kayıt oluşur:
 - **Yanlış “Kontrol Et”** → `yanlis` · **doğru çözüm** → `dogru`
 - **Tur kapanınca** (öğretmen bitirdi / süre doldu / herkes bitirdi) o turda hiç cevabı olmayan
@@ -261,6 +325,10 @@ en uzun seri ve ulaşılan kademe. Ekran canlıdır (yeni cevaplar geldikçe taz
 **isme** göre yapılır; böylece hem kodlu hem isimli dosyalar kullanılabilir.
 
 ### Veli karnesi (A4)
+- **Karne / rapor adı** anahtarı: 👪 **İsimli** (varsayılan, veliye verilir) ya da 🔒 **Kodlu**
+  (isim yerine öğrenci kodu yazılır — panoya asılacak ya da araştırmada paylaşılacak çıktılar için).
+  Anahtar hem karneyi hem de panelde açılan öğrenci raporu başlığını etkiler.
+  CSV'nin kendi isim modu ayrıdır (📥 CSV satırındaki **CSV isim modu**).
 - **🖨 Yazdırılabilir Rapor (A4)** — açık rapordaki öğrencinin tek sayfalık karnesi.
 - **🖨 Tüm Karneleri İndir** — sınıftaki her öğrenci için **bir A4 sayfa**, hepsi
   **tek yazdırılabilir belgede** (veli toplantısı öncesi tek tıkla tüm evrak).
@@ -304,6 +372,8 @@ lib/puan.js            puanlama sabitleri
 lib/takimlar.js        İkili Mod: takım kurulumu, eşleştirme, takım adına denetim
 lib/bulmacalar.js      puzzles.json okuma/doğrulama/indeksleme, çözümün ayıklanması
 lib/liste.js           kalıcı öğrenci listesi: isim↔kod, misafir, oturum içi düzenleme, dışa aktarım
+lib/soru.js            bulmacadan ASIL SORU + seçenek kartları türetir (içerik üretmez)
+lib/akis.js            cevap değerlendirme, puanlama, ilerleme modu, geçiş ve kapanış rozetleri
 lib/gorunum.js         dışa açılan paketler (skor, kamu, kişisel, lobi, öğretmen) — tek grup süzgeci burada
 lib/kontrol.js         işaret doğrulama + cevap denetimi (yalnız sunucu)
 lib/olcum.js           ölçme standardı: 13 sütunluk olay kaydı, takma ad, CSV, öğrenci özeti
@@ -312,10 +382,14 @@ lib/oyun.js            socket olayları
 public/index.html·app.js·izgara.js·style.css    öğrenci
 public/giris.js        bekleme ekranı + isim kartları (sınıf oturumu modeli)
 public/ambiyans.js     giriş/bekleme ekranlarının ortam animasyonu (oyun ekranında çalışmaz)
+public/efekt.js        kutlama konfetisi ve kısa ses efektleri (🔇 ile kapatılabilir)
+public/soru.js         asıl soru alanı ve seçenek kartları
+public/ortu.js         duraklama/sonuç örtüsü, kapanış rozetleri, bekleme mini oyunu bağlantısı
 public/bekleme.js      beklerken oynanan hafıza oyunu (yalnız istemci, puana etkisiz)
 public/teacher.html·teacher.js                  öğretmen
 public/rapor.js        ölçme/rapor arayüzü: CSV, kod eşlemesi, öğrenci raporu, A4 karne
 public/liste.js        öğrenci listesi yönetim ekranı (süzgeç, arama, ekle/düzenle/pasifleştir)
+public/takim.js        İkili Mod takım kartları ve elle eşleme
 public/bildirim.js     "tur bitti" uyarısı (bildirim çubuğu + zil + sekme başlığı)
                        — bu üç dosya da teacher.html/js gibi yalnız girişi yapmış öğretmene servis edilir
 data/ogrenciler.json   KALICI öğrenci listesi (isim ↔ kod) — tüm UYCEP Logic oyunlarında AYNI dosya
@@ -365,6 +439,10 @@ Sunucu bulmacanın `grup` alanını gönderir; istemci `e` görünce `<body>`’
 - daha büyük yazı (ipuçları ~1.3rem, hücreler 60px) ve **geniş satır aralığı** (`line-height: 2`)
 - olumsuz ipuçlarında numaranın yanında **🚫** simgesi + kırmızımsı çerçeve
   (bilgi yalnız renkle verilmez; ekran okuyucular için “olumsuz ipucu” metni de vardır)
+
+**Zorluk gizliliği:** sunucudan öğrenci istemcisine giden pakette artık `seviye`/zorluk alanı
+**hiç yoktur** (öğrenci ekranındaki “Seviye …” rozeti kaldırıldı); katman kodları yalnız panelde
+ve kayıtlarda yaşar.
 
 Her bulmacanın **tek çözümlü** olduğu, üretim sırasında tüm permütasyonlar taranarak doğrulanmıştır
 (`data/uretec.js`, sıralama bulmacaları için `data/siralama.js`); ayrıca gereksiz ipuçları budanmıştır.

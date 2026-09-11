@@ -19,6 +19,7 @@
   /* ---------------- giriş: SINIF OTURUMU MODELİ ----------------
      Ekran çizimi public/giris.js'te; burada yalnız katılım akışı var. */
   Giris.kur((kod) => katil(kod));
+  SoruAlani.kur(socket);
 
   socket.on('lobi', (l) => {
     durumum.sonLobi = l;
@@ -43,25 +44,40 @@
   socket.on('connect', () => {
     if (durumum.sid && durumum.kod) katil(durumum.kod);   // kopan bağlantıda otomatik dönüş
   });
-  socket.on('disconnect', () => {
-    if (durumum.katildi) ortuGoster('📡', 'Bağlantı koptu', 'Yeniden bağlanmaya çalışıyorum… Puanın duruyor, merak etme.');
+  socket.on('disconnect', (sebep) => {
+    if (durumum.katildi) {
+      Ortu.goster('📡', 'Bağlantı koptu', 'Yeniden bağlanmaya çalışıyorum… Puanın duruyor, merak etme.');
+      return;
+    }
+    // oyunda değilken sunucu kaynaklı kopmada isim kartları canlı kalsın
+    if (sebep === 'io server disconnect') setTimeout(() => { if (!socket.connected) socket.connect(); }, 400);
   });
-  socket.on('atildin', () => {
-    durumum.katildi = false;
-    localStorage.removeItem('izgara_sid');
-    ortuGoster('🚪', 'Oyundan çıkarıldın', 'Öğretmenin seni oyundan çıkardı. Birkaç dakika sonra tekrar katılabilirsin.');
-  });
-
-  /* Öğretmen ismi serbest bıraktı: isim kartlarına dön (yanlış isme dokunulmuşsa) */
-  socket.on('serbest', () => {
+  /* KİMLİK YAŞAM DÖNGÜSÜ — öğretmen çıkardığında ya da ismi serbest bıraktığında:
+     cihazdaki kimlik silinir, oyun görünümü kapanır, isim seçme ekranı açılır.
+     (Sayfa yenilemede normal dönüş sürer: kimlik dururken sid+kod ile kaldığı yerden devam eder.) */
+  function kimligiSil(mesaj) {
     durumum.katildi = false;
     durumum.sid = null;
     durumum.kod = null;
+    durumum.ad = '';
+    durumum.bulmacaAnahtari = null;
     localStorage.removeItem('izgara_sid');
     localStorage.removeItem('izgara_kod');
-    ortuGizle();
+    Ortu.gizle();
+    $('#oyun').hidden = true;
     Giris.ciz(durumum.sonLobi);
-    Giris.hata('Öğretmenin ismi serbest bıraktı. Kendi adına dokunabilirsin.');
+    Giris.hata(mesaj);
+  }
+
+  socket.on('atildin', () => {
+    kimligiSil('Öğretmenin seni oyundan çıkardı. Birkaç dakika sonra adına yeniden dokunabilirsin. 🚪');
+    // sunucu bağlantıyı kapatır ("io server disconnect" kendiliğinden yeniden bağlanmaz);
+    // isim kartları CANLI kalsın diye hemen yeniden bağlanıyoruz — çocuk ölü ekranda kalmasın
+    setTimeout(() => { if (!socket.connected) socket.connect(); }, 400);
+  });
+
+  socket.on('serbest', () => {
+    kimligiSil('Öğretmenin ismi serbest bıraktı. Kendi adına dokunabilirsin. 🔓');
   });
 
   /* ---------------- durum akışı ---------------- */
@@ -76,21 +92,17 @@
     if (mod === 'birlikte' || mod === 'ikili') Izgara.disaridanIsaret(p, c, d);
   });
 
-  // İkili mod: "Kontrol Et" takım adına çalışır, sonuç iki eşe birden düşer
-  socket.on('takimSonuc', ({ dogru, kesinlesen, puan, sira, kimden }) => {
-    Izgara.kesinVurgu(kesinlesen);
+  // İkili mod: cevap takım adına verilir, sonuç iki eşe birden düşer
+  socket.on('takimSonuc', ({ dogru, puan, sira, kimden }) => {
     const bana = kimden === durumum.ad;
-    const kim = bana ? 'Kontrol ettin' : `Eşin ${kimden} kontrol etti`;
+    const kim = bana ? 'Cevapladın' : `Eşin ${kimden} cevapladı`;
     if (dogru) {
-      geriBildirim(`🎉 ${kim} — DOĞRU! ${puan ? '+' + puan + ' puan (ikinize de)' : ''}${sira ? ` · ${sira}. takım` : ''}`, 'dogru');
-      konfeti();
-      cal('dogru');
+      SoruAlani.geri(`🎉 ${kim} — DOĞRU! +${puan} puan (ikinize de)${sira ? ` · ${sira}. takım` : ''}`, 'dogru');
+      Efekt.konfeti();
+      Efekt.cal('dogru');
     } else {
-      const k = kesinlesen ? kesinlesen.length : 0;
-      geriBildirim(k
-        ? `${kim}: henüz tamam değil. ${k} satır kesinleşti ✔ — yeşil satırlar doğru.`
-        : `${kim}: henüz tamam değil. İpuçlarını eşinle birlikte yeniden okuyun. 💪`, 'eksik');
-      cal('eksik');
+      SoruAlani.geri(`${kim}: bu değil 🌱 İpuçlarını eşinle birlikte yeniden okuyun.`, 'eksik');
+      Efekt.cal('eksik');
     }
   });
 
@@ -116,41 +128,70 @@
   /* ---------------- çizim ---------------- */
   function ciz(d) {
     Giris.gizle();
-    $('#oyun').hidden = false;
+    // Öğretmen BAŞLAT demeden etkinliğe girilmez: hazır/bekleme ekranı durur
+    const oyunda = d.faz === 'oyun' || (d.faz === 'sonuc' && d.ilerlemeMod === 'senkron');
+    $('#hazir').hidden = oyunda;
+    $('#oyun').hidden = !oyunda;
+    if (!oyunda) { hazirEkrani(d); return; }
 
     $('#benimPuan').textContent = '⭐ ' + d.ben.puan;
-    $('#seviyeRozet').textContent = d.bulmaca ? 'Seviye ' + d.bulmaca.seviye : '—';
-    $('#modRozet').textContent =
-      d.mod === 'birlikte' ? '🤝 Birlikte' : d.mod === 'ikili' ? '👥 İkili' : '🏁 Yarış';
-    $('#bulmacaBaslik').textContent = d.bulmaca ? d.bulmaca.baslik : 'Izgara Çıkarım';
+    $('#modRozet').textContent = d.ilerlemeMod === 'bireysel' ? '🎯 Kendi hızında'
+      : d.mod === 'birlikte' ? '🤝 Birlikte' : d.mod === 'ikili' ? '👥 İkili' : '🏁 Yarış';
+    const b = d.ben.bulmaca || d.bulmaca;
+    $('#bulmacaBaslik').textContent = b ? b.baslik : 'Izgara Çıkarım';
+    const sr = $('#siraRozet');
+    sr.hidden = !d.ben.siram;
+    if (d.ben.siram) sr.textContent = `📊 Sıran: ${d.ben.siram}/${d.ben.oyuncuSayisi}`;
     // e grubu (1.–2. sınıf): daha büyük yazı, daha ferah ipucu satırları
-    document.body.classList.toggle('e-grubu', !!(d.bulmaca && d.bulmaca.grup === 'e'));
+    document.body.classList.toggle('e-grubu', !!(b && b.grup === 'e'));
     sayacYaz(d.kalanSn);
 
     skorlariCiz(d.skorlar);
-
     esBilgiCiz(d);
+    SoruAlani.ciz(d);
 
-    const anahtar = d.bulmaca ? d.bulmaca.id + '#' + d.turNo : null;
+    const anahtar = b ? b.id + '#' + d.turNo + '#' + d.ben.soruNo : null;
     if (anahtar !== durumum.bulmacaAnahtari) {
       durumum.bulmacaAnahtari = anahtar;
-      ipuclariCiz(d.bulmaca);
-      Izgara.ciz($('#izgaralar'), d.bulmaca, kopya(d.ben.isaretler), { onIsaret: isaretYolla });
+      ipuclariCiz(b);
+      Izgara.ciz($('#izgaralar'), b, kopya(d.ben.isaretler), {
+        onIsaret: isaretYolla, otomatik: d.otomatikDoldur
+      });
       geriBildirim('', '');
-    } else if (d.mod === 'birlikte' || d.mod === 'ikili') {
-      Izgara.isaretleriDegistir(kopya(d.ben.isaretler));
+      SoruAlani.geri('', '');
+    } else {
+      Izgara.otomatikAyarla(d.otomatikDoldur);
+      // sunucu tabloyu boşalttıysa (temizle) ekran da boşalsın
+      if (!Object.keys(d.ben.isaretler || {}).length) Izgara.isaretleriDegistir({});
+      else if (d.mod === 'birlikte' || d.mod === 'ikili') Izgara.isaretleriDegistir(kopya(d.ben.isaretler));
     }
 
     const takimBitti = d.mod === 'ikili' && d.ben.takim && d.ben.takim.bitti;
-    const oynanabilir = d.faz === 'oyun' && !d.duraklatildi &&
-      !(d.mod === 'yaris' && d.ben.bitti) && !takimBitti;
+    const oynanabilir = d.faz === 'oyun' && !d.duraklatildi && !d.ben.bitti && !takimBitti;
     Izgara.saltOkunurYap(!oynanabilir);
     $('#kontrolBtn').disabled = !oynanabilir;
     $('#temizleBtn').disabled = !oynanabilir;
+    SoruAlani.kilitle(!oynanabilir);
 
-    if (d.ben.sonSonuc) Izgara.kesinVurgu(d.ben.sonSonuc.kesinlesen);
+    if (d.ben.sonSonuc && d.ben.sonSonuc.kesinlesen) Izgara.kesinVurgu(d.ben.sonSonuc.kesinlesen);
 
-    ortuDurumu(d);
+    Ortu.durum(d);
+  }
+
+  /* Öğretmen başlatmadan önceki ekran + turlar arası kişisel özet */
+  function hazirEkrani(d) {
+    const bitti = d.faz === 'sonuc';
+    $('#hazirBaslik').textContent = bitti ? '🏁 Tur bitti' : 'Hazırsın!';
+    $('#hazirMetin').textContent = bitti
+      ? 'Öğretmenin sıradaki soruyu açmasını bekliyoruz.'
+      : 'Öğretmenin etkinliği başlatmasını bekliyoruz.';
+    const p = $('#hazirPuan');
+    if (d.ben && (d.ben.puan || d.ben.soruSayisi)) {
+      p.hidden = false;
+      p.innerHTML = `⭐ <b>${d.ben.puan}</b> puan · 📊 Sıran: <b>${d.ben.siram || '—'}/${d.ben.oyuncuSayisi}</b>` +
+        (d.ben.soruSayisi ? ` · 🎯 ${d.ben.isabet}/${d.ben.soruSayisi} ilk denemede` : '');
+    } else p.hidden = true;
+    Ambiyans.basla();
   }
 
   /* İkili modda eşinin adı ve bağlantı durumu tablonun üstünde durur */
@@ -171,42 +212,6 @@
       (esler.every((u) => !u.cevrimici)
         ? ' <span class="es-uyari">— bağlantısı koptu, sen devam edebilirsin.</span>'
         : ' <span class="alt">— işaretleriniz ortak</span>');
-  }
-
-  function ortuDurumu(d) {
-    if (d.faz === 'lobi') {
-      return ortuGoster('⏳', 'Öğretmeni bekliyoruz', 'Bulmaca birazdan başlayacak. Hazır ol! 🧠');
-    }
-    if (d.duraklatildi) {
-      return ortuGoster('⏸', 'Öğretmeninizi dinleyin', 'Oyun duraklatıldı, süre donduruldu.');
-    }
-    if (d.faz === 'sonuc') {
-      return sonucGoster(d);
-    }
-    // erken bitirenler beklerken sıkılmasın: mini oyun yalnız burada açılır
-    if (d.mod === 'yaris' && d.ben.bitti) {
-      return ortuGoster('🎉', 'Bulmacayı çözdün!', 'Arkadaşlarını bekliyoruz…', d.podyum, true);
-    }
-    if (d.mod === 'ikili' && d.ben.takim && d.ben.takim.bitti) {
-      return ortuGoster('🎉', 'Takımınız çözdü!', 'Diğer takımları bekliyoruz…', d.podyum, true);
-    }
-    if (d.mod === 'ikili' && !d.ben.takim) {
-      return ortuGoster('👥', 'Takımın hazırlanıyor', 'Öğretmenin seni bir eşle eşleştirecek.');
-    }
-    ortuGizle();
-  }
-
-  function sonucGoster(d) {
-    const kazanan = d.podyum && d.podyum.length ? d.podyum[0].ad : null;
-    if (d.mod === 'ikili') {
-      return ortuGoster('🏁', 'Tur bitti', kazanan ? `Birinci takım: ${kazanan}` : 'Bu turda bitiren takım olmadı.', d.podyum);
-    }
-    if (d.mod === 'birlikte') {
-      ortuGoster('🤝', 'Tur bitti', d.ben.sonSonuc && d.ben.sonSonuc.dogru
-        ? 'Sınıfça çözdünüz! Harikasınız 🎉' : 'Öğretmen turu bitirdi. Şimdi birlikte konuşalım.');
-    } else {
-      ortuGoster('🏁', 'Tur bitti', kazanan ? `Birinci: ${kazanan}` : 'Bu turda bitiren olmadı.', d.podyum);
-    }
   }
 
   function ipuclariCiz(b) {
@@ -259,39 +264,33 @@
   /* ---------------- hamleler ---------------- */
   function isaretYolla(p, c, d) { socket.emit('isaret', { p, c, d }); }
 
+  /* Tabloyu denetle: PUAN VERMEZ — yalnız hangi satırların kesinleştiğini söyler. */
   $('#kontrolBtn').addEventListener('click', () => {
     $('#kontrolBtn').disabled = true;
     socket.emit('kontrol', null, (cevap) => {
       $('#kontrolBtn').disabled = false;
       if (!cevap) return;
       if (cevap.hata) return geriBildirim(cevap.hata, 'bekle');
-      if (cevap.ikili) return;          // sonuç 'takimSonuc' ile iki eşe birden gelir
       Izgara.kesinVurgu(cevap.kesinlesen);
-      if (cevap.dogru) {
-        geriBildirim(`🎉 Doğru! ${cevap.puan ? '+' + cevap.puan + ' puan' : ''}${cevap.sira ? ` · ${cevap.sira}. sırada bitirdin` : ''}`, 'dogru');
-        konfeti();
-        cal('dogru');
-      } else {
-        const k = cevap.kesinlesen ? cevap.kesinlesen.length : 0;
-        geriBildirim(k
-          ? `Henüz tamam değil. ${k} satır kesinleşti ✔ — yeşil satırlar doğru, gerisini gözden geçir.`
-          : 'Henüz tamam değil. İpuçlarını yeniden oku, elemeyi ✖ ile sürdür. 💪', 'eksik');
-        cal('eksik');
-      }
+      const k = cevap.kesinlesen ? cevap.kesinlesen.length : 0;
+      if (cevap.dogru) geriBildirim('✅ Tablon tamamen tutarlı! Şimdi soruyu cevapla.', 'dogru');
+      else if (k) geriBildirim(`${k} satır kesinleşti ✓ — yeşil satırlar doğru, gerisini sürdür.`, 'eksik');
+      else geriBildirim('Henüz kesinleşen satır yok. İpuçlarını yeniden oku, elemeyi ✗ ile sürdür. 💪', 'eksik');
     });
   });
 
   $('#temizleBtn').addEventListener('click', () => {
     const mod = durumum.sonKamu && durumum.sonKamu.mod;
-    const soru = mod === 'ikili'
+    const bireysel = durumum.sonKamu && durumum.sonKamu.ilerlemeMod === 'bireysel';
+    const soru = !bireysel && mod === 'ikili'
       ? 'Takımınızın tüm işaretleri silinecek (eşinin ekranında da). Emin misin?'
-      : mod === 'birlikte'
+      : !bireysel && mod === 'birlikte'
         ? 'Sınıfın ortak tablosundaki tüm işaretler silinecek. Emin misin?'
         : 'Tablodaki tüm işaretlerin silinecek. Emin misin?';
     if (!confirm(soru)) return;
-    socket.emit('temizle');
-    Izgara.kesinVurgu([]);
-    geriBildirim('', '');
+    socket.emit('temizle', null, () => {});
+    Izgara.temizle();              // YEREL tablo da boşalır (eski hata: yalnız sunucu temizleniyordu)
+    geriBildirim('🧽 Tablo temizlendi.', '');
   });
 
   function geriBildirim(m, tur) {
@@ -300,34 +299,7 @@
     e.className = 'geri-bildirim' + (tur ? ' ' + tur : '');
   }
 
-  /* ---------------- örtü / duyuru ---------------- */
-  function ortuGoster(ikon, baslik, metin, podyum, miniOyun) {
-    BeklemeOyunu.goster(!!miniOyun);
-    $('#ortuIkon').textContent = ikon;
-    $('#ortuBaslik').textContent = baslik;
-    $('#ortuMetin').textContent = metin || '';
-    const ol = $('#ortuPodyum');
-    ol.innerHTML = '';
-    if (podyum && podyum.length) {
-      ol.hidden = false;
-      const madalya = ['🥇', '🥈', '🥉'];
-      podyum.slice(0, 3).forEach((p, i) => {
-        const li = document.createElement('li');
-        li.innerHTML = `<span class="madalya">${madalya[i]}</span> <b>${kacir(p.ad)}</b> <span class="sure">${(p.sure / 1000).toFixed(0)} sn · +${p.puan}</span>`;
-        ol.appendChild(li);
-      });
-    } else ol.hidden = true;
-    $('#ortu').hidden = false;
-  }
-  function ortuGizle() {
-    $('#ortu').hidden = true;
-    BeklemeOyunu.goster(false);
-  }
-
-  /* Bekleme mini oyunu (public/bekleme.js): yalnız bekleme ekranında açılır,
-     sunucuya hiçbir şey göndermez, sınıf puanına etki etmez. */
-  BeklemeOyunu.bagla('beklemeAlani', 'beklemeOyun', 'beklemeAcBtn');
-
+  /* ---------------- duyuru ---------------- */
   let duyuruZaman = null;
   function duyuruGoster(m) {
     const e = $('#duyuru');
@@ -335,38 +307,6 @@
     e.hidden = false;
     clearTimeout(duyuruZaman);
     duyuruZaman = setTimeout(() => { e.hidden = true; }, 4000);
-  }
-
-  /* ---------------- kutlama + ses ---------------- */
-  function konfeti() {
-    const kap = $('#konfeti');
-    const renkler = ['#e8b04b', '#7aa874', '#8c6fb0', '#d97b6c', '#4f93b8'];
-    for (let i = 0; i < 60; i++) {
-      const p = document.createElement('i');
-      p.style.left = Math.random() * 100 + 'vw';
-      p.style.background = renkler[i % renkler.length];
-      p.style.animationDelay = (Math.random() * 0.4) + 's';
-      p.style.transform = `rotate(${Math.random() * 360}deg)`;
-      kap.appendChild(p);
-      setTimeout(() => p.remove(), 2600);
-    }
-  }
-
-  let sesBaglam = null;
-  function cal(tur) {
-    if (!durumum.ses) return;
-    try {
-      sesBaglam = sesBaglam || new (window.AudioContext || window.webkitAudioContext)();
-      const notalar = tur === 'dogru' ? [523, 659, 784] : [330, 262];
-      notalar.forEach((hz, i) => {
-        const o = sesBaglam.createOscillator(), g = sesBaglam.createGain();
-        o.type = 'sine'; o.frequency.value = hz;
-        g.gain.value = 0.06;
-        o.connect(g); g.connect(sesBaglam.destination);
-        const t = sesBaglam.currentTime + i * 0.12;
-        o.start(t); o.stop(t + 0.12);
-      });
-    } catch (e) { /* ses yoksa sessiz geç */ }
   }
 
   const sesDugme = $('#sesDugme');
@@ -378,8 +318,10 @@
   sesDugme.addEventListener('click', () => {
     durumum.ses = !durumum.ses;
     localStorage.setItem('izgara_ses', durumum.ses ? 'acik' : 'kapali');
+    Efekt.ses(durumum.ses);
     sesTazele();
   });
+  Efekt.ses(durumum.ses);
   sesTazele();
 
   /* ---------------- yardımcılar ---------------- */

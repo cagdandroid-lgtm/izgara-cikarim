@@ -1,10 +1,12 @@
 /* Çıkarım tablolarının çizimi ve işaretlenmesi.
-   Hücre durumları: '' (boş) → 'y' (✔) → 'n' (✖) → ''
+   Hücre döngüsü: '' (boş) → 'n' (✗) → 'y' (✓) → '' — ÖNCE ÇARPI (eleme oyunun özüdür).
+   Otomatik doldurma VARSAYILAN KAPALIDIR; öğretmen panelden açar. Açıkken ✓ konunca
+   satır/sütun ✗'leri yazılır ama bu ✗'ler normal hücredir: öğrenci silebilir/değiştirebilir.
    Sunucu çözümü asla göndermez; burada yalnız öğrencinin kendi işaretleri tutulur. */
 (function (global) {
   'use strict';
 
-  const IKON = { y: '✔', n: '✖', '': '' };
+  const IKON = { y: '✓', n: '✗', '': '' };
   const ETIKET = { y: 'evet', n: 'hayır', '': 'boş' };
 
   const Izgara = {
@@ -13,6 +15,7 @@
     isaretler: {},
     onIsaret: null,
     saltOkunur: false,
+    otomatik: false,        // otomatik ✗ doldurma (öğretmen ayarı)
 
     /* Tüm tabloları yeniden çizer */
     ciz(kap, bulmaca, isaretler, secenekler) {
@@ -22,6 +25,7 @@
       this.isaretler = isaretler || {};
       this.onIsaret = s.onIsaret || null;
       this.saltOkunur = !!s.saltOkunur;
+      if (s.otomatik !== undefined) this.otomatik = !!s.otomatik;
       kap.innerHTML = '';
       if (!bulmaca) return;
 
@@ -100,12 +104,12 @@
       if (this.saltOkunur) return;
       const p = dg.dataset.p, c = dg.dataset.c;
       const suan = (this.isaretler[p] || {})[c] || '';
-      const yeni = suan === '' ? 'y' : suan === 'y' ? 'n' : '';
+      const yeni = suan === '' ? 'n' : suan === 'n' ? 'y' : '';
       this._yaz(p, c, yeni);
       if (this.onIsaret) this.onIsaret(p, c, yeni);
 
-      // ✔ konulduğunda aynı satır/sütundaki boş hücreler otomatik ✖ olur (eleme kolaylığı)
-      if (yeni === 'y') {
+      // yalnız otomatik doldurma AÇIKKEN: ✓ konunca satır/sütundaki boşlar ✗ olur
+      if (yeni === 'y' && this.otomatik) {
         const [a, b] = c.split('-').map(Number);
         const n = this.bulmaca.kategoriler[0].ogeler.length;
         for (let k = 0; k < n; k++) {
@@ -137,6 +141,22 @@
 
     isaretleriDegistir(isaretler) {
       this.isaretler = isaretler || {};
+      this.tumHucreleriTazele();
+    },
+
+    otomatikAyarla(deger) { this.otomatik = !!deger; },
+
+    /* Tabloyu tamamen temizle: tüm hücreler + vurgular + varsa geri alma izleri sıfırlanır */
+    temizle() {
+      this.isaretler = {};
+      this.gecmis = [];
+      if (!this.kap) return;
+      this.kap.querySelectorAll('.hucre').forEach((dg) => {
+        dg.textContent = '';
+        dg.dataset.d = '';
+        dg.classList.remove('celiski');
+      });
+      this.kesinVurgu([]);
       this.tumHucreleriTazele();
     },
 

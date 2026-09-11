@@ -223,8 +223,10 @@ Aşağıdaki standartlara İSTİSNASIZ uy:
   bilgi/akıl yürütme) · Gsm (kısa süreli/çalışma belleği) · Gs (işlem
   hızı) · Gc (kristalize/sözel bilgi) · Glr (uzun süreli bellekten
   geri getirme).
-- data dosyalarındaki her görev/seviye "chc" alanıyla etiketlenir
-  (ör. "chc": ["Gf","Gs"]). CHC bilgisi panelde AÇIKTA DURMAZ; yalnız
+- data dosyalarındaki her görev/seviye "chc" alanıyla etiketlenir; etiket
+  DAR YETENEK kodudur (Gf-I tümevarım, Gf-RG ardışık akıl yürütme, Gf-RQ
+  nicel, Gv-Vz görselleştirme, Gv-SR uzamsal ilişkiler, Gsm-WM çalışma
+  belleği, Gs-P algısal hız, Glr geri getirme), ör. "chc": ["Gf-I","Gsm-WM"]. CHC bilgisi panelde AÇIKTA DURMAZ; yalnız
   "Etkinlik Bilgisi" modalinin CHC sekmesinde yer alır (aşağıdaki
   Etkinlik bilgi modali bölümüne bak).
 - CHC etiketleri ÖĞRENCİ ekranında hiçbir yerde gösterilmez (zorluk
@@ -293,6 +295,29 @@ Aşağıdaki standartlara İSTİSNASIZ uy:
   aktarılır. Amaç: işbirlikli göstergelerin (senkronizasyon, bekleme,
   rol paylaşımı) sonradan puanlanabilmesi. Hangi projelerin araştırma
   oyunu olduğu bilinçli seçilir; her oyuna yayılmaz.
+
+## Oyun formatları kataloğu (KHLike v2 mod katmanı)
+- Soru motoru, kayıt ve ölçme her formatta AYNIDIR; format yalnız üstteki
+  "meta oyun"u değiştirir ve kayda mod alanı olarak formatın adı yazılır
+  (yarış, boss, fetih, kalkan_roket, donen_duello, halat, kule_savunma,
+  pist, kule_insa).
+- Fetih: sahnede 6×6 harita; her doğru cevap bir kare fethettirir, hızlı
+  olan komşu rakip karesini de alabilir; en çok toprak kazanır (bireysel
+  veya iki takım). Kalkan & Roket: her doğru cevapta rastgele eşya düşer
+  (🛡️ kalkan, 🚀 roket: hedeften puan çalar, 🔍 ipucu: bir yanlış şıkkı
+  eler ve ipucu_kullanildi=1 kaydedilir, ⚡ çift puan); eşyalar soru arası
+  sahnesinde oynanır. Dönen Düello: her soruda herkes yeni bir rakiple
+  eşleşir, kazanan bonus alır; elenme yok. Halat Çekme: iki takım, doğru
+  cevap farkı halatı çeker. Kule Savunması: iki takım, doğru cevapla rakip
+  kuleye vur veya kendi kuleni onar (karar öğrencide). Pist Yarışı: doğru
+  = ilerle, seri = turbo. Kule İnşa: doğru = blok, yanlış = sallanır ama
+  düşmez (P/E için sakin format). Boss: yukarıda tanımlı.
+- Değişmez kurallar: (1) Hiçbir saldırı/eşya cevaplamayı ENGELLEMEZ
+  (dondurma, susturma, şık gizleme yok) — adalet ve süre verisi için.
+  (2) Elenme yok; herkes son soruya kadar oynar. (3) Roket/saldırı yalnız
+  sıralamada KENDİNDEN YUKARIDAKİNE yapılabilir. (4) Aynı format aynı
+  grupta yılda en fazla 3-4 kez; format seçimi panelden, set seçiminden
+  bağımsız.
 
 ## Etkinlik bilgi modali ve veli özeti (TÜM OYUNLARDA ZORUNLU)
 - Öğretmen panelinin sağ üst köşesinde göze batmayan bir "ℹ️ Etkinlik
