@@ -156,7 +156,6 @@
         dg.dataset.d = '';
         dg.classList.remove('celiski');
       });
-      this.kap.querySelectorAll('tr.kesin').forEach((tr) => tr.classList.remove('kesin'));
       this.tumHucreleriTazele();
     },
 
