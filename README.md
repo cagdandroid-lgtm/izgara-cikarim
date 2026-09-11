@@ -54,9 +54,8 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
    - Hücreye dokunuş: **boş → ✔ → ✖ → boş**
    - ✔ konulduğunda aynı satır/sütundaki boş hücreler otomatik ✖ olur (eleme kolaylığı).
    - Aynı satır/sütunda iki ✔ varsa hücre kesikli kırmızı çerçeveyle uyarır.
-5. Öğrenci **soruyu cevaplar** (tabloyu doldurmak zorunda değildir) → puan cevaba göre verilir.
-   Yanlış cevap cezasızdır, tekrar denenebilir; yalnız “ilk denemede doğru” bonusu kaçar.
-   **🔍 Tabloyu Denetle** puan vermez: hangi satırların kesinleştiğini söyler, hücre bilgisi sızdırmaz.
+5. Öğrenci **tam eşleştirmeyi yapıp tek kez gönderir** (tabloyu doldurmak zorunda değildir) →
+   doğruysa hız bonuslu puan, yanlışsa puan yok ve doğru eşleştirme gösterilir.
 
 ### 🎒 Sınıf oturumu modeli (giriş)
 
@@ -98,26 +97,37 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
 
 Etiket istenirse boş bırakılabilir; o zaman kayıtlarda boş geçer ve başlıklarda görünmez.
 
-### 🔎 Soru ekranı — tablo araçtır, cevap değil
+### 🔎 Görev ekranı — TAM EŞLEŞTİRME, tek gönderim
 
-Her bulmacadan, çözümü okunarak **tek bir asıl soru** türetilir (içerik üretilmez; cümle kalıpları
-ipuçlarıyla aynı sözlükten gelir):
+Her bulmacadan **tam eşleştirme görevi** türetilir (içerik üretilmez; kategori adları ve çözüm okunur):
 
-> 🔎 **Soru:** Ejderha besleyen sihirbaz kim? → `Efe` `Bora` `Gökçe` `Deniz`
+> 🔎 **Her sihirbaz için doğru yaratık hangisi?**
+> `Efe → [— seç —]` `Bora → [— seç —]` `Gökçe → [— seç —]` `Deniz → [— seç —]`
 
-- Seçenek kartları soru alanının altındadır; **tablo doldurulmadan da cevaplanabilir**.
-- Puan **cevaptan** gelir, tablodan değil. Tablo yalnız düşünmeye yardım eder ve katlanabilir bir
-  kutudadır.
-- Ölçme kaydında **`tablo_kullandi`** (0/1) ayrı bir alandır: öğrenci ızgaraya hiç dokunmadan mı
-  bildi, eleyerek mi? (araştırma için değerli)
+- Öğrenci **her özneye** karşılığını atar (açılır liste). **Aynı seçenek iki özneye verilemez**:
+  bir seçenek yeniden seçilirse öbür özneden düşer.
+- Olasılık sayısı **n!**'dir: 3×3 → **6**, 4×4 → **24**, 5×5 → **120**. Ekranda da yazar
+  (“24 olasılık — tahminle tutturulmaz, eleyerek bul”). Şıkkı tutturma yolu kapalıdır.
+- **TEK GÖNDERİM:** “📨 Cevabı Gönder” bir kez basılır. Eksik atama varsa gönderim engellenir ve
+  eksik özneler adıyla söylenir; ardından onay sorulur (*“Emin misin? Tek hakkın var.”*). Gönderimden
+  sonra alan kilitlenir — kilit **sunucuda** tutulur, sayfa yenilense de açılmaz.
+- **Doğruysa** hız bonuslu puan; **yanlışsa puan yok**, doğru eşleştirme ve kısa bir açıklama gösterilir.
+  Senkron modda doğru eşleştirme **tur bitince** açılır (erken bitiren sınıfa söylemesin);
+  bireysel modda hemen açılır ve öğrenci **➡️ Sıradaki soru** deyince ilerler.
+- Tablo **zorunlu değildir**; gönderim satırında **🧮 Tablonu kontrol et** bağlantısı ızgarayı açıp
+  denetler. Ölçme kaydındaki **`tablo_kullandi`** (0/1) alanı durur: öğrenci ızgaraya hiç dokunmadan
+  mı bildi, eleyerek mi?
 
 ### 🧮 Izgara işaretleme
 
 - Hücre döngüsü: **boş → ✗ → ✓ → boş** (önce çarpı; eleme bu oyunun özüdür).
 - **Otomatik doldurma varsayılan olarak KAPALIDIR.** Öğretmen panelden açarsa ✓ konduğunda aynı
   satır/sütundaki boş hücrelere ✗ yazılır; bu ✗'ler normal hücredir, öğrenci **silebilir/değiştirebilir**.
-- **🧽 Tabloyu Temizle** onay sorar ve **hem sunucudaki hem ekrandaki** tüm işaretleri, kesinleşme
-  vurgularını ve geri alma izlerini sıfırlar.
+- **🧽 Tabloyu Temizle** onay sorar ve **hem sunucudaki hem ekrandaki** tüm işaretleri ve
+  geri alma izlerini sıfırlar.
+- **🔍 Tabloyu Denetle** puan vermez ve **çözüme bakmaz**: yalnız tablonun kendi içindeki
+  çelişkileri söyler (bir satırda iki ✓, tamamı ✗ olan satır, üç tablo arası geçişsizlik).
+  Doğruluk söylenmediği için sınırsız kullanılabilir ve cevabı sızdırmaz.
 
 ### ⏱ İlerleme modu ve geçiş kontrolü
 
@@ -128,12 +138,12 @@ ipuçlarıyla aynı sözlükten gelir):
 | **Geçiş** (senkronda) | ⏭ Otomatik | Tur bitince 6 sn sonuç sahnesi, ardından sıradaki soru kendiliğinden açılır. |
 | | 🖐 Öğretmen onaylı | Öğretmen **⏭ Sıradaki Soru** diyene kadar sonuç/bekleme ekranı kalır. |
 
-**Puanlama (cevaba göre):** `500 taban + hız bonusu (hedef süreye göre azalan, en çok 500) +
-100 ilk denemede doğru bonusu`. Sıralama kişiler arası hıza değil **bu puana** göre yapılır; listede
+**Puanlama (cevaba göre):** `500 taban + hız bonusu (hedef süreye göre azalan, en çok 500)`.
+Tek gönderim olduğu için ayrı “ilk deneme” bonusu yoktur. Sıralama kişiler arası hıza değil **bu puana** göre yapılır; listede
 puanla birlikte **kaçıncı soruda** olunduğu da yazar. Öğrenci her sorudan sonra **kendi** sırasını ve
 puanını görür (tam liste öğrenci ekranında yayınlanmaz).
 
-**Kapanış rozetleri:** 🏆 **En Yüksek Puan** ve 🎯 **En İsabetli** (ilk denemede doğru bilme yüzdesi).
+**Kapanış rozetleri:** 🏆 **En Yüksek Puan** ve 🎯 **En İsabetli** (doğru gönderim / gönderilen cevap).
 
 ### Modlar
 | Mod | Ne olur | Puanlama |
@@ -273,8 +283,8 @@ Standart 13 sütunun **ardına** eklenen alanlar (adlar ve sıra bozulmadığı 
 birleştirilebilir): `ders_etiketi` · `mod` (bireysel/takim/birlikte) · `ilerleme` (senkron/bireysel) ·
 `tablo_kullandi` (0/1) ve yalnız isimli dışa aktarımda `ogrenci_ad`.
 
-Kayıt artık **cevaba** düşer (`dogru`/`yanlis`), tabloyu denetlemeye değil; tur kapanınca cevap
-vermeyenler `atlandi` olur.
+Kayıt artık **gönderilen tam eşleştirmeye** düşer (`dogru`/`yanlis`), tabloyu denetlemeye değil;
+tek gönderim olduğu için `deneme` daima `1`, tur kapanınca cevap vermeyenler `atlandi` olur.
 
 Ne zaman kayıt oluşur:
 - **Yanlış “Kontrol Et”** → `yanlis` · **doğru çözüm** → `dogru`

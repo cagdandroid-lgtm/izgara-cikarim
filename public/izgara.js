@@ -156,7 +156,7 @@
         dg.dataset.d = '';
         dg.classList.remove('celiski');
       });
-      this.kesinVurgu([]);
+      this.kap.querySelectorAll('tr.kesin').forEach((tr) => tr.classList.remove('kesin'));
       this.tumHucreleriTazele();
     },
 
@@ -194,30 +194,6 @@
         t.querySelectorAll('.hucre[data-d="y"]').forEach((dg) => {
           const [a, b] = dg.dataset.c.split('-').map(Number);
           if (satirSay[a] > 1 || sutunSay[b] > 1) dg.classList.add('celiski');
-        });
-      });
-    },
-
-    /* Sunucunun "kesinleşti" dediği satırları vurgula (yalnız 1. kategori satırları) */
-    kesinVurgu(kesinlesen) {
-      if (!this.kap) return;
-      this.kap.querySelectorAll('tr.kesin').forEach((tr) => tr.classList.remove('kesin'));
-      this.kap.querySelectorAll('.satir-basi .kesin-rozet').forEach((e) => e.remove());
-      if (!kesinlesen || !kesinlesen.length) return;
-      this.kap.querySelectorAll('table.izgara').forEach((t) => {
-        if (!t.dataset.p.startsWith('0-')) return;
-        kesinlesen.forEach((a) => {
-          const tr = t.querySelector(`tr[data-satir="${a}"]`);
-          if (!tr) return;
-          tr.classList.add('kesin');
-          const th = tr.querySelector('.satir-basi');
-          if (th && !th.querySelector('.kesin-rozet')) {
-            const r = document.createElement('span');
-            r.className = 'kesin-rozet';
-            r.textContent = '✔';
-            r.title = 'Bu satır kesinleşti';
-            th.appendChild(r);
-          }
         });
       });
     }

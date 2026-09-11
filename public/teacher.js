@@ -55,7 +55,9 @@
     if (document.activeElement !== $('#dersEtiketi')) $('#dersEtiketi').value = d.ogretmen.dersEtiketi || '';
     bulmacaListesiTazele(d);
 
-    $('#ilerlemeMod').value = d.ilerlemeMod;
+    if (document.activeElement !== $('#ilerlemeMod')) $('#ilerlemeMod').value = d.ilerlemeMod;
+    $('#ilerlemeMod').title = d.faz === 'oyun'
+      ? 'Tur sürerken yapılan değişiklik SONRAKİ turda geçerli olur.' : '';
     $('#gecis').value = d.gecis;
     $('#gecis').disabled = d.ilerlemeMod === 'bireysel';
     if (document.activeElement !== $('#otomatikDoldur')) $('#otomatikDoldur').checked = !!d.otomatikDoldur;
@@ -202,8 +204,9 @@
     const soru = d.ogretmen.soru;
     sn.hidden = !soru;
     if (soru) {
-      sn.innerHTML = `🔎 <b>Sınıfa sorulan soru:</b> ${kacir(soru.metin)}<br>` +
-        `<span class="alt">Seçenekler: ${kacir(soru.secenekler.join(' · '))} — doğru cevap: <b>${kacir(soru.dogruCevap)}</b></span>`;
+      sn.innerHTML = `🔎 <b>Sınıfa sorulan görev:</b> ${kacir(soru.metin)} ` +
+        `<span class="alt">(${soru.olasilik} olasılık — tam eşleştirme, tek gönderim)</span><br>` +
+        `<b>Doğru eşleştirme:</b> ${kacir((soru.dogruAtama || []).map((x) => `${x.ozne} → ${x.dogru}`).join(' · '))}`;
     }
     const ip = $('#ipucuListe'), t = $('#cozumTablo'), not = $('#cozumNot');
     if (!d.bulmaca || !d.ogretmen.cozum) {

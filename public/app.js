@@ -93,15 +93,16 @@
   });
 
   // İkili mod: cevap takım adına verilir, sonuç iki eşe birden düşer
-  socket.on('takimSonuc', ({ dogru, puan, sira, kimden }) => {
+  socket.on('takimSonuc', ({ dogru, puan, sira, kimden, dogruAtama }) => {
     const bana = kimden === durumum.ad;
-    const kim = bana ? 'Cevapladın' : `Eşin ${kimden} cevapladı`;
+    const kim = bana ? 'Gönderdin' : `Eşin ${kimden} gönderdi`;
+    SoruAlani.kilitle(true);
     if (dogru) {
-      SoruAlani.geri(`🎉 ${kim} — DOĞRU! +${puan} puan (ikinize de)${sira ? ` · ${sira}. takım` : ''}`, 'dogru');
+      SoruAlani.geri(`🎉 ${kim} — TAM İSABET! +${puan} puan (ikinize de)${sira ? ` · ${sira}. takım` : ''}`, 'dogru');
       Efekt.konfeti();
       Efekt.cal('dogru');
     } else {
-      SoruAlani.geri(`${kim}: bu değil 🌱 İpuçlarını eşinle birlikte yeniden okuyun.`, 'eksik');
+      SoruAlani.sonuc({ dogru: false, dogruAtama });
       Efekt.cal('eksik');
     }
   });
@@ -172,8 +173,6 @@
     $('#kontrolBtn').disabled = !oynanabilir;
     $('#temizleBtn').disabled = !oynanabilir;
     SoruAlani.kilitle(!oynanabilir);
-
-    if (d.ben.sonSonuc && d.ben.sonSonuc.kesinlesen) Izgara.kesinVurgu(d.ben.sonSonuc.kesinlesen);
 
     Ortu.durum(d);
   }
@@ -264,18 +263,17 @@
   /* ---------------- hamleler ---------------- */
   function isaretYolla(p, c, d) { socket.emit('isaret', { p, c, d }); }
 
-  /* Tabloyu denetle: PUAN VERMEZ — yalnız hangi satırların kesinleştiğini söyler. */
+  /* Tabloyu denetle: PUAN VERMEZ ve ÇÖZÜME BAKMAZ — yalnız tablondaki çelişkileri söyler.
+     (Eski sürüm "şu satır doğru" diyordu; sınırsız denenince cevabı sızdırıyordu.) */
   $('#kontrolBtn').addEventListener('click', () => {
     $('#kontrolBtn').disabled = true;
     socket.emit('kontrol', null, (cevap) => {
       $('#kontrolBtn').disabled = false;
       if (!cevap) return;
       if (cevap.hata) return geriBildirim(cevap.hata, 'bekle');
-      Izgara.kesinVurgu(cevap.kesinlesen);
-      const k = cevap.kesinlesen ? cevap.kesinlesen.length : 0;
-      if (cevap.dogru) geriBildirim('✅ Tablon tamamen tutarlı! Şimdi soruyu cevapla.', 'dogru');
-      else if (k) geriBildirim(`${k} satır kesinleşti ✓ — yeşil satırlar doğru, gerisini sürdür.`, 'eksik');
-      else geriBildirim('Henüz kesinleşen satır yok. İpuçlarını yeniden oku, elemeyi ✗ ile sürdür. 💪', 'eksik');
+      if (!cevap.isaretli) return geriBildirim('Tablo henüz boş. Kesin olmayanları ✗ ile elemeye başla.', 'bekle');
+      if (cevap.tutarli) geriBildirim('✅ Tablonda çelişki yok. (Doğruluğunu söylemem — kararı sen ver.)', 'dogru');
+      else geriBildirim('⚠️ Tablonda çelişki var: ' + cevap.catismalar.join(' · '), 'eksik');
     });
   });
 

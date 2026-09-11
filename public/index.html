@@ -86,9 +86,17 @@
           <span id="soruSayac" class="rozet" hidden>—</span>
         </div>
         <h2 id="soruMetin">—</h2>
-        <div id="secenekler" class="secenek-kartlari" role="group" aria-label="Cevap seçenekleri"></div>
+        <p id="olasilik" class="alt"></p>
+        <div id="eslestirme" class="eslestirme" role="group" aria-label="Eşleştirme"></div>
+        <div class="gonder-satir">
+          <button id="gonderBtn" class="btn btn-yesil" type="button">📨 Cevabı Gönder</button>
+          <a id="tabloBagi" href="#izgaraKutu" class="tablo-bagi">🧮 Tablonu kontrol et</a>
+          <span class="alt">Tek hakkın var — göndermeden önce emin ol.</span>
+        </div>
         <p id="cevapGeri" class="geri-bildirim" role="status" aria-live="polite"></p>
-        <p class="alt">Tabloyu doldurmadan da cevaplayabilirsin; tablo yalnız düşünmene yardım eder.</p>
+        <div id="dogruEslestirme" class="dogru-eslestirme" hidden></div>
+        <button id="ilerleBtn" class="btn btn-yesil" type="button" hidden>➡️ Sıradaki soru</button>
+        <p class="alt">Tabloyu doldurmak zorunda değilsin; tablo yalnız düşünmene yardım eder.</p>
       </section>
 
       <details id="izgaraKutu" class="izgara-kutu" open>
