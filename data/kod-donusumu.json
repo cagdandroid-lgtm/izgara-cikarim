@@ -1,0 +1,27 @@
+{
+  "_aciklama": "İ ve C grupları U grubunda birleşti (2026-09-18). Eski oturum CSV'lerindeki ogrenci_kod değerlerini yeni kodlara bağlamak için kullanın. Kod numarasının tek/çift olması korunmuştur.",
+  "tarih": "2026-09-18",
+  "donusum": {
+    "I-01": "U-01",
+    "I-02": "U-02",
+    "I-04": "U-04",
+    "I-06": "U-06",
+    "I-08": "U-08",
+    "I-10": "U-10",
+    "I-12": "U-12",
+    "I-14": "U-14",
+    "I-16": "U-16",
+    "I-18": "U-18",
+    "I-20": "U-20",
+    "C-02": "U-22",
+    "C-04": "U-24",
+    "C-06": "U-26",
+    "C-08": "U-28",
+    "C-10": "U-30",
+    "C-12": "U-32",
+    "C-14": "U-34",
+    "C-16": "U-36",
+    "C-18": "U-38",
+    "C-20": "U-40"
+  }
+}

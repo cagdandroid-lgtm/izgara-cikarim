@@ -234,13 +234,8 @@
 
     <div class="satir">
       <label for="listeGrup">Grup</label>
-      <select id="listeGrup">
-        <option value="hepsi">Hepsi</option>
-        <option value="p">P grubu</option>
-        <option value="e">E grubu</option>
-        <option value="i">İ grubu</option>
-        <option value="c">C grubu</option>
-      </select>
+      <!-- seçenekler data/gruplar.json'dan doldurulur (p · e · u) -->
+      <select id="listeGrup"><option value="hepsi">Hepsi</option></select>
       <label for="listeDurum">Durum</label>
       <select id="listeDurum">
         <option value="hepsi">Hepsi</option>
@@ -263,12 +258,7 @@
     <div class="satir">
       <label for="yeniIsim">➕ Yeni öğrenci</label>
       <input id="yeniIsim" type="text" maxlength="40" placeholder="Ad Soyad">
-      <select id="yeniGrup">
-        <option value="p">P grubu</option>
-        <option value="e">E grubu</option>
-        <option value="i">İ grubu</option>
-        <option value="c">C grubu</option>
-      </select>
+      <select id="yeniGrup"></select>
       <input id="yeniKod" type="text" maxlength="8" placeholder="kod (boşsa otomatik)">
       <button id="listeEkleBtn" class="btn btn-ikincil">Ekle</button>
     </div>

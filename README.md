@@ -225,7 +225,7 @@ Renk asla tek başına anlam taşımaz; her düğmede ikon + metin de vardır.
 - Bağlı öğrenci listesi: kod, çevrimiçi 🟢 / çevrimdışı 🔴, **kaçıncı soruda**, isabet (ilk denemede
   doğru / cevaplanan), tabloyu kullanıp kullanmadığı, puan
 - **Başlat / Duraklat / Turu Bitir / Oyunu Sıfırla**
-- Grup (e/i/c), seviye (e-1, e-2, i-1, i-2, c-1, c-2), mod, süre (dk; 0 = süresiz), belirli bulmaca ya da 🎲 rastgele
+- Grup (**P · E · U**), seviye (e-1, e-2, i-1, i-2, c-1, c-2), mod, süre (dk; 0 = süresiz), belirli bulmaca ya da 🎲 rastgele
   — seviye listesi seçili gruba göre daralır, uyumsuz eşleşme seçilemez
 - **♻️ Soruyu İptal Et** — o turda dağıtılan tüm puanlar herkesten geri alınır, sıralama yeniden hesaplanır
   (elle yapılan +/− düzeltmeler korunur)
@@ -250,6 +250,36 @@ Renk asla tek başına anlam taşımaz; her düğmede ikon + metin de vardır.
 
 ---
 
+## 🧭 Gruplar (`data/gruplar.json`)
+
+Geçerli gruplar **P · E · U**'dur. **İ ve C grupları 18 Eylül 2026'da U grubunda birleşti.**
+Grup kartının resmî adı, emojisi ve rengi tek kaynaktan, `data/gruplar.json`'dan okunur:
+
+| Kod | Grup kartı | Renk (beyaz metinle kontrast) | Eski kodlar |
+|---|---|---|---|
+| `p` | 🌈 **P Grubu** | `#c2255c` (5.7:1) | — |
+| `e` | 🌻 **E Grubu** | `#b35c00` (4.7:1) | — |
+| `u` | 🧭 **U Grubu** | `#3b5bdb` (5.7:1) | `i`, `c` |
+
+- Öğrenci isim kartlarının üstünde yayındaki grubun kartı görünür (yalnız o grup; başka grup bilgisi gitmez).
+- Panelin grup seçicisi ve Öğrenci Listesi süzgeçleri bu dosyadan dolar.
+- **Geriye dönük uyumluluk:** bulmaca, öğrenci listesi, panel isteği ya da öğrenci cihazının hafızası eski
+  `i`/`c` değeriyle gelirse `u` sayılır (`lib/gruplar.js`). Tanınmayan bir grup değeri bulmaca
+  doğrulamasında sunucuyu açılışta durdurur.
+- Katman kodları (`i-1`, `i-2`, `c-1`, `c-2`) **zorluk** kodudur, grup değil; değişmedi. U grubu bu
+  dört katmanın tamamını (38 bulmaca) kullanır.
+
+### Öğrenci kodları ve birleşme dönüşümü
+
+Kod numarasının **tek/çift olması cinsiyet göstergesidir** ve birleşmede korunmuştur: eski İ ve C
+öğrencileri önce tek numaralılar, sonra çift numaralılar olarak (İ önce, sonra C; eski numara sırasıyla)
+yeniden numaralandı — tekler `U-01, U-03…`, çiftler `U-02, U-04…`. Eski → yeni eşleme
+`data/kod-donusumu.json` dosyasındadır; **geçmiş oturum CSV'lerini yeni kodlarla birleştirirken** bu dosyayı
+kullanın. (Dosyada isim yoktur, yalnız kodlar.)
+
+> Not: panelde **➕ Yeni öğrenci** eklerken kod boş bırakılırsa sıradaki numara verilir ve tek/çift
+> eşliğine bakılmaz; cinsiyet eşliğini korumak için kodu elle yazın.
+
 ## 🧾 Öğrenci listesi (`data/ogrenciler.json`)
 
 Tüm UYCEP Logic depolarında **aynı** dosyadır; isim ↔ kod eşlemesini ve grubu tutar.
@@ -260,7 +290,7 @@ Kodlar dönem boyunca sabittir — araştırma verisinin sürekliliği buna bağ
   "_aciklama": "…",
   "guncelleme": "2026-08-29",
   "ogrenciler": [
-    { "kod": "C-12", "isim": "Deniz K.", "grup": "c", "aktif": true }
+    { "kod": "U-12", "isim": "Deniz K.", "grup": "u", "aktif": true }
   ]
 }
 ```
@@ -298,7 +328,7 @@ Sütun adları asla değişmez; oyunlar arası birleştirilebilirlik buna bağl�
 | `zaman` | olayın ISO zaman damgası |
 | `oyun` | `izgara-cikarim` |
 | `set_veya_paket` | bulmacanın teması (`sihirbazlar`, `boy-sirasi` …) |
-| `grup` | `e` / `i` / `c` |
+| `grup` | `p` / `e` / `u` |
 | `ogrenci_kod` | listedeki kalıcı kod (`C-12`), misafirlerde `M-01` — **isim yazılmaz** |
 | `gorev_id` | bulmaca id’si (`c-1-03`) |
 | `kategori` | bulmacanın düşünme türü (aşağıdaki tablo) |
@@ -433,7 +463,9 @@ public/takim.js        İkili Mod takım kartları ve elle eşleme
 public/bildirim.js     "tur bitti" uyarısı (bildirim çubuğu + zil + sekme başlığı)
                        — bu üç dosya da teacher.html/js gibi yalnız girişi yapmış öğretmene servis edilir
 data/ogrenciler.json   KALICI öğrenci listesi (isim ↔ kod) — tüm UYCEP Logic oyunlarında AYNI dosya
-data/puzzles.json      54 bulmaca (e/i/c grupları)
+data/puzzles.json      54 bulmaca (e ve u grupları)
+data/gruplar.json      geçerli gruplar ve grup kartları (p · e · u): resmî ad, emoji, renk, eski kodlar
+data/kod-donusumu.json İ/C → U birleşmesinde eski → yeni öğrenci kodları (isim içermez)
 data/cozumler.md       anlatımlı çözümler — ÖĞRETMEN İÇİN, web'e servis edilmez
 data/uretec.js         bulmaca üreteci (içerik üretimi için; sunucu bunu kullanmaz)
 data/siralama.js       sıralama-çıkarım bulmacaları üreteci (uretec.js'ten SONRA çalıştırılır)
@@ -451,16 +483,16 @@ data/anlatim.js        adım adım çözüm anlatıcısı (uretec.js ve siralama
 |---|---|---|---|---|---|
 | `e-1` | e | 2 kategori × 3 öğe | 1 | 3 | **tamamen doğrudan** (“🐻 Ayı 🍯 bal sever.”) — olumsuz/koşullu yok |
 | `e-2` | e | 2 kategori × 3 öğe | 1 | 2 | 1 doğrudan + **1 olumsuz** (“🐱 Kedi 🥛 süt sevmez.”) |
-| `i-1` | i | 2 kategori × 3 öğe | 1 | 4 | doğrudan + olumsuz |
-| `i-2` | i | 3 kategori × 3 öğe | 3 | 5 | + kategoriler arası bağ |
-| `c-1` | c | 3 kategori × 4 öğe | 3 | 7–8 | + koşullu (“Ali kedi beslemiyorsa cuma nöbet tutar”) |
-| `c-2` | c | 4 kategori × 5 öğe | 6 | 10–12 | Einstein klasiği: sıra, “hemen ardından”, “yan yana” |
-| `c-2` (sıralama) | c | 4 kategori × 5 öğe | 6 | 11–12 | **sıralama-çıkarım**: yalnız karşılaştırma ve olumsuzlama (“X, Y’den önce bitirdi”, “Z en uzun değildir”) |
+| `i-1` | u | 2 kategori × 3 öğe | 1 | 4 | doğrudan + olumsuz |
+| `i-2` | u | 3 kategori × 3 öğe | 3 | 5 | + kategoriler arası bağ |
+| `c-1` | u | 3 kategori × 4 öğe | 3 | 7–8 | + koşullu (“Ali kedi beslemiyorsa cuma nöbet tutar”) |
+| `c-2` | u | 4 kategori × 5 öğe | 6 | 10–12 | Einstein klasiği: sıra, “hemen ardından”, “yan yana” |
+| `c-2` (sıralama) | u | 4 kategori × 5 öğe | 6 | 11–12 | **sıralama-çıkarım**: yalnız karşılaştırma ve olumsuzlama (“X, Y’den önce bitirdi”, “Z en uzun değildir”) |
 
 - **e grubu (1.–2. sınıf)** temaları emoji ağırlıklı ve okuma yükü düşüktür: orman sofrası, oyuncak sepeti,
   renkli kalemler, meyve tabağı, taşıtlar, dondurma dükkânı, okul çantası, müzik köşesi.
   Cümlenin öznesi daima ilk kategoridir, her öğede emoji vardır.
-- **i / c grubu** temaları: sihirbazlar, gezegenler, tatlılar, hayvan barınağı, müzik atölyesi,
+- **u grubu** (eski i + c) temaları: sihirbazlar, gezegenler, tatlılar, hayvan barınağı, müzik atölyesi,
   okul bahçesi, kitap kulübü, spor günü.
 - **Sıralama-çıkarım bulmacaları** (`c-2-09` … `c-2-14`): koşu, boy sırası, yaş sırası, yüzme,
   bisiklet turu, fide boyları. İlk kategori sıralıdır (varış / boy / yaş) ve çözüm **tam bir
@@ -494,7 +526,7 @@ JSON yorum desteklemediğinden şema burada belgelenmiştir. Dosya bir **bulmaca
 ```jsonc
 {
   "id": "c-1-03",              // benzersiz kimlik: <seviye>-<sıra>
-  "grup": "c",                 // "e" | "i" | "c" | "p" — öğretmen panelinden seçilir
+  "grup": "u",                 // "p" | "e" | "u" — eski "i"/"c" değerleri "u" sayılır
   "seviye": "c-1",             // i-1 | i-2 | c-1 | c-2
   "tema": "barinak",           // içerik teması (bilgi amaçlı)
   "baslik": "🐾 Hayvan Barınağı",

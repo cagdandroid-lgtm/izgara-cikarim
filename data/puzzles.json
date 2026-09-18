@@ -1,7 +1,7 @@
 [
   {
     "id": "i-1-01",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-1",
     "tema": "sihirbazlar",
     "baslik": "🧙 Sihir Okulu",
@@ -48,7 +48,7 @@
   },
   {
     "id": "i-1-02",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-1",
     "tema": "gezegenler",
     "baslik": "🪐 Gezegen Kâşifleri",
@@ -95,7 +95,7 @@
   },
   {
     "id": "i-1-03",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-1",
     "tema": "tatlılar",
     "baslik": "🍰 Tatlı Şöleni",
@@ -142,7 +142,7 @@
   },
   {
     "id": "i-1-04",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-1",
     "tema": "barinak",
     "baslik": "🐾 Hayvan Barınağı",
@@ -189,7 +189,7 @@
   },
   {
     "id": "i-1-05",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-1",
     "tema": "muzik",
     "baslik": "🎵 Müzik Atölyesi",
@@ -236,7 +236,7 @@
   },
   {
     "id": "i-1-06",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-1",
     "tema": "bahce",
     "baslik": "🌷 Okul Bahçesi",
@@ -283,7 +283,7 @@
   },
   {
     "id": "i-1-07",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-1",
     "tema": "kitap",
     "baslik": "📚 Kitap Kulübü",
@@ -330,7 +330,7 @@
   },
   {
     "id": "i-1-08",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-1",
     "tema": "spor",
     "baslik": "⚽ Spor Günü",
@@ -377,7 +377,7 @@
   },
   {
     "id": "i-2-01",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-2",
     "tema": "sihirbazlar",
     "baslik": "🧙 Sihir Okulu",
@@ -437,7 +437,7 @@
   },
   {
     "id": "i-2-02",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-2",
     "tema": "gezegenler",
     "baslik": "🪐 Gezegen Kâşifleri",
@@ -497,7 +497,7 @@
   },
   {
     "id": "i-2-03",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-2",
     "tema": "tatlılar",
     "baslik": "🍰 Tatlı Şöleni",
@@ -557,7 +557,7 @@
   },
   {
     "id": "i-2-04",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-2",
     "tema": "barinak",
     "baslik": "🐾 Hayvan Barınağı",
@@ -617,7 +617,7 @@
   },
   {
     "id": "i-2-05",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-2",
     "tema": "muzik",
     "baslik": "🎵 Müzik Atölyesi",
@@ -677,7 +677,7 @@
   },
   {
     "id": "i-2-06",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-2",
     "tema": "bahce",
     "baslik": "🌷 Okul Bahçesi",
@@ -737,7 +737,7 @@
   },
   {
     "id": "i-2-07",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-2",
     "tema": "kitap",
     "baslik": "📚 Kitap Kulübü",
@@ -797,7 +797,7 @@
   },
   {
     "id": "i-2-08",
-    "grup": "i",
+    "grup": "u",
     "seviye": "i-2",
     "tema": "spor",
     "baslik": "⚽ Spor Günü",
@@ -857,7 +857,7 @@
   },
   {
     "id": "c-1-01",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-1",
     "tema": "sihirbazlar",
     "baslik": "🧙 Sihir Okulu",
@@ -928,7 +928,7 @@
   },
   {
     "id": "c-1-02",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-1",
     "tema": "gezegenler",
     "baslik": "🪐 Gezegen Kâşifleri",
@@ -998,7 +998,7 @@
   },
   {
     "id": "c-1-03",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-1",
     "tema": "tatlılar",
     "baslik": "🍰 Tatlı Şöleni",
@@ -1068,7 +1068,7 @@
   },
   {
     "id": "c-1-04",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-1",
     "tema": "barinak",
     "baslik": "🐾 Hayvan Barınağı",
@@ -1139,7 +1139,7 @@
   },
   {
     "id": "c-1-05",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-1",
     "tema": "muzik",
     "baslik": "🎵 Müzik Atölyesi",
@@ -1209,7 +1209,7 @@
   },
   {
     "id": "c-1-06",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-1",
     "tema": "bahce",
     "baslik": "🌷 Okul Bahçesi",
@@ -1279,7 +1279,7 @@
   },
   {
     "id": "c-1-07",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-1",
     "tema": "kitap",
     "baslik": "📚 Kitap Kulübü",
@@ -1350,7 +1350,7 @@
   },
   {
     "id": "c-1-08",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-1",
     "tema": "spor",
     "baslik": "⚽ Spor Günü",
@@ -1420,7 +1420,7 @@
   },
   {
     "id": "c-2-01",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "sihirbazlar",
     "baslik": "🧙 Sihir Okulu",
@@ -1517,7 +1517,7 @@
   },
   {
     "id": "c-2-02",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "gezegenler",
     "baslik": "🪐 Gezegen Kâşifleri",
@@ -1615,7 +1615,7 @@
   },
   {
     "id": "c-2-03",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "tatlılar",
     "baslik": "🍰 Tatlı Şöleni",
@@ -1712,7 +1712,7 @@
   },
   {
     "id": "c-2-04",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "barinak",
     "baslik": "🐾 Hayvan Barınağı",
@@ -1809,7 +1809,7 @@
   },
   {
     "id": "c-2-05",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "muzik",
     "baslik": "🎵 Müzik Atölyesi",
@@ -1907,7 +1907,7 @@
   },
   {
     "id": "c-2-06",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "bahce",
     "baslik": "🌷 Okul Bahçesi",
@@ -2004,7 +2004,7 @@
   },
   {
     "id": "c-2-07",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "kitap",
     "baslik": "📚 Kitap Kulübü",
@@ -2102,7 +2102,7 @@
   },
   {
     "id": "c-2-08",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "spor",
     "baslik": "⚽ Spor Günü",
@@ -3001,7 +3001,7 @@
   },
   {
     "id": "c-2-09",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "kosu",
     "baslik": "🏃 Sınıflar Arası Koşu",
@@ -3100,7 +3100,7 @@
   },
   {
     "id": "c-2-10",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "boy-sirasi",
     "baslik": "📏 Boy Sırası",
@@ -3199,7 +3199,7 @@
   },
   {
     "id": "c-2-11",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "yas-sirasi",
     "baslik": "🎂 Kuzenlerin Yaş Sırası",
@@ -3298,7 +3298,7 @@
   },
   {
     "id": "c-2-12",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "yuzme",
     "baslik": "🏊 Yüzme Yarışı",
@@ -3398,7 +3398,7 @@
   },
   {
     "id": "c-2-13",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "bisiklet",
     "baslik": "🚲 Bisiklet Turu",
@@ -3498,7 +3498,7 @@
   },
   {
     "id": "c-2-14",
-    "grup": "c",
+    "grup": "u",
     "seviye": "c-2",
     "tema": "fideler",
     "baslik": "🌱 Fide Boyları",

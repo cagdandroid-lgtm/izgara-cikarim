@@ -1,0 +1,9 @@
+{
+  "_aciklama": "Geçerli gruplar ve grup kartı bilgisi (resmî ad + emoji + renk). Tek kaynak budur: sunucu, öğretmen paneli ve öğrenci ekranı buradan okur. eskiKodlar: geriye dönük uyumluluk — bu kodlarla gelen veri o gruba sayılır. Renkler beyaz metinle WCAG AA (≥ 4.5:1) kontrastlıdır.",
+  "guncelleme": "2026-09-18",
+  "gruplar": [
+    { "kod": "p", "ad": "P Grubu", "emoji": "🌈", "renk": "#c2255c", "eskiKodlar": [] },
+    { "kod": "e", "ad": "E Grubu", "emoji": "🌻", "renk": "#b35c00", "eskiKodlar": [] },
+    { "kod": "u", "ad": "U Grubu", "emoji": "🧭", "renk": "#3b5bdb", "eskiKodlar": ["i", "c"] }
+  ]
+}

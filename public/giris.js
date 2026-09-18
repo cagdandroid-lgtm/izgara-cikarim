@@ -27,6 +27,15 @@ window.Giris = (function () {
     Ambiyans.basla();                       // ortam animasyonu yalnız giriş/bekleme ekranlarında
     if (bekliyor) return;
 
+    // grup kartı: yalnız yayındaki grubun resmî adı + emoji + rengi
+    const gk = $('#grupKarti');
+    if (l.grupBilgi) {
+      gk.hidden = false;
+      gk.style.setProperty('--grup-renk', l.grupBilgi.renk);
+      gk.innerHTML = `<span class="grup-emoji" aria-hidden="true">${kacir(l.grupBilgi.emoji)}</span>` +
+        `<span class="grup-ad">${kacir(l.grupBilgi.ad)}</span>`;
+    } else gk.hidden = true;
+
     const kap = $('#isimKartlari');
     kap.innerHTML = '';
     $('#secimBos').hidden = l.ogrenciler.length > 0;

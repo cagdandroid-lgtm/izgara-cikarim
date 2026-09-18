@@ -142,10 +142,12 @@ window.Rapor = (function () {
     const su = (ad) => basliklar.indexOf(ad);
     const iKod = su('ogrenci_kod'), iGorev = su('gorev_id'), iSonuc = su('sonuc'), iAd = su('ogrenci_ad');
     if (iKod < 0 || iGorev < 0 || iSonuc < 0) throw new Error('standart sütunlar yok');
+    const donusum = (son && son.ogretmen.kodDonusumu) || {};   // eski İ/C kodları → U kodları
     const ham = new Map();      // anahtar (kod ve varsa ad) -> Map(gorev -> dogruMu)
     const kodlar = new Set();
     for (const satir of satirlar.slice(1)) {
       const h = bolCsv(satir);
+      if (h[iKod] && donusum[h[iKod].toUpperCase()]) h[iKod] = donusum[h[iKod].toUpperCase()];
       if (h[iKod]) kodlar.add(h[iKod]);
       for (const anahtar of [h[iKod], iAd >= 0 ? h[iAd] : null]) {
         if (!anahtar) continue;

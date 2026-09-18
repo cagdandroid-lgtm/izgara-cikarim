@@ -238,7 +238,7 @@ function yap(t) {
   }
   return {
     bulmaca: {
-      id: t.id, grup: 'c', seviye: 'c-2', tema: t.tema, baslik: t.baslik,
+      id: t.id, grup: 'u', seviye: 'c-2', tema: t.tema, baslik: t.baslik,   // İ+C → U grubu (2026-09-18)
       kategori: 'siralama',                       // ölçme kaydındaki "kategori" sütunu (lib/olcum.js)
       kategoriler, ipuclari: budandi.map((c) => c.metin), cozum: cozumSatirlari
     },

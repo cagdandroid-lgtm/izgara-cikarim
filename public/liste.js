@@ -6,7 +6,27 @@ window.ListeUI = (function () {
   const $ = (s) => document.querySelector(s);
   const kacir = (s) => String(s === undefined || s === null ? '' : s)
     .replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const GRUP_ADI = { p: 'P grubu', e: 'E grubu', i: 'İ grubu', c: 'C grubu' };
+  /* Grup adları sunucudan (data/gruplar.json); eski "i"/"c" → U Grubu */
+  let gruplar = [];
+  const grupAdi = (kod) => {
+    const k = String(kod || '').toLowerCase();
+    const g = gruplar.find((x) => x.kod === k || (x.eskiKodlar || []).includes(k));
+    return g ? `${g.emoji} ${g.ad}` : kod;
+  };
+  let grupImzasi = '';
+  function grupSecenekleri(yeniGruplar) {
+    const imza = JSON.stringify(yeniGruplar || []);
+    if (imza === grupImzasi) return;
+    grupImzasi = imza;
+    gruplar = yeniGruplar || [];
+    const secenek = gruplar.map((g) => `<option value="${g.kod}">${kacir(g.emoji + ' ' + g.ad)}</option>`).join('');
+    const sg = $('#listeGrup'), sy = $('#yeniGrup');
+    const eskiSg = sg.value, eskiSy = sy.value;
+    sg.innerHTML = '<option value="hepsi">Hepsi</option>' + secenek;
+    sy.innerHTML = secenek;
+    sg.value = [...sg.options].some((o) => o.value === eskiSg) ? eskiSg : 'hepsi';
+    if ([...sy.options].some((o) => o.value === eskiSy)) sy.value = eskiSy;
+  }
   const kucuk = (s) => String(s || '').toLocaleLowerCase('tr');
 
   let socket = null, liste = [], bilgi = () => {};
@@ -22,7 +42,8 @@ window.ListeUI = (function () {
     $('#misafirAd').addEventListener('keydown', (e) => { if (e.key === 'Enter') misafirEkle(); });
   }
 
-  function tazele(yeniListe) {
+  function tazele(yeniListe, yeniGruplar) {
+    if (yeniGruplar) grupSecenekleri(yeniGruplar);
     liste = yeniListe || [];
     ciz();
   }
@@ -54,7 +75,7 @@ window.ListeUI = (function () {
       tr.innerHTML =
         `<td class="kod-h">${kacir(o.kod)}</td>` +
         `<td class="ad">${kacir(o.isim)}${o.misafir ? ' <span class="rozet tek">misafir</span>' : ''}</td>` +
-        `<td>${kacir(GRUP_ADI[o.grup] || o.grup)}</td>` +
+        `<td>${kacir(grupAdi(o.grup))}</td>` +
         `<td>${o.aktif ? '✅ aktif' : '⛔ pasif'}</td>` +
         `<td class="islem"></td>`;
       const islem = tr.querySelector('.islem');
@@ -64,7 +85,7 @@ window.ListeUI = (function () {
           if (isim) yolla('t:listeGuncelle', { kod: o.kod, isim });
         }, 'İsmi düzelt'),
         dugme('↔️', 'btn-mini', () => {
-          const grup = prompt(`${o.kod} — grup (p / e / i / c):`, o.grup);
+          const grup = prompt(`${o.kod} — grup (${gruplar.map((g) => g.kod).join(' / ')}):`, o.grup);
           if (grup) yolla('t:listeGuncelle', { kod: o.kod, grup: kucuk(grup).trim() });
         }, 'Grubunu değiştir'),
         dugme(o.aktif ? '⛔' : '✅', 'btn-mini', () => {

@@ -2,13 +2,20 @@
 (function () {
   'use strict';
 
+  /* Geçerli gruplar: p, e, u. İ ve C grupları U'da birleşti (geriye dönük uyumluluk). */
+  function grupNormal(g) {
+    const h = String(g || '').trim().toLocaleLowerCase('tr').replace('ı', 'i');
+    if (h === 'i' || h === 'c') return 'u';
+    return ['p', 'e', 'u'].includes(h) ? h : null;
+  }
+
   const $ = (s) => document.querySelector(s);
   const socket = io({ reconnection: true, reconnectionDelay: 800, reconnectionDelayMax: 4000 });
 
   const durumum = {
     sid: localStorage.getItem('izgara_sid') || null,
     kod: localStorage.getItem('izgara_kod') || null,
-    grubum: localStorage.getItem('izgara_grup') || null,   // yalnız "kendi grubunu bekle" için
+    grubum: grupNormal(localStorage.getItem('izgara_grup')),   // yalnız "kendi grubunu bekle" için
     ad: '',
     katildi: false,
     bulmacaAnahtari: null,
@@ -42,10 +49,10 @@
     Giris.ciz(l);
   });
 
-  /* "C-04" → "c" · misafirlerde (M-01) grup bilinmez, hafıza kurulmaz */
+  /* "U-04" → "u" · eski "I-04"/"C-04" ve eski cihaz hafızası ("i"/"c") → "u" ·
+     misafirlerde (M-01) grup bilinmez, hafıza kurulmaz */
   function grubuCikar(kod) {
-    const h = String(kod || '').charAt(0).toLocaleLowerCase('tr');
-    return 'peic'.includes(h) && h ? h : null;
+    return grupNormal(String(kod || '').charAt(0));
   }
 
   function katil(kod) {

@@ -79,7 +79,7 @@
     $('#girisKilitBtn').classList.toggle('etkin', d.girisKilitli);
 
     Rapor.ciz(d);                          // ölçme özeti, kod eşlemesi, açık rapor ekranı
-    ListeUI.tazele(d.ogretmen.liste);      // öğrenci listesi bölümü
+    ListeUI.tazele(d.ogretmen.liste, d.ogretmen.gruplarBilgi);   // öğrenci listesi bölümü
     ogrencileriCiz(d.ogretmen.oyuncular);
     TakimUI.ciz(d);
     podyumCiz(d.podyum);
@@ -99,9 +99,20 @@
     $('#aktifGrupAd').textContent = gAdi;
   }
 
-  const gAd = { e: 'E grubu (1.–2. sınıf)', i: 'İ grubu', c: 'C grubu', p: 'P grubu' };
+  /* Grup adları tek kaynaktan (data/gruplar.json → sunucu): "🧭 U Grubu".
+     Eski "i"/"c" kodları geriye dönük olarak U Grubu'na çözülür. */
+  let grupHaritasi = {};
+  const gAd = new Proxy({}, {
+    get: (_, kod) => {
+      const k = String(kod || '').toLowerCase();
+      const g = grupHaritasi[k] || Object.values(grupHaritasi).find((x) => (x.eskiKodlar || []).includes(k));
+      return g ? `${g.emoji} ${g.ad}` : undefined;
+    }
+  });
 
   function doldurListeler(d) {
+    grupHaritasi = {};
+    (d.ogretmen.gruplarBilgi || []).forEach((g) => { grupHaritasi[g.kod] = g; });
     $('#grup').innerHTML = d.ogretmen.gruplar.map((g) => `<option value="${g}">${gAd[g] || g}</option>`).join('');
     listelerDolu = true;
   }

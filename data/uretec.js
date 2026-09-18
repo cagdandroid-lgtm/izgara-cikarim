@@ -199,10 +199,10 @@ function kur(n, K, sol, opts) {
 
 /* ---------- seviye tanımları ---------- */
 const SEVIYELER = [
-  { seviye: 'i-1', grup: 'i', n: 3, ekKat: 1, sirali: false, opts: { min: 4, maksSon: 5, maks: 6, doldurTur: ['neq'] } },
-  { seviye: 'i-2', grup: 'i', n: 3, ekKat: 2, sirali: false, opts: { min: 5, maksSon: 7, maks: 8, doldurTur: ['neq'] } },
-  { seviye: 'c-1', grup: 'c', n: 4, ekKat: 2, sirali: false, opts: { cond: true, min: 6, maksSon: 10, maks: 12, gerekli: { neq: 2, cond: 1 }, doldurTur: ['neq','cond'] } },
-  { seviye: 'c-2', grup: 'c', n: 5, ekKat: 2, sirali: true, opts: { cond: true, pos: true, min: 8, maksSon: 14, maks: 16, gerekli: { left: 1, neq: 2 }, doldurTur: ['neq','next','cond'] } },
+  { seviye: 'i-1', grup: 'u', n: 3, ekKat: 1, sirali: false, opts: { min: 4, maksSon: 5, maks: 6, doldurTur: ['neq'] } },
+  { seviye: 'i-2', grup: 'u', n: 3, ekKat: 2, sirali: false, opts: { min: 5, maksSon: 7, maks: 8, doldurTur: ['neq'] } },
+  { seviye: 'c-1', grup: 'u', n: 4, ekKat: 2, sirali: false, opts: { cond: true, min: 6, maksSon: 10, maks: 12, gerekli: { neq: 2, cond: 1 }, doldurTur: ['neq','cond'] } },
+  { seviye: 'c-2', grup: 'u', n: 5, ekKat: 2, sirali: true, opts: { cond: true, pos: true, min: 8, maksSon: 14, maks: 16, gerekli: { left: 1, neq: 2 }, doldurTur: ['neq','next','cond'] } },
   // e grubu en SONA eklenir: böylece rastgele sayı akışı bozulmaz ve
   // mevcut i/c bulmacaları birebir aynı kalır.
   { seviye: 'e-1', grup: 'e', n: 3, ekKat: 1, sirali: false, temalar: 'e', turleriYaz: true,
