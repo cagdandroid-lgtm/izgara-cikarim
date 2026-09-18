@@ -39,6 +39,27 @@
       "aktif": true
     },
     {
+      "kod": "U-01",
+      "isim": "Eylül Ç.",
+      "grup": "u",
+      "aktif": true,
+      "eski_kod": "I-01"
+    },
+    {
+      "kod": "U-02",
+      "isim": "Hasan Hüseyin",
+      "grup": "u",
+      "aktif": true,
+      "eski_kod": "I-02"
+    },
+    {
+      "kod": "U-04",
+      "isim": "Eren",
+      "grup": "u",
+      "aktif": true,
+      "eski_kod": "I-04"
+    },
+    {
       "kod": "P-04",
       "isim": "Karan U.",
       "grup": "p",
@@ -129,130 +150,130 @@
       "aktif": true
     },
     {
-      "kod": "U-01",
-      "isim": "Eylül Ç.",
-      "grup": "u",
-      "aktif": true
-    },
-    {
-      "kod": "U-02",
-      "isim": "Hasan Hüseyin",
-      "grup": "u",
-      "aktif": true
-    },
-    {
-      "kod": "U-04",
-      "isim": "Eren",
-      "grup": "u",
-      "aktif": true
-    },
-    {
       "kod": "U-06",
       "isim": "Ege",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "I-06"
     },
     {
       "kod": "U-08",
       "isim": "Güney",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "I-08"
     },
     {
       "kod": "U-10",
       "isim": "Harun Doruk",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "I-10"
     },
     {
       "kod": "U-12",
       "isim": "Toprak",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "I-12"
     },
     {
       "kod": "U-14",
       "isim": "Yiğit",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "I-14"
     },
     {
       "kod": "U-16",
       "isim": "Murat Ege",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "I-16"
     },
     {
       "kod": "U-18",
       "isim": "Alphan",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "I-18"
     },
     {
       "kod": "U-20",
       "isim": "Aras C.",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "I-20"
     },
     {
       "kod": "U-22",
       "isim": "M. Emin",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "C-02"
     },
     {
       "kod": "U-24",
       "isim": "Ali U.",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "C-04"
     },
     {
       "kod": "U-26",
       "isim": "Aslan G.",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "C-06"
     },
     {
       "kod": "U-28",
       "isim": "Doruk G.",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "C-08"
     },
     {
       "kod": "U-30",
       "isim": "Sarp Ö.",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "C-10"
     },
     {
       "kod": "U-32",
       "isim": "R. Talha",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "C-12"
     },
     {
       "kod": "U-34",
       "isim": "Batu D.",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "C-14"
     },
     {
       "kod": "U-36",
       "isim": "Tuğşah",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "C-16"
     },
     {
       "kod": "U-38",
       "isim": "Rüzgar",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "C-18"
     },
     {
       "kod": "U-40",
       "isim": "Alparslan E.",
       "grup": "u",
-      "aktif": true
+      "aktif": true,
+      "eski_kod": "C-20"
     }
   ]
 }

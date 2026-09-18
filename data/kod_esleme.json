@@ -1,0 +1,111 @@
+{
+  "_aciklama": "İ+C birleşmesi (Eylül 2026) kod eşlemesi. Eski kodlu arşiv verilerini yeni kodlara çevirmek için kullanılır; ASLA silinmez.",
+  "tarih": "2026-09-18",
+  "esleme": [
+    {
+      "eski": "C-02",
+      "yeni": "U-22",
+      "isim": "M. Emin"
+    },
+    {
+      "eski": "C-04",
+      "yeni": "U-24",
+      "isim": "Ali U."
+    },
+    {
+      "eski": "C-06",
+      "yeni": "U-26",
+      "isim": "Aslan G."
+    },
+    {
+      "eski": "C-08",
+      "yeni": "U-28",
+      "isim": "Doruk G."
+    },
+    {
+      "eski": "C-10",
+      "yeni": "U-30",
+      "isim": "Sarp Ö."
+    },
+    {
+      "eski": "C-12",
+      "yeni": "U-32",
+      "isim": "R. Talha"
+    },
+    {
+      "eski": "C-14",
+      "yeni": "U-34",
+      "isim": "Batu D."
+    },
+    {
+      "eski": "C-16",
+      "yeni": "U-36",
+      "isim": "Tuğşah"
+    },
+    {
+      "eski": "C-18",
+      "yeni": "U-38",
+      "isim": "Rüzgar"
+    },
+    {
+      "eski": "C-20",
+      "yeni": "U-40",
+      "isim": "Alparslan E."
+    },
+    {
+      "eski": "I-01",
+      "yeni": "U-01",
+      "isim": "Eylül Ç."
+    },
+    {
+      "eski": "I-02",
+      "yeni": "U-02",
+      "isim": "Hasan Hüseyin"
+    },
+    {
+      "eski": "I-04",
+      "yeni": "U-04",
+      "isim": "Eren"
+    },
+    {
+      "eski": "I-06",
+      "yeni": "U-06",
+      "isim": "Ege"
+    },
+    {
+      "eski": "I-08",
+      "yeni": "U-08",
+      "isim": "Güney"
+    },
+    {
+      "eski": "I-10",
+      "yeni": "U-10",
+      "isim": "Harun Doruk"
+    },
+    {
+      "eski": "I-12",
+      "yeni": "U-12",
+      "isim": "Toprak"
+    },
+    {
+      "eski": "I-14",
+      "yeni": "U-14",
+      "isim": "Yiğit"
+    },
+    {
+      "eski": "I-16",
+      "yeni": "U-16",
+      "isim": "Murat Ege"
+    },
+    {
+      "eski": "I-18",
+      "yeni": "U-18",
+      "isim": "Alphan"
+    },
+    {
+      "eski": "I-20",
+      "yeni": "U-20",
+      "isim": "Aras C."
+    }
+  ]
+}
