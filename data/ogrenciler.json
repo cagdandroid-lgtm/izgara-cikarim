@@ -69,6 +69,24 @@
       "aktif": true
     },
     {
+      "kod": "P-16",
+      "isim": "Sarp A.",
+      "grup": "p",
+      "aktif": true
+    },
+    {
+      "kod": "P-09",
+      "isim": "Melis",
+      "grup": "p",
+      "aktif": true
+    },
+    {
+      "kod": "P-18",
+      "isim": "Can O.",
+      "grup": "p",
+      "aktif": true
+    },
+    {
       "kod": "E-01",
       "isim": "Eylül",
       "grup": "e",
