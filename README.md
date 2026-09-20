@@ -60,10 +60,14 @@ Sunucu her başlarken aktif şifreyi konsola yazar:
 ### 🔄 Oturum yaşam döngüsü
 
 ```
-BOŞTA ──(grup + etkinlik yayınla)──► LOBİ ──(Başlat)──► OYUN ──(Turu Bitir/süre/herkes cevapladı)──► SONUÇ
-  ▲                                    │                  │                                            │
-  └──────────────── ⏹ Etkinliği Bitir ─┴──────────────────┴────────────────────────────────────────────┘
+BOŞTA ──(grup + etkinlik yayınla)──► LOBİ ──(Başlat)──► OYUN ⇄ ARA ──(Turu Bitir/süre/herkes cevapladı)──► SONUÇ
+  ▲                                    │                   │  (duraklat)                                    │
+  └──────────────── ⏹ Etkinliği Bitir ─┴───────────────────┴────────────────────────────────────────────────┘
 ```
+
+Panelin üst şeridindeki rozet oturumun durumunu söyler: ⚪ Boşta · ⏳ Lobi · 🟢 Oyunda ·
+⏸ Ara (duraklatıldı) · 🏁 Tur bitti. **ARA**, öğretmen duraklattığında girilen durumdur: süreler donar,
+öğrenci ekranları “⏸ Öğretmeninizi dinleyin”e geçer, cevap ve ızgara girişi kapanır.
 
 | Düğme | Rengi | Ne yapar |
 |---|---|---|
@@ -145,6 +149,19 @@ Her bulmacadan **tam eşleştirme görevi** türetilir (içerik üretilmez; kate
   denetler. Ölçme kaydındaki **`tablo_kullandi`** (0/1) alanı durur: öğrenci ızgaraya hiç dokunmadan
   mı bildi, eleyerek mi?
 
+### 🛡 Mekanik denetimi (tahmin · rastgelelik · kilit/sızıntı)
+
+CLAUDE.md'nin üç ölçütüne göre yapılan denetimde uygulanan korumalar:
+
+| Risk | Koruma |
+|---|---|
+| Şık deneyerek geçme | Cevap **tam eşleştirme** (3×3 → 6, 4×4 → 24, 5×5 → 120 olasılık) ve **tek gönderim** |
+| Hızlı/rastgele tıklayıp kuyruğu tüketme | Gönderim **en az 5 sn** düşünme süresinden önce kabul edilmez |
+| Öğretmen geri atlayınca cevabı bilinen soruyu yeniden çözme | Aynı bulmaca aynı oturumda tekrar geldiğinde **puan verilmez** (öğrenciye söylenir) |
+| Tablo denetiminin cevabı sızdırması | **🔍 Tabloyu Denetle** çözüme bakmaz; yalnız tablodaki çelişkiyi söyler |
+| Erken bitirenin cevabı sınıfa duyurması | Senkronda doğru eşleştirme **tur bitene kadar** gönderilmez |
+| Gezinme turlarının ölçümü kirletmesi | 10 sn'den kısa ve cevapsız turlar için `atlandi` kaydı yazılmaz |
+
 ### 🧮 Izgara işaretleme
 
 - Hücre döngüsü: **boş → ✗ → ✓ → boş** (önce çarpı; eleme bu oyunun özüdür).
@@ -163,10 +180,12 @@ Her bulmacadan **tam eşleştirme görevi** türetilir (içerik üretilmez; kate
 | **İlerleme** | 👥 Senkron | Herkes aynı soruda; cevaplayan arkadaşlarını bekler (bekleme mini oyunu açılır). |
 | | 🎯 Bireysel | Herkes kendi hızında; cevaplayan **beklemez**, sıradaki bulmacaya hemen geçer. Panelde herkesin kaçıncı soruda olduğu görünür. |
 | **Geçiş** (senkronda) | ⏭ Otomatik | Tur bitince 6 sn sonuç sahnesi, ardından sıradaki soru kendiliğinden açılır. |
+| **Soru atlama** (senkronda) | ⏮ Önceki · soru listesi · ⏭ Sonraki | Oturum kuyruğunda ileri/geri gidilir ya da doğrudan bir soruya atlanır. Bireysel modda bu satır **gizlenir** (herkes kendi sırasındadır). |
 | | 🖐 Öğretmen onaylı | Öğretmen **⏭ Sıradaki Soru** diyene kadar sonuç/bekleme ekranı kalır. |
 
-**Puanlama (cevaba göre):** `500 taban + hız bonusu (hedef süreye göre azalan, en çok 500)`.
-Tek gönderim olduğu için ayrı “ilk deneme” bonusu yoktur. Sıralama kişiler arası hıza değil **bu puana** göre yapılır; listede
+**Puanlama (cevaba göre):** `500 taban + hız bonusu (hedef süreye göre azalan, en çok 500) +
+100 ilk denemede doğru`. Tek gönderim hakkı olduğu için doğru cevap daima ilk denemedir; yanlış
+gönderim puan getirmez. Sıralama kişiler arası hıza değil **bu puana** göre yapılır; listede
 puanla birlikte **kaçıncı soruda** olunduğu da yazar. Öğrenci her sorudan sonra **kendi** sırasını ve
 puanını görür (tam liste öğrenci ekranında yayınlanmaz).
 
@@ -274,7 +293,7 @@ Grup kartının resmî adı, emojisi ve rengi tek kaynaktan, `data/gruplar.json`
 Kod numarasının **tek/çift olması cinsiyet göstergesidir** ve birleşmede korunmuştur: eski İ ve C
 öğrencileri önce tek numaralılar, sonra çift numaralılar olarak (İ önce, sonra C; eski numara sırasıyla)
 yeniden numaralandı — tekler `U-01, U-03…`, çiftler `U-02, U-04…`. Eski → yeni eşleme
-`data/kod-donusumu.json` dosyasındadır; **geçmiş oturum CSV'lerini yeni kodlarla birleştirirken** bu dosyayı
+`data/kod_esleme.json` dosyasındadır (ayrıca her kayıtta `eski_kod` alanı durur); **geçmiş oturum CSV'lerini yeni kodlarla birleştirirken** bu dosyayı
 kullanın. (Dosyada isim yoktur, yalnız kodlar.)
 
 > Not: panelde **➕ Yeni öğrenci** eklerken kod boş bırakılırsa sıradaki numara verilir ve tek/çift
@@ -444,6 +463,7 @@ lib/bulmacalar.js      puzzles.json okuma/doğrulama/indeksleme, çözümün ay�
 lib/liste.js           kalıcı öğrenci listesi: isim↔kod, misafir, oturum içi düzenleme, dışa aktarım
 lib/soru.js            bulmacadan ASIL SORU + seçenek kartları türetir (içerik üretmez)
 lib/akis.js            cevap değerlendirme, puanlama, ilerleme modu, geçiş ve kapanış rozetleri
+lib/oturum.js          oturum yaşam döngüsü: durum makinesi, grup yayını, başlat/duraklat/bitir, soru atlama
 lib/gorunum.js         dışa açılan paketler (skor, kamu, kişisel, lobi, öğretmen) — tek grup süzgeci burada
 lib/kontrol.js         işaret doğrulama + cevap denetimi (yalnız sunucu)
 lib/olcum.js           ölçme standardı: 13 sütunluk olay kaydı, takma ad, CSV, öğrenci özeti
@@ -465,7 +485,7 @@ public/bildirim.js     "tur bitti" uyarısı (bildirim çubuğu + zil + sekme ba
 data/ogrenciler.json   KALICI öğrenci listesi (isim ↔ kod) — tüm UYCEP Logic oyunlarında AYNI dosya
 data/puzzles.json      54 bulmaca (e ve u grupları)
 data/gruplar.json      geçerli gruplar ve grup kartları (p · e · u): resmî ad, emoji, renk, eski kodlar
-data/kod-donusumu.json İ/C → U birleşmesinde eski → yeni öğrenci kodları (isim içermez)
+data/kod_esleme.json   İ/C → U birleşmesinde eski → yeni öğrenci kodları (ASLA silinmez)
 data/cozumler.md       anlatımlı çözümler — ÖĞRETMEN İÇİN, web'e servis edilmez
 data/uretec.js         bulmaca üreteci (içerik üretimi için; sunucu bunu kullanmaz)
 data/siralama.js       sıralama-çıkarım bulmacaları üreteci (uretec.js'ten SONRA çalıştırılır)

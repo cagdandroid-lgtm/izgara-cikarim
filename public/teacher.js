@@ -35,9 +35,10 @@
 
   /* ---------------- çizim ---------------- */
   function ciz(d) {
+    // durum makinesi: BOŞTA → LOBİ → OYUN ⇄ ARA → SONUÇ
     const oturumAdi = {
-      bosta: '⚪ Boşta', lobi: '⏳ Lobi',
-      oyun: d.duraklatildi ? '⏸ Duraklatıldı' : '🟢 Oyunda', sonuc: '🏁 Tur bitti'
+      bosta: '⚪ Boşta', lobi: '⏳ Lobi', oyun: '🟢 Oyunda',
+      ara: '⏸ Ara (duraklatıldı)', sonuc: '🏁 Tur bitti'
     };
     $('#fazRozet').textContent = oturumAdi[d.oturum] || d.oturum;
     $('#modRozet').textContent =
@@ -70,6 +71,7 @@
     const secilebilir = d.ogretmen.secilebilir;
     ['#grup', '#seviye', '#yayinlaBtn'].forEach((x) => { $(x).disabled = !secilebilir; });
     $('#kilitNot').hidden = secilebilir;
+    atlamaCiz(d);
     $('#sonrakiBtn').hidden = !(d.ilerlemeMod === 'senkron' && d.gecis === 'onayli');
     $('#sonrakiBtn').disabled = d.faz !== 'sonuc';
     $('#duraklatBtn').textContent = d.duraklatildi ? '▶️ Devam Ettir' : '⏸ Duraklat';
@@ -84,6 +86,25 @@
     TakimUI.ciz(d);
     podyumCiz(d.podyum);
     cozumCiz(d);
+  }
+
+  /* Soru atlama kontrolleri — yalnız SENKRON modda görünür (bireyselde herkes kendi sırasında) */
+  let atlamaImzasi = '';
+  function atlamaCiz(d) {
+    const e = d.ogretmen;
+    $('#atlamaSatiri').hidden = !e.atlanabilir;
+    if (!e.atlanabilir) return;
+    const imza = e.kuyruk.map((k) => k.id).join('|');
+    const sec = $('#soruSecici');
+    if (imza !== atlamaImzasi) {
+      atlamaImzasi = imza;
+      sec.innerHTML = e.kuyruk
+        .map((k) => `<option value="${k.sira - 1}">${k.sira}/${e.kuyruk.length} · ${kacir(k.baslik)}</option>`)
+        .join('');
+    }
+    if (document.activeElement !== sec) sec.value = String(e.soruIndeksi);
+    $('#oncekiBtn').disabled = e.soruIndeksi <= 0;
+    $('#atlaSonrakiBtn').disabled = e.soruIndeksi >= e.kuyruk.length - 1;
   }
 
   /* Öğrencilerin ne gördüğünü tek satırda özetler (bekleme ekranı mı, isim kartları mı) */
@@ -280,6 +301,14 @@
   $('#duraklatBtn').addEventListener('click', () => {
     socket.emit('t:duraklat', { deger: !(son && son.duraklatildi) });
   });
+  const atla = (hedef) => socket.emit('t:soruAtla', { hedef }, (r) => {
+    if (r && r.hata) duyuruGoster('⚠️ ' + r.hata);
+    else if (r && r.bulmacaId) duyuruGoster(`↔️ ${r.sira}. soru: ${r.bulmacaId}`);
+  });
+  $('#oncekiBtn').addEventListener('click', () => atla('onceki'));
+  $('#atlaSonrakiBtn').addEventListener('click', () => atla('sonraki'));
+  $('#soruSecici').addEventListener('change', (e) => atla(Number(e.target.value)));
+
   $('#sonrakiBtn').addEventListener('click', () => {
     socket.emit('t:sonraki', {}, (r) => {
       if (r && r.hata) duyuruGoster('⚠️ ' + r.hata);

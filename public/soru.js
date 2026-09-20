@@ -127,7 +127,11 @@ window.SoruAlani = (function () {
   }
 
   function sonucGoster(c, puan) {
-    if (c.dogru) {
+    if (c.dogru && c.tekrar) {
+      // öğretmen bu soruya geri döndü: doğru ama bu derste zaten çözülmüştü → puan yok
+      geri('🎉 Yine doğru! Bu soruyu bu derste çözmüştün, tekrarında puan verilmiyor.', 'dogru');
+      $('#dogruEslestirme').hidden = true;
+    } else if (c.dogru) {
       geri(`🎉 Tam isabet! Bütün eşleştirmeler doğru · +${puan || 0} puan`, 'dogru');
       $('#dogruEslestirme').hidden = true;
     } else if (c.gizli || !c.dogruAtama) {
