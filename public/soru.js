@@ -10,6 +10,7 @@ window.SoruAlani = (function () {
   let socket = null;
   let imza = '';            // o anki görevin kimliği (değişince alan yeniden kurulur)
   let kilit = false;
+  let pasZaman = null;      // "Pas geç" düğmesinin açılacağı an için zamanlayıcı
 
   function kur(s) {
     socket = s;
@@ -19,6 +20,19 @@ window.SoruAlani = (function () {
       socket.emit('ilerle', null, (r) => {
         $('#ilerleBtn').disabled = false;
         if (r && r.hata) geri('⚠️ ' + r.hata, 'bekle');
+      });
+    });
+    /* PAS GEÇ (yalnız bireysel): 90 sn takılan öğrenci onaylayarak soruyu geçer — 0 puan */
+    $('#pasGecBtn').addEventListener('click', () => {
+      if (!confirm('Bu soruyu geçmek istediğine emin misin? Puan alamazsın; doğru eşleştirme gösterilecek.')) return;
+      $('#pasGecBtn').disabled = true;
+      socket.emit('pasGec', null, (r) => {
+        $('#pasGecBtn').disabled = false;
+        if (!r || r.hata) return geri('⚠️ ' + ((r && r.hata) || 'Pas geçilemedi.'), 'bekle');
+        kilitle(true);
+        $('#pasGecBtn').hidden = true;
+        sonucGoster({ dogru: false, pas: true, dogruAtama: r.dogruAtama }, 0);
+        $('#ilerleBtn').hidden = false;
       });
     });
     $('#tabloBagi').addEventListener('click', (e) => {
@@ -52,8 +66,11 @@ window.SoruAlani = (function () {
     kilitle(!!d.ben.gonderildi || d.duraklatildi || d.faz !== 'oyun');
     if (d.ben.sonGonderim) sonucGoster(d.ben.sonGonderim, d.ben.sonGonderim.puan);
     else sonucGizle();
-    // bireyselde sıradaki soruya öğrenci kendi hazır olunca geçer (sonucu okuyabilsin)
-    $('#ilerleBtn').hidden = !(d.ilerlemeMod === 'bireysel' && d.ben.ilerlemeyeHazir);
+    // bireyselde sıradaki soruya öğrenci kendi hazır olunca geçer (sonucu okuyabilsin);
+    // senkron modda "Sonraki soru" ve "Pas geç" HİÇ görünmez
+    const bireysel = d.ilerlemeMod === 'bireysel';
+    $('#ilerleBtn').hidden = !(bireysel && d.ben.ilerlemeyeHazir);
+    pasGecAyarla(bireysel && !d.ben.gonderildi && d.faz === 'oyun' && !d.duraklatildi ? d.ben.pasKalanSn : null);
   }
 
   function kur_alan(soru) {
@@ -126,7 +143,22 @@ window.SoruAlani = (function () {
     });
   }
 
+  /* "Pas geç" düğmesi: kalan süre 0 ise hemen, değilse süre dolunca görünür */
+  function pasGecAyarla(kalanSn) {
+    clearTimeout(pasZaman);
+    const dg = $('#pasGecBtn');
+    if (kalanSn === null || kalanSn === undefined) { dg.hidden = true; return; }
+    if (kalanSn <= 0) { dg.hidden = false; return; }
+    dg.hidden = true;
+    pasZaman = setTimeout(() => { dg.hidden = false; }, kalanSn * 1000);
+  }
+
   function sonucGoster(c, puan) {
+    if (c.pas) {
+      geri('⏭ Soruyu geçtin — puan yok. Doğru eşleştirmeye bak, sonra devam et. 🌱', 'eksik');
+      dogruKutusu(c.dogruAtama);
+      return;
+    }
     if (c.dogru && c.tekrar) {
       // öğretmen bu soruya geri döndü: doğru ama bu derste zaten çözülmüştü → puan yok
       geri('🎉 Yine doğru! Bu soruyu bu derste çözmüştün, tekrarında puan verilmiyor.', 'dogru');
@@ -140,13 +172,17 @@ window.SoruAlani = (function () {
       $('#dogruEslestirme').hidden = true;
     } else {
       geri('Bu kez olmadı 🌱 Puan yok ama doğru eşleştirme aşağıda — ipuçlarını birlikte okuyalım.', 'eksik');
-      const kutu = $('#dogruEslestirme');
-      kutu.hidden = false;
-      kutu.innerHTML = '<h3>✅ Doğru eşleştirme</h3>' +
-        '<ul class="dogru-liste">' +
-        (c.dogruAtama || []).map((x) => `<li><b>${kacir(x.ozne)}</b> → ${kacir(x.dogru)}</li>`).join('') +
-        '</ul><p class="alt">Her ipucu bir eleme demekti: önce kesin ✗\'leri koy, kalan tek seçenek ✓ olur.</p>';
+      dogruKutusu(c.dogruAtama);
     }
+  }
+
+  function dogruKutusu(dogruAtama) {
+    const kutu = $('#dogruEslestirme');
+    kutu.hidden = false;
+    kutu.innerHTML = '<h3>✅ Doğru eşleştirme</h3>' +
+      '<ul class="dogru-liste">' +
+      (dogruAtama || []).map((x) => `<li><b>${kacir(x.ozne)}</b> → ${kacir(x.dogru)}</li>`).join('') +
+      '</ul><p class="alt">Her ipucu bir eleme demekti: önce kesin ✗\'leri koy, kalan tek seçenek ✓ olur.</p>';
   }
 
   function sonucGizle() {

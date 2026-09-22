@@ -157,6 +157,11 @@ CLAUDE.md'nin üç ölçütüne göre yapılan denetimde uygulanan korumalar:
 |---|---|
 | Şık deneyerek geçme | Cevap **tam eşleştirme** (3×3 → 6, 4×4 → 24, 5×5 → 120 olasılık) ve **tek gönderim** |
 | Hızlı/rastgele tıklayıp kuyruğu tüketme | Gönderim **en az 5 sn** düşünme süresinden önce kabul edilmez |
+| Bireysel sonsuz akışta hızlı tahminle puan toplama | Üst üste her **yanlış** gönderim bir sonraki sorunun en az düşünme süresini ikiye katlar (5 → 10 → 20 → 40 → **60 sn**); doğru cevap sıfırlar. Puan cezası yoktur |
+| Sonsuz turda küçük (kolay tahmin edilen) bulmacaların geri gelmesi | Sonsuz tur **yalnız en üst katmandan** kurulur (U grubunda 5×5 → 120 olasılık) |
+| **Pas geç** ile puan kazanma | Pas geç **0 puan** verir, bulmacayı “görüldü” sayar (tekrar gelirse de puan yok) ve isabet paydasına girer |
+| Bulmaca kimliğinin zorluğu ele vermesi (`i-2-03`) | Öğrenciye **opak kimlik** gider (`b5xs6he`); gerçek kimlik yalnız panelde |
+| Cevabı gösterilmiş bulmacayı tekrarında çözme | Doğru **ya da yanlış** gönderimde ve pas geçte bulmaca “görüldü” sayılır; tekrarında puan verilmez |
 | Öğretmen geri atlayınca cevabı bilinen soruyu yeniden çözme | Aynı bulmaca aynı oturumda tekrar geldiğinde **puan verilmez** (öğrenciye söylenir) |
 | Tablo denetiminin cevabı sızdırması | **🔍 Tabloyu Denetle** çözüme bakmaz; yalnız tablodaki çelişkiyi söyler |
 | Erken bitirenin cevabı sınıfa duyurması | Senkronda doğru eşleştirme **tur bitene kadar** gönderilmez |
@@ -181,6 +186,19 @@ CLAUDE.md'nin üç ölçütüne göre yapılan denetimde uygulanan korumalar:
 | | 🎯 Bireysel | Herkes kendi hızında; cevaplayan **beklemez**, sıradaki bulmacaya hemen geçer. Panelde herkesin kaçıncı soruda olduğu görünür. |
 | **Geçiş** (senkronda) | ⏭ Otomatik | Tur bitince 6 sn sonuç sahnesi, ardından sıradaki soru kendiliğinden açılır. |
 | **Soru atlama** (senkronda) | ⏮ Önceki · soru listesi · ⏭ Sonraki | Oturum kuyruğunda ileri/geri gidilir ya da doğrudan bir soruya atlanır. Bireysel modda bu satır **gizlenir** (herkes kendi sırasındadır). |
+| **Öğrenci kontrollü ilerleme** (yalnız bireysel) | **Sonraki soru ▶** | Cevaptan sonra geri bildirim ekranı öğrenci düğmeye basana kadar kalır; otomatik geçiş yoktur. |
+| **Pas geç** (yalnız bireysel) | ⏭ **Pas geç** (onaylı) | Bir soruda **90 sn** boyunca cevap gönderemeyen öğrenciye açılır: **0 puan**, doğru eşleştirme gösterilir, kayda `sonuc="atlandi"` düşer. |
+
+Senkron modda **Sonraki soru** ve **Pas geç** hiç görünmez; sunucu da senkronda öğrenciden gelen
+ilerleme ve pas isteğini reddeder.
+
+#### ♾ Tavansız yol (yalnız bireysel)
+
+Oturum kuyruğunu bitiren öğrenci **bekleme ekranına düşmez**: grubunun bir **üst zorluk katmanındaki**
+mevcut bulmacaları alır (yeni içerik üretilmez). En üst katmana varınca **o katmanın** bulmacalarından
+karışık, sonsuz bir tur sürer — önce görmediği bulmacalar, sonra tekrarlar. U grubunda yol:
+`i-1 → i-2 → c-1 → c-2 → ∞ (c-2 karışık)`. Öğrenci yalnız “Soru 17” görür; katman bilgisi ona gitmez.
+Öğretmen panelinde öğrencinin satırında “⬆ i-2” ya da “∞ karışık tur” yazar.
 | | 🖐 Öğretmen onaylı | Öğretmen **⏭ Sıradaki Soru** diyene kadar sonuç/bekleme ekranı kalır. |
 
 **Puanlama (cevaba göre):** `500 taban + hız bonusu (hedef süreye göre azalan, en çok 500) +
@@ -268,6 +286,22 @@ Renk asla tek başına anlam taşımaz; her düğmede ikon + metin de vardır.
 | `N` | Rastgele yeni bulmaca başlat |
 
 ---
+
+## ℹ️ Etkinlik Bilgisi (`ETKINLIK_BILGI.json`)
+
+Öğretmen panelinin sağ üstündeki **ℹ️ Etkinlik Bilgisi** düğmesi üç sekmeli bir modal açar;
+günlük akışta kendiliğinden hiçbir şey açılmaz:
+
+| Sekme | İçerik |
+|---|---|
+| 🎯 **Kazanımlar** | etkinliğin amacı + 4 maddelik sade kazanım listesi |
+| 🧠 **CHC** | birincil **Gf** (hedef dar yetenek **Gf-RG** ardışık akıl yürütme), ikincil **Gsm** (**Gsm-WM**) ve **Gv** (**Gv-SR**), her biri bir cümlelik gerekçeyle |
+| 👪 **Veli Özeti** | jargonsuz 2–3 cümle + **📋 Kopyala** (WhatsApp veli grubuna yapıştırmak için) |
+
+Kaynak kök dizindeki `ETKINLIK_BILGI.json`'dır (`kazanimlar`, `chc { birincil, ikincil, gerekce }`,
+`veli_ozeti`; ayrıca `amac`). Aynı içerik uygulama çalıştırılmadan okunabilsin diye `ETKINLIK_BILGI.md`
+dosyasında da durur. Bilgi yalnız öğretmen soketinden gelir; dosya statik olarak servis edilmez ve öğrenci
+ekranında hiçbir biçimde görünmez.
 
 ## 🧭 Gruplar (`data/gruplar.json`)
 
@@ -464,6 +498,8 @@ lib/liste.js           kalıcı öğrenci listesi: isim↔kod, misafir, oturum i
 lib/soru.js            bulmacadan ASIL SORU + seçenek kartları türetir (içerik üretmez)
 lib/akis.js            cevap değerlendirme, puanlama, ilerleme modu, geçiş ve kapanış rozetleri
 lib/oturum.js          oturum yaşam döngüsü: durum makinesi, grup yayını, başlat/duraklat/bitir, soru atlama
+lib/ilerleme.js        tavansız yol: kuyruk bitince üst katman, en üstte karışık sonsuz tur
+lib/panelOlaylari.js   öğretmen olayları: misafir, öğrenci listesi, Etkinlik Bilgisi, ölçme/CSV
 lib/gorunum.js         dışa açılan paketler (skor, kamu, kişisel, lobi, öğretmen) — tek grup süzgeci burada
 lib/kontrol.js         işaret doğrulama + cevap denetimi (yalnız sunucu)
 lib/olcum.js           ölçme standardı: 13 sütunluk olay kaydı, takma ad, CSV, öğrenci özeti
@@ -480,6 +516,7 @@ public/teacher.html·teacher.js                  öğretmen
 public/rapor.js        ölçme/rapor arayüzü: CSV, kod eşlemesi, öğrenci raporu, A4 karne
 public/liste.js        öğrenci listesi yönetim ekranı (süzgeç, arama, ekle/düzenle/pasifleştir)
 public/takim.js        İkili Mod takım kartları ve elle eşleme
+public/bilgi.js        ℹ️ Etkinlik Bilgisi modali (Kazanımlar · CHC · Veli Özeti + Kopyala)
 public/bildirim.js     "tur bitti" uyarısı (bildirim çubuğu + zil + sekme başlığı)
                        — bu üç dosya da teacher.html/js gibi yalnız girişi yapmış öğretmene servis edilir
 data/ogrenciler.json   KALICI öğrenci listesi (isim ↔ kod) — tüm UYCEP Logic oyunlarında AYNI dosya

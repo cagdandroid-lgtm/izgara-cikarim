@@ -51,8 +51,8 @@ const yetkili = (req) => cerezler(req).admin_auth === 'true';
 
 /* ---------- öğretmen dosyalarına doğrudan erişim engellenir ---------- */
 app.use((req, res, next) => {
-  // rapor/liste/bildirim/takim.js de panel dosyalarıdır; öğrenci tarafında hiç yüklenmez
-  if (/^\/(teacher\.(html|js)|(rapor|liste|bildirim|takim)\.js)$/.test(req.path) && !yetkili(req)) return res.redirect('/teacher');
+  // rapor/liste/bildirim/takim/bilgi.js de panel dosyalarıdır; öğrenci tarafında hiç yüklenmez
+  if (/^\/(teacher\.(html|js)|(rapor|liste|bildirim|takim|bilgi)\.js)$/.test(req.path) && !yetkili(req)) return res.redirect('/teacher');
   next();
 });
 

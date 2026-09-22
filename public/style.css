@@ -677,6 +677,16 @@ table.izgara th { background: var(--kagit); font-size: .9rem; font-weight: 600; 
 }
 .katman-ust { display: flex; align-items: center; justify-content: space-between; gap: .6rem; margin-bottom: .6rem; }
 .katman-ust h2 { margin: 0; }
+/* ℹ️ Etkinlik Bilgisi modali: sekmeler */
+.sekmeler { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .8rem; border-bottom: 2px solid var(--cizgi); }
+.sekme {
+  font: inherit; font-weight: 600; min-height: 44px; padding: .4rem .9rem; cursor: pointer;
+  background: none; border: 0; border-bottom: 3px solid transparent; color: var(--murekkep-2);
+}
+.sekme[aria-selected="true"] { color: var(--ana-koyu); border-bottom-color: var(--ana); }
+.sekme:focus-visible { outline: 3px solid var(--vurgu); outline-offset: 2px; }
+.bilgi-liste { margin: .4rem 0 0; padding-left: 1.3rem; line-height: 1.7; }
+.veli-metin { font-size: 1.05rem; line-height: 1.7; background: var(--kagit); border-radius: 12px; padding: .8rem 1rem; }
 .olculer { display: flex; flex-wrap: wrap; gap: .5rem; margin: .6rem 0 .8rem; }
 .olcu {
   flex: 1 1 6.5rem; text-align: center;

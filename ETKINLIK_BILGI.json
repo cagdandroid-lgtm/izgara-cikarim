@@ -1,0 +1,38 @@
+{
+  "_aciklama": "Öğretmen panelindeki 'ℹ️ Etkinlik Bilgisi' modalinin kaynağı (CLAUDE.md biçimi: kazanimlar, chc { birincil, ikincil, gerekce }, veli_ozeti). Öğrenci ekranında hiçbir biçimde gösterilmez. Aynı içerik ETKINLIK_BILGI.md dosyasında düz metin olarak durur.",
+  "etkinlik": "Izgara Çıkarım",
+  "amac": "İpuçlarını okuyup olasılıkları eleyerek “kim–ne–hangisi” ilişkisini bulmak; çıkarım tablosunu düşünmeyi düzenleyen bir araç olarak kullanmak ve sonucu tam eşleştirme olarak göndermek.",
+  "kazanimlar": [
+    "İpuçlarını dikkatle okuyarak olasılıkları adım adım eler.",
+    "Olumsuz (“… sevmez”) ve koşullu (“eğer … ise”) ifadelerden doğru çıkarım yapar.",
+    "Birden çok ilişkiyi bir tablo üzerinde düzenler ve tablosunun tutarlılığını denetler.",
+    "Sıra ve konum ilişkilerini (önce/sonra, yan yana, arada kaç kişi) akıl yürüterek belirler."
+  ],
+  "chc": {
+    "birincil": {
+      "alan": "Gf",
+      "ad": "Akıcı akıl yürütme",
+      "dar": ["Gf-RG"],
+      "dar_ad": "Ardışık (tümdengelimsel) akıl yürütme",
+      "gerekce": "Her bulmaca, verilen ipuçlarından tek çözüme giden kesin bir çıkarım zinciri kurmayı gerektirir; tahminle geçilemez (tam eşleştirme, tek gönderim)."
+    },
+    "ikincil": [
+      {
+        "alan": "Gsm",
+        "ad": "Kısa süreli / çalışma belleği",
+        "dar": ["Gsm-WM"],
+        "dar_ad": "Çalışma belleği",
+        "gerekce": "Öğrenci birden çok kısıtı ve ara sonucu aynı anda akılda tutar; tablo bu yükü dışa aktarmayı öğretir."
+      },
+      {
+        "alan": "Gv",
+        "ad": "Görsel-uzamsal işleme",
+        "dar": ["Gv-SR"],
+        "dar_ad": "Uzamsal ilişkiler",
+        "gerekce": "Sıralama ve konum bulmacalarında (önce/sonra, yan yana) öğeler zihinde bir dizi üzerine yerleştirilir."
+      }
+    ],
+    "gerekce": "Oyunun özü tümdengelimsel elemedir (Gf); çalışma belleği ve — sıra/konum bulmacalarında — uzamsal ilişkiler onu destekleyen ikincil alanlardır."
+  },
+  "veli_ozeti": "Bu hafta çocuklarımızla “Kim hangi hayvanı besliyor?” gibi ipuçlarından yola çıkan mantık bulmacaları çözdük. Bu etkinlik, bilgileri tek tek eleyerek sonuca ulaşma ve birkaç bilgiyi aynı anda aklında tutup düzenleme becerisini geliştirir. Evde “Bunu nereden anladın? Hangi seçeneği neden eledin?” diye sorabilirsiniz."
+}

@@ -21,6 +21,7 @@
   <div class="ust-sag">
     <span id="sayac" class="sayac" hidden>⏱ <b>–</b></span>
     <span id="oyuncuSayi" class="rozet">👥 0</span>
+    <button id="bilgiBtn" class="btn btn-mini btn-ikincil" type="button" title="Kazanımlar, CHC ve veli özeti">ℹ️ Etkinlik Bilgisi</button>
     <button id="etkinlikBitirBtn" class="btn btn-mini btn-kirmizi" type="button"
             title="Oturumu kapatır: öğrenciler isim ekranına döner, grup yeniden seçilebilir">⏹ Etkinliği Bitir</button>
     <form method="post" action="/teacher/cikis"><button class="btn btn-mini" type="submit">Çıkış</button></form>
@@ -288,12 +289,28 @@
   </div>
 </div>
 
+<div id="bilgiKatman" class="katman" hidden>
+  <div class="katman-kutu" role="dialog" aria-modal="true" aria-labelledby="bilgiBaslik">
+    <div class="katman-ust">
+      <h2 id="bilgiBaslik">ℹ️ Etkinlik Bilgisi</h2>
+      <button id="bilgiKapat" class="btn btn-mini" type="button">✕ Kapat</button>
+    </div>
+    <div class="sekmeler" role="tablist">
+      <button class="sekme" role="tab" type="button" data-sekme="kazanim" aria-selected="true">🎯 Kazanımlar</button>
+      <button class="sekme" role="tab" type="button" data-sekme="chc" aria-selected="false">🧠 CHC</button>
+      <button class="sekme" role="tab" type="button" data-sekme="veli" aria-selected="false">👪 Veli Özeti</button>
+    </div>
+    <div id="bilgiIcerik" role="tabpanel"></div>
+  </div>
+</div>
+
 <div id="duyuru" class="duyuru" role="status" aria-live="polite" hidden></div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/bildirim.js"></script>
 <script src="/rapor.js"></script>
 <script src="/takim.js"></script>
+<script src="/bilgi.js"></script>
 <script src="/liste.js"></script>
 <script src="/teacher.js"></script>
 </body>

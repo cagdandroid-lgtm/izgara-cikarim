@@ -8,6 +8,7 @@
   let listelerDolu = false;
 
   TakimUI.kur(socket, duyuruGoster, () => son);
+  EtkinlikBilgisi.kur(socket, duyuruGoster);      // ℹ️ Etkinlik Bilgisi (public/bilgi.js)
   Rapor.kur(socket);                     // ölçme/rapor bölümü (public/rapor.js)
   ListeUI.kur(socket, duyuruGoster);     // öğrenci listesi bölümü (public/liste.js)
 
@@ -43,7 +44,7 @@
     $('#fazRozet').textContent = oturumAdi[d.oturum] || d.oturum;
     $('#modRozet').textContent =
       d.mod === 'birlikte' ? '🤝 Birlikte' : d.mod === 'ikili' ? '👥 İkili Mod' : '🏁 Yarış';
-    $('#turRozet').textContent = 'Tur ' + d.turNo + (d.bulmaca ? ' · ' + d.bulmaca.id : '');
+    $('#turRozet').textContent = 'Tur ' + d.turNo + (d.ogretmen.bulmacaId ? ' · ' + d.ogretmen.bulmacaId : '');
     const sahnedekiler = d.ogretmen.oyuncular.filter((o) => !o.farkliGrup);
     $('#oyuncuSayi').textContent = '👥 ' + sahnedekiler.length +
       ' (' + sahnedekiler.filter((o) => o.cevrimici).length + ' çevrimiçi)';
@@ -203,7 +204,9 @@
       `${kacir(o.ad)}${o.bitti ? ' 🎉' : ''}</button></td>` +
       `<td>${o.cevrimici ? '🟢 çevrimiçi' : '🔴 çevrimdışı'}` +
       `${o.takimAd ? `<br><span class="alt">👥 ${kacir(o.takimAd)}</span>` : ''}</td>` +
-      `<td>${o.tamamlandi ? '🏅 bitti' : o.soruNo}${o.bitti && !o.tamamlandi ? ' ✔' : ''}</td>` +
+      `<td>${o.tamamlandi ? '🏅 bitti' : o.soruNo}${o.bitti && !o.tamamlandi ? ' ✔' : ''}` +
+      `${o.asama === 'karisik' ? '<br><span class="alt">∞ karışık tur</span>'
+        : o.asama && o.asama !== 'kuyruk' ? `<br><span class="alt">⬆ ${kacir(o.asama)}</span>` : ''}</td>` +
       `<td title="ilk denemede doğru / cevaplanan">${o.isabet}/${o.soruSayisi}</td>` +
       `<td title="ızgarayı kullandı mı">${o.tabloKullandi ? '🧮 %' + o.ilerleme : '—'}</td>` +
       `<td class="puan-h"><b>${o.puan}</b></td>` +
@@ -256,8 +259,8 @@
     }
     not.hidden = false;
     not.innerHTML = `👉 Şu anki bulmacanın anlatımlı çözümü: <code>data/cozumler.md</code> dosyasında ` +
-      `<code>### ${kacir(d.bulmaca.id)}</code> başlığı altında.`;
-    ip.innerHTML = `<h3>${kacir(d.bulmaca.baslik)} · ${d.bulmaca.id}</h3><ol>` +
+      `<code>### ${kacir(d.ogretmen.bulmacaId)}</code> başlığı altında.`;
+    ip.innerHTML = `<h3>${kacir(d.bulmaca.baslik)} · ${kacir(d.ogretmen.bulmacaId)}</h3><ol>` +
       d.bulmaca.ipuclari.map((x) => `<li>${kacir(x)}</li>`).join('') + '</ol>';
     const kat = d.bulmaca.kategoriler;
     t.innerHTML = '<thead><tr>' + kat.map((k) => `<th>${kacir(k.ad)}</th>`).join('') + '</tr></thead><tbody>' +
