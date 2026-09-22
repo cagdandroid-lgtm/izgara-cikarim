@@ -339,6 +339,14 @@ Aşağıdaki standartlara İSTİSNASIZ uy:
   bekleme ekranında kalmaz).
 - Geçiş kontrolü: senkron modda sıradaki soruya geçiş "Otomatik" veya
   "Öğretmen onaylı" olur.
+- Öğrenci kontrollü ilerleme (YALNIZ bireysel mod): cevaptan sonra geri
+  bildirim ekranı öğrenci "Sonraki soru ▶" diyene kadar kalır; otomatik
+  geçiş yoktur. Takılmayı önlemek için bir soruda 90 sn boyunca doğruya
+  ulaşamayan öğrenciye "Pas geç" seçeneği açılır (onaylı; 0 puan; kayda
+  sonuc="atlandi" düşer). Senkron modda bu düğmeler görünmez.
+- Tavansız yol (bireysel mod): kuyruğu bitiren öğrenci bekleme ekranında
+  kalmaz; bir üst zorlukta yeni içerik alır, en üst seviyede karışık
+  sonsuz tur sürer.
 - Soru atlama: senkron modda öğretmen önceki/sonraki soruya geçebilir ve
   belirli bir soruya atlayabilir; bireysel ve merdivenli (uyarlanabilir)
   modlarda bu kontrol GİZLENİR.
